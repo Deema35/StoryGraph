@@ -16,4 +16,4 @@ If you want add this plugin in you project copy folder StoryGraphPlugin from fol
 
 habrahabr: https://habrahabr.ru/post/318366/
 
-Compil demo game: https://cloud.mail.ru/home/StoryGraphGame/
+Сompiled demo game: https://cloud.mail.ru/home/StoryGraphGame/
