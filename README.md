@@ -13,3 +13,7 @@ If you want add this plugin in you project copy folder StoryGraphPlugin from fol
 
 Чтобы использовать плагин скопируйте папку StoryGraphPlugin из папки plugins в папку
 "директоря вашего проекта"\plugins.
+
+habrahabr: https://habrahabr.ru/post/318366/
+
+Compil demo game: https://cloud.mail.ru/home/StoryGraphGame/
