@@ -1,0 +1,9 @@
+{
+	"Changelist" : 3142249,
+	"BuildId" : "fc323d11-3f07-483b-b241-c56a89bd67eb",
+	"Modules" : 
+	{
+		"DialogSystemPluginRuntime" : "UE4Editor-DialogSystemPluginRuntime-Win64-DebugGame.dll",
+		"DialogSystemPluginEditor" : "UE4Editor-DialogSystemPluginEditor-Win64-DebugGame.dll"
+	}
+}

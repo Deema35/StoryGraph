@@ -1,0 +1,737 @@
+# Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Game\n"
+"POT-Creation-Date: 2016-12-24 08:00\n"
+"PO-Revision-Date: 2016-12-24 11:03+0300\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. Key:	081BA0664C54DA416A73DEAAD4BB6EE0
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_5.DialogObject_5.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_5.DialogObject_5.Dialog
+msgctxt ",081BA0664C54DA416A73DEAAD4BB6EE0"
+msgid "Who are you."
+msgstr "Кто ты?"
+
+#. Key:	08DC35BE45BE7C81FF7651B26E1DF929
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_3.DialogObject_18.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_3.DialogObject_18.Dialog
+msgctxt ",08DC35BE45BE7C81FF7651B26E1DF929"
+msgid "Bye"
+msgstr "Пока."
+
+#. Key:	09B9ED404C581DED1C5C9B9F6DC5406B
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_1.QuestPhase_1.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_1.QuestPhase_1.Decription
+msgctxt ",09B9ED404C581DED1C5C9B9F6DC5406B"
+msgid "You found a strange door. Try to open it."
+msgstr "Вы нашли странную дверь. Попробуйте её открыть."
+
+#. Key:	0FB825604EF30CD388992BA4B116586F
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageStartNode_1.DialogObject_1.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageStartNode_1.DialogObject_1.Dialog
+msgctxt ",0FB825604EF30CD388992BA4B116586F"
+msgid "Hit panel (PinchBar)"
+msgstr "Стукнуть панель ломом."
+
+#. Key:	10DD4DE34157E5F664FF4B82C7B53B29
+#. SourceLocation:	/Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_85.Text
+#: /Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_85.Text
+msgctxt ",10DD4DE34157E5F664FF4B82C7B53B29"
+msgid "Jurnal"
+msgstr "Журнал"
+
+#. Key:	110A07C241FEBE1BA9704A8B9B9F33E5
+#. SourceLocation:	/Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_0.Text
+#: /Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_0.Text
+msgctxt ",110A07C241FEBE1BA9704A8B9B9F33E5"
+msgid "Main quests"
+msgstr "Основные задания"
+
+#. Key:	14DEED264195AB5F5F51329ECEB55D05
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_0.DialogObject_5.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_0.DialogObject_5.Dialog
+msgctxt ",14DEED264195AB5F5F51329ECEB55D05"
+msgid "Who are you?"
+msgstr "Кто ты?"
+
+#. Key:	193C60A54C9244F08350F7A716D00301
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_11.DialogObject_20.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_11.DialogObject_20.Dialog
+msgctxt ",193C60A54C9244F08350F7A716D00301"
+msgid "Bye"
+msgstr "Пока."
+
+#. Key:	1BC8C1254B0491D2872FE4807867E427
+#. SourceLocation:	/Game/HUDStates.HUDStates.DisplayNames(2).DisplayNames
+#: /Game/HUDStates.HUDStates.DisplayNames(2).DisplayNames
+msgctxt ",1BC8C1254B0491D2872FE4807867E427"
+msgid "Dialog"
+msgstr "Диалог"
+
+#. Key:	1E6EE41049555CB8E70EAD846B759333
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_3.QuestPhase_0.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_3.QuestPhase_0.Decription
+msgctxt ",1E6EE41049555CB8E70EAD846B759333"
+msgid "Pilot give you password from dore, and you can open it."
+msgstr "Пилот дал тебе пароль от двери, теперь ты можеш открыть её."
+
+#. Key:	2178A0FF4991B1BD24D3188AD80D5B3D
+#. SourceLocation:	/Game/HUDStates.HUDStates.DisplayNames(0).DisplayNames
+#: /Game/HUDStates.HUDStates.DisplayNames(0).DisplayNames
+msgctxt ",2178A0FF4991B1BD24D3188AD80D5B3D"
+msgid "Game"
+msgstr "Игра"
+
+#. Key:	2C822DDE4AF38299B2F1959331D25682
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageNode_0.DialogObject_22.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageNode_0.DialogObject_22.Dialog
+msgctxt ",2C822DDE4AF38299B2F1959331D25682"
+msgid "Engine broken"
+msgstr "Двигатель сломан."
+
+#. Key:	2E492E4E418C5C097DC5D2B42858C551
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_9.DialogObject_15.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_9.DialogObject_15.Dialog
+msgctxt ",2E492E4E418C5C097DC5D2B42858C551"
+msgid "I have engine and fuel for ship. Can you take me with you."
+msgstr "У меня есть двигатель и топливо для корабля."
+
+#. Key:	2F491BBB401C0FA17D40328489215B11
+#. SourceLocation:	/Game/HUDStates.HUDStates.DisplayNames(6).DisplayNames
+#: /Game/HUDStates.HUDStates.DisplayNames(6).DisplayNames
+msgctxt ",2F491BBB401C0FA17D40328489215B11"
+msgid "EndGame"
+msgstr "Конц игры"
+
+#. Key:	352C566A4A4BD94D7ED0E5BAB4418B20
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_16.QuestPhase_13.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_16.QuestPhase_13.Decription
+msgctxt ",352C566A4A4BD94D7ED0E5BAB4418B20"
+msgid "You found fuel"
+msgstr "Вы нашли топливо"
+
+#. Key:	3C9210CC4727799EFDC018966D980EB7
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_15.QuestPhase_12.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_15.QuestPhase_12.Decription
+msgctxt ",3C9210CC4727799EFDC018966D980EB7"
+msgid "Find fuel for capitan."
+msgstr "Найди топливо."
+
+#. Key:	3CA4A85745747B4D91DC16B44EF50B5D
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.MessageStartNode_5.DialogObject_27.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.MessageStartNode_5.DialogObject_27.Dialog
+msgctxt ",3CA4A85745747B4D91DC16B44EF50B5D"
+msgid "Leave ship alone."
+msgstr "Оставить корабль в покое."
+
+#. Key:	414464364B95B70BBDE3A0A98576F245
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.AfterTheGateTrigger.TextRender.Text
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.AfterTheGateTrigger.TextRender.Text
+msgctxt ",414464364B95B70BBDE3A0A98576F245"
+msgid "AfterTheGateTrigger"
+msgstr ""
+
+#. Key:	4227908D48A18440F8682BBA737F1059
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_2.DialogObject_12.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_2.DialogObject_12.Dialog
+msgctxt ",4227908D48A18440F8682BBA737F1059"
+msgid "Can you fix this engine."
+msgstr "Ты можеш починить этот двигатель"
+
+#. Key:	42B5AF1D4A63E7798113FDB97B0EDD0F
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_13.DialogObject_16.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_13.DialogObject_16.Dialog
+msgctxt ",42B5AF1D4A63E7798113FDB97B0EDD0F"
+msgid "Yes this fuel enough for 3 people. You can go with us."
+msgstr "Да теперь топлива достаточно, чтобы могли лететь 3 человека."
+
+#. Key:	462C9F7A414235EEACE2ABA2DCBF7498
+#. SourceLocation:	/Game/HUDStates.HUDStates.DisplayNames(3).DisplayNames
+#: /Game/HUDStates.HUDStates.DisplayNames(3).DisplayNames
+msgctxt ",462C9F7A414235EEACE2ABA2DCBF7498"
+msgid "Inventory"
+msgstr "Инвентарь"
+
+#. Key:	51F705BA452FC0E36007AA91DF34F101
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_8.DialogObject_7.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_8.DialogObject_7.Dialog
+msgctxt ",51F705BA452FC0E36007AA91DF34F101"
+msgid "Not. We have not enough fuel. And ship willn't take off with 3 human."
+msgstr "Нет. Потому что у нас недостаточно топлива, и корабль не взлетит с тремя членами экипажа на борту."
+
+#. Key:	55287BA949F575F9393E6492D4232BC5
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageStartNode_0.DialogObject_0.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageStartNode_0.DialogObject_0.Dialog
+msgctxt ",55287BA949F575F9393E6492D4232BC5"
+msgid "Enter password"
+msgstr "Ввести пароль."
+
+#. Key:	61FEE7B7421CAB664792818616977808
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_0.DialogObject_6.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_0.DialogObject_6.Dialog
+msgctxt ",61FEE7B7421CAB664792818616977808"
+msgid "I am pilot. Our ship crashed on this planet. And capitan sent me to find help."
+msgstr "Я пилот корабля. Мой корбль потерпел крушение на этой планете. И наш капитан послал меня за помощю."
+
+#. Key:	643C63F14C57CD7AF154D18F5556D91B
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_1.DialogObject_8.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogStartNode_1.DialogObject_8.Dialog
+msgctxt ",643C63F14C57CD7AF154D18F5556D91B"
+msgid "You came from behind the door."
+msgstr "Ты пришел из-за двери."
+
+#. Key:	647BF6764E4446D29A8E8B81BA3271ED
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_11.DialogObject_12.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_11.DialogObject_12.Dialog
+msgctxt ",647BF6764E4446D29A8E8B81BA3271ED"
+msgid "Good bring it to my pilot and he will fix it."
+msgstr "Хорошо, отнеси его моему пилоту. Пусть он починит."
+
+#. Key:	6505E9BD42113E2CA0E9578BF50E7FC4
+#. SourceLocation:	/Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_84.Text
+#: /Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_84.Text
+msgctxt ",6505E9BD42113E2CA0E9578BF50E7FC4"
+msgid "Decription"
+msgstr "Описание."
+
+#. Key:	6523BA71438C68053320EF93CF28FCAC
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_3.DialogObject_10.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_3.DialogObject_10.Dialog
+msgctxt ",6523BA71438C68053320EF93CF28FCAC"
+msgid "Can you take me password from the door."
+msgstr "Ты можеш дать мне пароль от двери?"
+
+#. Key:	6A14D3FD41D0FC226ECCC5A51B787BC5
+#. SourceLocation:	/Game/HUDStates.HUDStates.DisplayNames(4).DisplayNames
+#: /Game/HUDStates.HUDStates.DisplayNames(4).DisplayNames
+msgctxt ",6A14D3FD41D0FC226ECCC5A51B787BC5"
+msgid "TrigerMessage"
+msgstr ""
+
+#. Key:	6FEE80824FCB70DE234B2C9335C4AC19
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_10.DialogObject_18.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_10.DialogObject_18.Dialog
+msgctxt ",6FEE80824FCB70DE234B2C9335C4AC19"
+msgid "Your pilot want to talk with you."
+msgstr "Ваш пилот хочет поговорить с вами."
+
+#. Key:	736388E74ACDB52857F230B02BCA9597
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.MessageStartNode_4.DialogObject_26.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.MessageStartNode_4.DialogObject_26.Dialog
+msgctxt ",736388E74ACDB52857F230B02BCA9597"
+msgid "Insert engine in ship"
+msgstr "Установит двигатель."
+
+#. Key:	79A0755B446185E33FBE5792A25C2D09
+#. SourceLocation:	/Game/Langvige.Langvige.DisplayNames(0).DisplayNames
+#: /Game/Langvige.Langvige.DisplayNames(0).DisplayNames
+msgctxt ",79A0755B446185E33FBE5792A25C2D09"
+msgid "English"
+msgstr "Англиский"
+
+#. Key:	7B73D607490C7F8CE77AFE9E22340A92
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_14.QuestPhase_11.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_14.QuestPhase_11.Decription
+msgctxt ",7B73D607490C7F8CE77AFE9E22340A92"
+msgid "You win. You escape from planet on capitan's ship."
+msgstr "Вы победили. Вы выбрались с планеты на корабле капитана, оставиd капитана и его пилота умирать как вам не стыдно."
+
+#. Key:	828EE45B44433BA352BC46890C732D20
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageStartNode_2.DialogObject_2.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageStartNode_2.DialogObject_2.Dialog
+msgctxt ",828EE45B44433BA352BC46890C732D20"
+msgid "Leave panel alone."
+msgstr "Оставить панель в покое."
+
+#. Key:	84198B46489BDB43552401B043E7E3D5
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.BeforeTheGateTrigger.TextRender.Text
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.BeforeTheGateTrigger.TextRender.Text
+msgctxt ",84198B46489BDB43552401B043E7E3D5"
+msgid "BeforeTheGateTrigger"
+msgstr ""
+
+#. Key:	87C9C6B545E0D70233AA56A981C529F6
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_6.DialogObject_6.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_6.DialogObject_6.Dialog
+msgctxt ",87C9C6B545E0D70233AA56A981C529F6"
+msgid "If i found engine. Can you take me with you."
+msgstr "Если я найду двигатель, вы возмете меня с собой."
+
+#. Key:	89D7FE8E4F5BEDFE8D192CBAA3356F9F
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_7.DialogObject_11.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_7.DialogObject_11.Dialog
+msgctxt ",89D7FE8E4F5BEDFE8D192CBAA3356F9F"
+msgid "I found engine but it is broken."
+msgstr "Я нашел двигатель, но похоже он сломан."
+
+#. Key:	8D91F5F741E4E69D4C3693998176D148
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_0.DialogObject_21.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_0.DialogObject_21.Dialog
+msgctxt ",8D91F5F741E4E69D4C3693998176D148"
+msgid "Explore the ship"
+msgstr "Осматреть корабль"
+
+#. Key:	8F92A1D940AF7868CC727A8F27961A44
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_2.DialogObject_24.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_2.DialogObject_24.Dialog
+msgctxt ",8F92A1D940AF7868CC727A8F27961A44"
+msgid "Insert engine in ship."
+msgstr "Установить двигатель"
+
+#. Key:	9584EAA9485B52B18A681D8123F0E72D
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_15.DialogObject_19.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_15.DialogObject_19.Dialog
+msgctxt ",9584EAA9485B52B18A681D8123F0E72D"
+msgid "Thank you."
+msgstr "Спасибо."
+
+#. Key:	9EB9AD9940A0B4AEBBE97FA50CE8D052
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.DefaultAnswer
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.DefaultAnswer
+msgctxt ",9EB9AD9940A0B4AEBBE97FA50CE8D052"
+msgid "You can not acses to ship when capitan near."
+msgstr "Ты не можеш копаться в корабле, пока капитан рядом."
+
+#. Key:	A52235D14EFD54721359DFBDA35C16D0
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_1.DialogObject_7.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_1.DialogObject_7.Dialog
+msgctxt ",A52235D14EFD54721359DFBDA35C16D0"
+msgid "That's too bad. My ship is crashed too."
+msgstr "Это очень плохо, потму что мойкорабль разбился тоже."
+
+#. Key:	A5E1636B4E123D80F3BE1DB1F40E5CED
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageNode_0.DialogObject_3.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageNode_0.DialogObject_3.Dialog
+msgctxt ",A5E1636B4E123D80F3BE1DB1F40E5CED"
+msgid "You enter your password and the door opens."
+msgstr "Вы ввели пароль и дверь открылась."
+
+#. Key:	A706F1B94AE5C74EB71A8A8114F1722A
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_6.QuestPhase_3.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_6.QuestPhase_3.Decription
+msgctxt ",A706F1B94AE5C74EB71A8A8114F1722A"
+msgid "You found engine but it broken"
+msgstr "Вы нашли двигатель, но кажется он сломаню"
+
+#. Key:	A7D3A97549C2DFAA0FFF9BB1F26405C6
+#. SourceLocation:	/Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_1.Text
+#: /Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.TextBlock_1.Text
+msgctxt ",A7D3A97549C2DFAA0FFF9BB1F26405C6"
+msgid "Optional quests"
+msgstr "Дополнительные задания."
+
+#. Key:	A8D07BFC4A4806FD2C16979868D863BD
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_10.DialogObject_9.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_10.DialogObject_9.Dialog
+msgctxt ",A8D07BFC4A4806FD2C16979868D863BD"
+msgid "Yes of cose"
+msgstr "Да конечно."
+
+#. Key:	AA6E039B4D2A52B8EA65429BC0C47146
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_9.DialogObject_8.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_9.DialogObject_8.Dialog
+msgctxt ",AA6E039B4D2A52B8EA65429BC0C47146"
+msgid "I'm the captain of this ship. We lose our engine when landing. If you found my engine bring it to me."
+msgstr "Я капитан этого корабля. Мы потеряли двигатель при посадке. Если ты найдеш наш двигатель я буду очень благодарен."
+
+#. Key:	AAA3F5174284E268916D9EA63773764C
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageNode_1.DialogObject_4.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.MessageNode_1.DialogObject_4.Dialog
+msgctxt ",AAA3F5174284E268916D9EA63773764C"
+msgid "Door is open"
+msgstr "Дверь открыта."
+
+#. Key:	AFD603F54523C94B4A625DA906D8A479
+#. SourceLocation:	/Game/HUDStates.HUDStates.DisplayNames(1).DisplayNames
+#: /Game/HUDStates.HUDStates.DisplayNames(1).DisplayNames
+msgctxt ",AFD603F54523C94B4A625DA906D8A479"
+msgid "Jurnal"
+msgstr "Журнал"
+
+#. Key:	B2A64A3F4A6DF4A4580565B9F44BB596
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_1.DialogObject_23.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_1.DialogObject_23.Dialog
+msgctxt ",B2A64A3F4A6DF4A4580565B9F44BB596"
+msgid "Get fuel from your ship."
+msgstr "Слить топливо из коробля."
+
+#. Key:	B44BBB0D497D1DF0A5F99493A7480103
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_2.DialogObject_9.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_2.DialogObject_9.Dialog
+msgctxt ",B44BBB0D497D1DF0A5F99493A7480103"
+msgid "Yes"
+msgstr "Да"
+
+#. Key:	B6F2E9AB49339C87EBB60A82FCF2F449
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_5.QuestPhase_2.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_5.QuestPhase_2.Decription
+msgctxt ",B6F2E9AB49339C87EBB60A82FCF2F449"
+msgid "You have passed through the gate."
+msgstr "Непонятно как, но вы преодалели запертую дверь."
+
+#. Key:	BEBDF7204DB90A439161A8AA1DA0A4B9
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_11.QuestPhase_8.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_11.QuestPhase_8.Decription
+msgctxt ",BEBDF7204DB90A439161A8AA1DA0A4B9"
+msgid "You win. You escape planet on capitan's ship with capitan and his pilot. "
+msgstr "Вы выйграли. Вы выбрались с планеты вместе с капитаном и его пилотм."
+
+#. Key:	C0BB981C467CC55B4FF8C0BB08C21E29
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_4.QuestPhase_1.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_4.QuestPhase_1.Decription
+msgctxt ",C0BB981C467CC55B4FF8C0BB08C21E29"
+msgid "Door is open."
+msgstr "Дверь открыта."
+
+#. Key:	C4881DED4624DDA32E50639F418ABAA8
+#. SourceLocation:	/Game/Langvige.Langvige.DisplayNames(1).DisplayNames
+#: /Game/Langvige.Langvige.DisplayNames(1).DisplayNames
+msgctxt ",C4881DED4624DDA32E50639F418ABAA8"
+msgid "Russian"
+msgstr "Русский"
+
+#. Key:	C504ED2E45DF7EFB5C7B8FABA588F5C9
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_12.QuestPhase_9.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_12.QuestPhase_9.Decription
+msgctxt ",C504ED2E45DF7EFB5C7B8FABA588F5C9"
+msgid "You win. You escape from planet on you own ship."
+msgstr "Вы победили. Вы выбрались с планеты на своем собственном корабле."
+
+#. Key:	CC40A1314BF77936ECBAEAB3F5A3267D
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_7.QuestPhase_4.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_7.QuestPhase_4.Decription
+msgctxt ",CC40A1314BF77936ECBAEAB3F5A3267D"
+msgid "You fixed the engine. Use it as you want."
+msgstr "Теперь у вас есть полностью истправный двигатель, используйте его как пожелете."
+
+#. Key:	CD706F854FD45C541EBE3DAA51DBA772
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_8.DialogObject_13.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogStartNode_8.DialogObject_13.Dialog
+msgctxt ",CD706F854FD45C541EBE3DAA51DBA772"
+msgid "This is you egine"
+msgstr "Вот твой двигатель"
+
+#. Key:	CF71AF8949559D5B56C87DA720E065BA
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_4.DialogObject_11.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_4.DialogObject_11.Dialog
+msgctxt ",CF71AF8949559D5B56C87DA720E065BA"
+msgid "Yes Password: 1234"
+msgstr "Да, пароль: 1234"
+
+#. Key:	D1413EE24F034D10489D4FBB52B5938D
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_12.DialogObject_14.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_12.DialogObject_14.Dialog
+msgctxt ",D1413EE24F034D10489D4FBB52B5938D"
+msgid "Thanks, I'll never forget this."
+msgstr "Спасибо, я никогда этого не забуду."
+
+#. Key:	D47BFF724022DC5121D1E595775AF248
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_9.QuestPhase_6.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_9.QuestPhase_6.Decription
+msgctxt ",D47BFF724022DC5121D1E595775AF248"
+msgid "You lose. Becouse capitan escape from planet with the only one working engine."
+msgstr "Вы проиграли. Потому что капитан улетел забрав с собой единственный исправный двигатель."
+
+#. Key:	DBC6A476447D3E871F4869BCC2E7471D
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_2.QuestPhase_1.Decription
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.AddQuestPhaseNode_2.QuestPhase_1.Decription
+msgctxt ",DBC6A476447D3E871F4869BCC2E7471D"
+msgid "Your ship crashed on this planet. You have to find how to get from here."
+msgstr "Ваш корабль совершил аварийную посадку на неизвесной планете. Вам надо найти способ отсюда выбротся."
+
+#. Key:	E12CC95146F798E48D6672B8AB804EEF
+#. SourceLocation:	/Game/HUDStates.HUDStates.DisplayNames(5).DisplayNames
+#: /Game/HUDStates.HUDStates.DisplayNames(5).DisplayNames
+msgctxt ",E12CC95146F798E48D6672B8AB804EEF"
+msgid "QuestPhaseShow"
+msgstr ""
+
+#. Key:	E2D8106949E18B7393D06697F7EDC961
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_10.DialogObject_10.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.DialogNode_10.DialogObject_10.Dialog
+msgctxt ",E2D8106949E18B7393D06697F7EDC961"
+msgid "Not I don\"t want"
+msgstr "Нет я не хочу."
+
+#. Key:	E9EADE2B4CBFED32DABEBCA704048062
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_5.DialogObject_13.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.DialogNode_5.DialogObject_13.Dialog
+msgctxt ",E9EADE2B4CBFED32DABEBCA704048062"
+msgid "Just a minut"
+msgstr "Сейчас всё починим."
+
+#. Key:	FE1084454D3B012D574B5793FBF824A1
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_3.DialogObject_25.Dialog
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.MessageStartNode_3.DialogObject_25.Dialog
+msgctxt ",FE1084454D3B012D574B5793FBF824A1"
+msgid "Leave ship alone"
+msgstr "Оставить корабль в покое."
+
+#. Key:	E179294046D53A3CE46074995C200C69
+#. SourceLocation:	/Game/UMG/Inventory_Wiget.Inventory_Wiget_C:WidgetTree.TextBlock_126.Text
+#: /Game/UMG/Inventory_Wiget.Inventory_Wiget_C:WidgetTree.TextBlock_126.Text
+msgctxt "[223264DE49177512A8C0FA9E8642F2E9],E179294046D53A3CE46074995C200C69"
+msgid "Inventory"
+msgstr "Инвентарь"
+
+#. Key:	0A6097444EE9C0B82B91FCA5E5B2C27A
+#. SourceLocation:	/Game/UMG/Dialog_Wiget.Dialog_Wiget_C:WidgetTree.TextBlock_1.Text
+#: /Game/UMG/Dialog_Wiget.Dialog_Wiget_C:WidgetTree.TextBlock_1.Text
+msgctxt "[2B729368408DC0843C4B06815001CC08],0A6097444EE9C0B82B91FCA5E5B2C27A"
+msgid "Русский"
+msgstr "English"
+
+#. Key:	5A069D1F46E77F294CD6719F1A1F4CFA
+#. SourceLocation:	/Game/UMG/Dialog_Wiget.Dialog_Wiget_C:WidgetTree.TextBlock_0.Text
+#: /Game/UMG/Dialog_Wiget.Dialog_Wiget_C:WidgetTree.TextBlock_0.Text
+msgctxt "[2B729368408DC0843C4B06815001CC08],5A069D1F46E77F294CD6719F1A1F4CFA"
+msgid "Next"
+msgstr "Дальше"
+
+#. Key:	38B6859B499A02688EA56A9243DFDB51
+#. SourceLocation:	/Game/UMG/QuestPhase_Wiget.QuestPhase_Wiget_C:WidgetTree.TextBlock_1.Text
+#: /Game/UMG/QuestPhase_Wiget.QuestPhase_Wiget_C:WidgetTree.TextBlock_1.Text
+msgctxt "[6FF0D2F441249D8D1C4007A6F1F20425],38B6859B499A02688EA56A9243DFDB51"
+msgid "Next"
+msgstr "Дальше"
+
+#. Key:	ED3B067F480163B5AF212C820088E79F
+#. SourceLocation:	/Game/UMG/QuestPhase_Wiget.QuestPhase_Wiget_C:WidgetTree.TextBlock_0.Text
+#: /Game/UMG/QuestPhase_Wiget.QuestPhase_Wiget_C:WidgetTree.TextBlock_0.Text
+msgctxt "[6FF0D2F441249D8D1C4007A6F1F20425],ED3B067F480163B5AF212C820088E79F"
+msgid "Русский"
+msgstr "English"
+
+#. Key:	C834B4E444DBBEF3050A44BC24D40B77
+#. SourceLocation:	/Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.Lang.Text
+#: /Game/UMG/Jurnal_Wiget.Jurnal_Wiget_C:WidgetTree.Lang.Text
+msgctxt "[7A97F1D342D53A8DF48C47A0ED8FC68F],C834B4E444DBBEF3050A44BC24D40B77"
+msgid "Русский"
+msgstr "English"
+
+#. Key:	0C2B747748B7899484B43695A6E0FA8F
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_1.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_1.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],0C2B747748B7899484B43695A6E0FA8F"
+msgid "Not enough fuel."
+msgstr "Не хватает топлива"
+
+#. Key:	0E5550924F72B8F8E084DA89E347278D
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_4.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],0E5550924F72B8F8E084DA89E347278D"
+msgid "Capitn's spase ship"
+msgstr "Корабль капитана."
+
+#. Key:	1932C309429FAC4C35631B9F397C2857
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_2.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],1932C309429FAC4C35631B9F397C2857"
+msgid "Door panel"
+msgstr "Дверная панель"
+
+#. Key:	1D5B79A04ACC4DE1EC939EA996967176
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphOthers_0.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphOthers_0.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],1D5B79A04ACC4DE1EC939EA996967176"
+msgid "Door"
+msgstr "Дверь"
+
+#. Key:	2242461443D8F3ECC84B5F8245EB184D
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_3.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],2242461443D8F3ECC84B5F8245EB184D"
+msgid "Own spase ship"
+msgstr "Ваш корабль"
+
+#. Key:	344E221F4FB713C8E148A08879E2C339
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphQuest_0.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphQuest_0.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],344E221F4FB713C8E148A08879E2C339"
+msgid "Escape from planet"
+msgstr "Выбраться с планеты"
+
+#. Key:	3C57490648CE1EDD7486B0B6F726BDBA
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_1.InventoryItemPhase(0).InventoryItemPhase
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_1.InventoryItemPhase(0).InventoryItemPhase
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],3C57490648CE1EDD7486B0B6F726BDBA"
+msgid "Broken"
+msgstr "Сломан"
+
+#. Key:	4909AB684BF5221C5CB4F28B32889C2A
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_0.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_0.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],4909AB684BF5221C5CB4F28B32889C2A"
+msgid "BeforeTheGateTrigger"
+msgstr ""
+
+#. Key:	5F01A4744C319F4DE7C562B0593EE3AE
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_1.InventoryItemPhase(1).InventoryItemPhase
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_1.InventoryItemPhase(1).InventoryItemPhase
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],5F01A4744C319F4DE7C562B0593EE3AE"
+msgid "Fix"
+msgstr "Исправен"
+
+#. Key:	65881E744088FA026E41B284D5F64D30
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_1.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphPlaceTrigger_1.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],65881E744088FA026E41B284D5F64D30"
+msgid "AfterTheGateTrigger"
+msgstr ""
+
+#. Key:	6FE6970C468E93C8750533A6AFFFE5D9
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_2.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_2.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],6FE6970C468E93C8750533A6AFFFE5D9"
+msgid "Password from door"
+msgstr "Пароль от двери"
+
+#. Key:	95E06B414FC1DA6A07B632BF06F0AADC
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_2.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_2.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],95E06B414FC1DA6A07B632BF06F0AADC"
+msgid "Captain Flies from planet"
+msgstr "Капитан улетел с планеты"
+
+#. Key:	9FE0574342B70DC3412056BEC52CD268
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_3.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_3.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],9FE0574342B70DC3412056BEC52CD268"
+msgid "Fuel for ship."
+msgstr "Горючее для корабля"
+
+#. Key:	AED9C3B44E9FEE591AD78BA80C811663
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_0.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_0.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],AED9C3B44E9FEE591AD78BA80C811663"
+msgid "PinchBar"
+msgstr "Лом"
+
+#. Key:	BA106BE047CAEFA45EB59E9CFD4E1191
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_0.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],BA106BE047CAEFA45EB59E9CFD4E1191"
+msgid "Pilot"
+msgstr "Пилот"
+
+#. Key:	BC2020B64D7F4F97BB917EA73F835E81
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphCharecter_1.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],BC2020B64D7F4F97BB917EA73F835E81"
+msgid "Capitan"
+msgstr "Капитан"
+
+#. Key:	C75FB7D342A876CC9A279AA7AD054D4B
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_4.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_4.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],C75FB7D342A876CC9A279AA7AD054D4B"
+msgid "Capitan left ship"
+msgstr "Капитан покинул корабль."
+
+#. Key:	E024DD6E46EADED1CDE1D48BC160C11B
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_3.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_3.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],E024DD6E46EADED1CDE1D48BC160C11B"
+msgid "You go with capitan."
+msgstr "Вы отправились с капитаномю"
+
+#. Key:	EBE6F9AB4AEC4A0EEB6E60B99BAFB056
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphQuest_1.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphQuest_1.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],EBE6F9AB4AEC4A0EEB6E60B99BAFB056"
+msgid "Find fuel"
+msgstr "Найти топливо."
+
+#. Key:	F821888A49508CB959C7F0BC1B7524EB
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_1.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphInventoryItem_1.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],F821888A49508CB959C7F0BC1B7524EB"
+msgid "ShipEngine"
+msgstr "Двигатель корабля"
+
+#. Key:	FBA784C34DE48C63B09FC284E978A097
+#. SourceLocation:	/Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_0.ObjName
+#: /Game/Maps/ThirdPersonExampleMap.ThirdPersonExampleMap:PersistentLevel.Story_C_0.StoryGraph_1.StoryGraphDialogTrigger_0.ObjName
+msgctxt "[806E38CF4705872D9B02E684FA673DDD],FBA784C34DE48C63B09FC284E978A097"
+msgid "Capitan lost his engine"
+msgstr "Капитан потерял двигатель"
+
+#. Key:	251FDBDC40A73C94A1547AB915A74A5B
+#. SourceLocation:	/Game/UMG/EndGame_Wiget.EndGame_Wiget_C:WidgetTree.TextBlock_1.Text
+#: /Game/UMG/EndGame_Wiget.EndGame_Wiget_C:WidgetTree.TextBlock_1.Text
+msgctxt "[89552566449FCCD2335548ADCB655AA1],251FDBDC40A73C94A1547AB915A74A5B"
+msgid "Play agin"
+msgstr "Начать заново"
+
+#. Key:	27F7F0054E376813093308894F583997
+#. SourceLocation:	/Game/UMG/EndGame_Wiget.EndGame_Wiget_C:WidgetTree.TextBlock_126.Text
+#: /Game/UMG/EndGame_Wiget.EndGame_Wiget_C:WidgetTree.TextBlock_126.Text
+msgctxt "[89552566449FCCD2335548ADCB655AA1],27F7F0054E376813093308894F583997"
+msgid "Game over"
+msgstr "Игра окончена."
+
+#. Key:	3C8FA45148326A6233EE538CDB27CCD1
+#. SourceLocation:	/Game/UMG/EndGame_Wiget.EndGame_Wiget_C:WidgetTree.TextBlock_0.Text
+#: /Game/UMG/EndGame_Wiget.EndGame_Wiget_C:WidgetTree.TextBlock_0.Text
+msgctxt "[89552566449FCCD2335548ADCB655AA1],3C8FA45148326A6233EE538CDB27CCD1"
+msgid "Exit"
+msgstr "Выход"
+
+#. Key:	CAF1242A400B88F1D3B80CADEAAE0047
+#. SourceLocation:	/Game/UMG/Dialog_Wiget.Dialog_Wiget_C:ExecuteUbergraph_Dialog_Wiget [Script Bytecode]
+#: /Game/UMG/Dialog_Wiget.Dialog_Wiget_C:ExecuteUbergraph_Dialog_Wiget [Script
+#: Bytecode]
+msgctxt "[],CAF1242A400B88F1D3B80CADEAAE0047"
+msgid "You"
+msgstr "Вы"
+
+#. Key:	542514D3400D616260AC26A4AF2BF294
+#. SourceLocation:	/Game/UMG/TriggerMessage_Wiget.TriggerMessage_Wiget_C:WidgetTree.TextBlock_1.Text
+#: /Game/UMG/TriggerMessage_Wiget.TriggerMessage_Wiget_C:WidgetTree.TextBlock_1.Text
+msgctxt "[FBED6A06470023ADACE3CFAC43941124],542514D3400D616260AC26A4AF2BF294"
+msgid "Русский"
+msgstr "English"
+
+#. Key:	E31036EB4D81A8B8DFA4428AF878F747
+#. SourceLocation:	/Game/UMG/TriggerMessage_Wiget.TriggerMessage_Wiget_C:WidgetTree.TextBlock_0.Text
+#: /Game/UMG/TriggerMessage_Wiget.TriggerMessage_Wiget_C:WidgetTree.TextBlock_0.Text
+msgctxt "[FBED6A06470023ADACE3CFAC43941124],E31036EB4D81A8B8DFA4428AF878F747"
+msgid "Next"
+msgstr "Дальше"
+
+#. Key:	AddQuestPhaseMessage2
+#. SourceLocation:	Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:231
+#: Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:231
+msgctxt "StoryGraph,AddQuestPhaseMessage2"
+msgid "Quest {0} changed"
+msgstr "Задание {0} изменилось"
+
+#. Key:	Quest active
+#. SourceLocation:	Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:199
+#: Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:199
+msgctxt "StoryGraph,Quest active"
+msgid "New quest {0}"
+msgstr "Новое задание {0}"
+
+#. Key:	Quest cancel
+#. SourceLocation:	Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:205
+#: Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:205
+msgctxt "StoryGraph,Quest cancel"
+msgid "Quest {0} cancel"
+msgstr "Задание {0} отменено"
+
+#. Key:	Quest complite
+#. SourceLocation:	Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:211
+#: Plugins/StoryGraphPlugin/Source/StoryGraphPluginRuntime/StoryGraphObject.cpp:211
+msgctxt "StoryGraph,Quest complite"
+msgid "Quest {0} complite"
+msgstr "Задание {0} выполнено"

@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="..\..\StoryGraph.uproject" />
+		<Filter Include="Source">
+			<UniqueIdentifier>{B229BAB3-3420-44C8-83E4-34DCA6B98C5A}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\StoryGraph.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<None Include="..\..\Source\StoryGraphEditor.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<Filter Include="Config">
+			<UniqueIdentifier>{F3ACA557-7148-4B99-89A7-612DF972A2CD}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\DefaultEditor.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEngine.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultGame.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultInput.ini">
+			<Filter>Config</Filter>
+		</None >
+		<Filter Include="Config\Localization">
+			<UniqueIdentifier>{C1A705F4-D2F7-43AA-B8F5-C9432A4ED507}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\Localization\Game_Compile.ini">
+			<Filter>Config\Localization</Filter>
+		</None >
+		<None Include="..\..\Config\Localization\Game_Gather.ini">
+			<Filter>Config\Localization</Filter>
+		</None >
+		<None Include="..\..\Config\Localization\Game_GenerateReports.ini">
+			<Filter>Config\Localization</Filter>
+		</None >
+		<None Include="..\..\Config\Localization\RegenerateGame.ini">
+			<Filter>Config\Localization</Filter>
+		</None >
+		<Filter Include="Plugins">
+			<UniqueIdentifier>{042978D2-44E1-42E3-B588-D2E432D73B53}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Plugins\StoryGraphPlugin">
+			<UniqueIdentifier>{695CC4F6-1534-42EF-884A-46288DEC89BE}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Plugins\StoryGraphPlugin\Source">
+			<UniqueIdentifier>{3E70100E-57FC-4F94-A977-41026309DA38}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor">
+			<UniqueIdentifier>{4C09F8B8-7146-465C-93FE-A1F03ADCD3E9}</UniqueIdentifier>
+		</Filter>
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\AssetEditor_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\AssetEditor_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\AssetFactory_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\AssetFactory_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\AssetTypeActions_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\AssetTypeActions_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\Commands_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\Commands_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\ConnectionDrawingPolicy_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\ConnectionDrawingPolicy_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\DetailPanelCustomizationNodes.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\DetailPanelCustomizationNodes.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\DetailPanelCustomizationObject.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\DetailPanelCustomizationObject.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\DragDropAction_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\DragDropAction_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphNodes_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphNodes_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphPaletteItem_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphPaletteItem_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphPanelNodeFactory_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphPanelNodeFactory_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphSchemaAction_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphSchema_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphSchema_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\ProxyNods.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\ProxyNods.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<None Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\StoryGraphPluginEditor.Build.cs">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</None >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\StoryGraphPluginEditor.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\StoryGraphPluginEditor.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
+		<None Include="..\..\Plugins\StoryGraphPlugin\StoryGraphPlugin.uplugin">
+			<Filter>Plugins\StoryGraphPlugin</Filter>
+		</None >
+		<Filter Include="Plugins\StoryGraphPlugin\Resources">
+			<UniqueIdentifier>{38605173-BCF9-46D1-BD08-255DBA44AB08}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icon128.png">
+			<Filter>Plugins\StoryGraphPlugin\Resources</Filter>
+		</None >
+		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icone_16x.png">
+			<Filter>Plugins\StoryGraphPlugin\Resources</Filter>
+		</None >
+		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icone_64x.png">
+			<Filter>Plugins\StoryGraphPlugin\Resources</Filter>
+		</None >
+		<Filter Include="Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime">
+			<UniqueIdentifier>{6886E08B-EA84-449B-ABB7-865AB2D0EABD}</UniqueIdentifier>
+		</Filter>
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\CustomNods.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\CustomNods.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\Graph_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\HUD_StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\HUD_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraph.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphObject.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphObject.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<None Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphPluginRuntime.Build.cs">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</None >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphPluginRuntime.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphPluginRuntime.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphWiget.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphWiget.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryScenObject.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryScenObject.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<Filter Include="Source\StoryGraph">
+			<UniqueIdentifier>{FA639DA8-F99A-4218-AC42-AE91EFE47334}</UniqueIdentifier>
+		</Filter>
+		<ClCompile Include="..\..\Source\StoryGraph\MyActor.cpp">
+			<Filter>Source\StoryGraph</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\StoryGraph\MyActor.h">
+			<Filter>Source\StoryGraph</Filter>
+		</ClInclude >
+		<None Include="..\..\Source\StoryGraph\StoryGraph.Build.cs">
+			<Filter>Source\StoryGraph</Filter>
+		</None >
+		<ClCompile Include="..\..\Source\StoryGraph\StoryGraph.cpp">
+			<Filter>Source\StoryGraph</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\StoryGraph\StoryGraph.h">
+			<Filter>Source\StoryGraph</Filter>
+		</ClInclude >
+	</ItemGroup>
+</Project>
