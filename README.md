@@ -1,7 +1,4 @@
-# StoryGraph
-
-
-Quest and dialog editor for UnrealEngine.
+#Quest and dialog editor for UnrealEngine.
 
 With this plugin you can create story and dialogs in the user frandly graphical interface, for you game.
 
@@ -10,7 +7,7 @@ If you want add this plugin in you project copy folder StoryGraphPlugin from fol
 
 
 
-Редактор квестов и диалого для UnrealEngine.
+#Редактор квестов и диалого для UnrealEngine.
 
 При помощи этого плагина вы сможете создавать квесты и диалоги для своей игры в удобном графическом интерфейсе.
 
