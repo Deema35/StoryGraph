@@ -17,3 +17,5 @@ If you want add this plugin in you project copy folder StoryGraphPlugin from fol
 habrahabr: https://habrahabr.ru/post/318366/
 
 Сompiled demo game: https://cloud.mail.ru/public/J6Y2/gPCyFRBPG
+
+Unreal forum: https://forums.unrealengine.com/showthread.php?132313-StoryGraph-quest-and-dialog-editor-for-unreal-engine&p=642745#post642745
