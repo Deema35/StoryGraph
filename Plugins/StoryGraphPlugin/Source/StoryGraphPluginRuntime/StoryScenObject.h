@@ -97,9 +97,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = StoryGraph)
 		void Activate();
 
-	UFUNCTION(BlueprintCallable, Category = StoryGraph)
-		void OpenMessageDialog();
-
 	
 };
 

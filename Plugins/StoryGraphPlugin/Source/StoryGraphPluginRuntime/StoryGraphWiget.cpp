@@ -210,17 +210,24 @@ ECharDialogOwner UDialog_StoryGraphWidget::GetDialogs(const UDialogObject* Curre
 {
 	AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
-	
-	Dialogs.Empty();
-
-	if (CurrentDialog)
+	if (HUD)
 	{
-		UDialogNodeBase* NextNode = NULL;
-		((UDialogNodeBase*)CurrentDialog->DialogNode)->GetChildNode(CurrentDialog, NextNode);
-		AHUD_StoryGraph::GetNextDialogFromBrunch(NextNode, Dialogs);
-		if (Dialogs.Num() > 0)
+		Dialogs.Empty();
+
+		if (CurrentDialog)
 		{
-			return ((UDialogNodeBase*)Dialogs[0]->DialogNode)->DialogOwner;
+			UDialogNodeBase* NextNode = NULL;
+			((UDialogNodeBase*)CurrentDialog->DialogNode)->GetChildNode(CurrentDialog, NextNode);
+			AHUD_StoryGraph::GetNextDialogFromBrunch(NextNode, Dialogs);
+			if (Dialogs.Num() > 0)
+			{
+				return ((UDialogNodeBase*)Dialogs[0]->DialogNode)->DialogOwner;
+			}
+			else
+			{
+				HUD->GetRootDialogs(Dialogs);
+				return ECharDialogOwner::Character;
+			}
 		}
 		else
 		{
@@ -230,10 +237,8 @@ ECharDialogOwner UDialog_StoryGraphWidget::GetDialogs(const UDialogObject* Curre
 	}
 	else
 	{
-		HUD->GetRootDialogs(Dialogs);
-		return ECharDialogOwner::Character;
+		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
 	}
-	
 	return ECharDialogOwner::NotDefine;
 }
 

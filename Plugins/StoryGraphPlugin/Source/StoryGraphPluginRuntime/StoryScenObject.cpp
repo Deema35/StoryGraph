@@ -47,7 +47,15 @@ void ACharecter_StoryGraph::OpenDialog()
 	{
 		AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
-		HUD->OpenDialogOrOpenPlaceTriggerMessages(OwningStoryGraphObject);
+		if (HUD)
+		{
+			HUD->OpenDialogOrOpenPlaceTriggerMessages(OwningStoryGraphObject);
+		}
+		else
+		{
+			UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		}
+		
 	}
 }
 
@@ -130,7 +138,15 @@ void APlaceTrigger_StoryGraph::Activate()
 	{
 		AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
-		HUD->OpenDialogOrOpenPlaceTriggerMessages(AdvanceInteractiveTriggers);
+		if (HUD)
+		{
+			HUD->OpenDialogOrOpenPlaceTriggerMessages(AdvanceInteractiveTriggers);
+		}
+		else
+		{
+			UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		}
+		
 	}
 }
 
@@ -168,15 +184,7 @@ EPlaceTriggerType APlaceTrigger_StoryGraph::GetPlaceTriggerType()
 
 }
 
-void APlaceTrigger_StoryGraph::OpenMessageDialog()
-{
-	if (OwningStoryGraphObject.Num() > 0)
-	{
-		AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD());
 
-		HUD->OpenDialogOrOpenPlaceTriggerMessages(OwningStoryGraphObject);
-	}
-}
 
 
 

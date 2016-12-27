@@ -1,7 +1,7 @@
 {
 	"Changelist" : 3224400,
 	"CompatibleChangelist" : 3195953,
-	"BuildId" : "9293fb31-8286-4fc7-ae1e-fc2c1788df06",
+	"BuildId" : "ef557e59-a189-4d64-811d-2a92a6eb6556",
 	"Modules" : 
 	{
 		"StoryGraphPluginRuntime" : "UE4Editor-StoryGraphPluginRuntime.dll",

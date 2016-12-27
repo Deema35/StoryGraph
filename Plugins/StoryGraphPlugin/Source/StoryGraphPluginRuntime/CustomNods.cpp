@@ -1320,8 +1320,15 @@ EPerformNodeResult UDialogExitNode::PerformNode()
 	Super::PerformNode();
 
 	AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD());
-	HUD->OpenDialogEvent(false);
 	
+	if (HUD)
+	{
+		HUD->OpenDialogEvent(false);
+	}
+	else
+	{
+		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+	}
 	return EPerformNodeResult::Sucssed;
 }
 
@@ -1581,7 +1588,14 @@ EPerformNodeResult UEndGameNode::PerformNode()
 	Super::PerformNode();
 
 	AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD());
+	if (HUD)
+	{
 	HUD->EndGame(pQuestPhase->Decription);
+	}
+	else
+	{
+		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+	}
 
 	return EPerformNodeResult::Sucssed;
 }
@@ -1841,7 +1855,14 @@ EPerformNodeResult UPrintQuestPhaseOnScreenNode::PerformNode()
 	Super::PerformNode();
 
 	AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD());
-	HUD->PrintQuestPhaseOnScreen(pQuestPhase->Decription);
+	if (HUD)
+	{
+		HUD->PrintQuestPhaseOnScreen(pQuestPhase->Decription);
+	}
+	else
+	{
+		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+	}
 	return EPerformNodeResult::Sucssed;
 }
 
