@@ -9,11 +9,15 @@
 #include "DetailPanelCustomizationObject.h"
 #include "DetailPanelCustomizationNodes.h"
 #include "ClassIconFinder.h"
+#include "NodeStyle.h"
 
 DEFINE_LOG_CATEGORY(StoryGraphEditor)
 
 void FStoryGraphEditorModule::StartupModule()
 {
+	FNodeStyle::Initialize();
+
+
 	//Registrate asset actions for StoryGraph
 	FAssetTypeActions_StoryGraph::RegistrateCustomPartAssetType();
 
@@ -167,7 +171,7 @@ void FStoryGraphEditorModule::StartupModule()
 
 void FStoryGraphEditorModule::ShutdownModule()
 {
-	
+	FNodeStyle::Shutdown();
 }
 
 IMPLEMENT_GAME_MODULE(FStoryGraphEditorModule, StoryGraphEditor);

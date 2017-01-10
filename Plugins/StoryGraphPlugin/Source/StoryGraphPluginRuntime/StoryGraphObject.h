@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Object.h"
+#include "ObjectrRecord.h"
 #include "StoryGraphObject.generated.h"
 
 
@@ -54,7 +55,7 @@ static FORCEINLINE int GetNumberEnums(const FString& Name)
 
 UCLASS()
 
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraphObject : public UObject
+class STORYGRAPHPLUGINRUNTIME_API UStoryGraphObject : public UObject, public ISaveObject_StoryGraph
 {
 	GENERATED_BODY()
 public:		
@@ -102,7 +103,7 @@ public:
 	virtual int GetCurentState() { return ObjectState; }
 
 protected:
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, SaveGame)
 		int32 ObjectState;
 
 };
@@ -115,11 +116,14 @@ class STORYGRAPHPLUGINRUNTIME_API UStoryGraphObjectWithScenObject : public UStor
 public:
 	UStoryGraphObjectWithScenObject();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame)
 	bool IsScenObjectActive;
 
 	UPROPERTY()
 	bool RealPointersActive;
+
+	UPROPERTY(SaveGame)
+		TArray<FString> ObjectMesssageStack;
 
 public:	
 	
@@ -133,9 +137,13 @@ public:
 
 	virtual int GetScenObjectsNum() { return 0; }
 
+	void InitializeObject();
+
 	void SetActiveStateOfScenObjects();
 
 	void SetScenObjectActive(bool Active);
+
+	void SendMessageToScenObject(FString Message);
 
 	template<class ReturnType, class ObjectType>
 	void TExstractScenObgects(TArray<ReturnType*>& ScenObjects, TArray<TAssetPtr<ObjectType>> ScenLazyPointerArray, TArray<ObjectType*> ScenPointerArray)
@@ -206,6 +214,8 @@ public:
 	virtual void ClearScenObjects() override;
 
 	virtual int GetScenObjectsNum() override { return ScenCharecters.Num(); }
+
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
 };
 
 UENUM(BlueprintType)
@@ -254,7 +264,7 @@ class STORYGRAPHPLUGINRUNTIME_API UStoryGraphQuest : public UStoryGraphObject
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(Transient,  BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, SaveGame)
 		TArray<UQuestPhase*> QuestPhase;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -325,6 +335,8 @@ public:
 	virtual void ClearScenObjects() override;
 
 	virtual int GetScenObjectsNum() override { return ScenTriggers.Num(); }
+
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
 };
 
 UENUM(BlueprintType)
@@ -377,7 +389,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		TArray<FText> InventoryItemPhase;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, SaveGame)
 		int32 CurrentItemPhase;
 
 public:

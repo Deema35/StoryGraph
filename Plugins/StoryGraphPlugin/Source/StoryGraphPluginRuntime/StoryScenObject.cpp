@@ -2,6 +2,8 @@
 #include "StoryGraphPluginRuntime.h"
 #include "StoryScenObject.h"
 #include "HUD_StoryGraph.h"
+#include "ObjectrRecord.h"
+
 
 
 //IStoryScenObject.......................................................

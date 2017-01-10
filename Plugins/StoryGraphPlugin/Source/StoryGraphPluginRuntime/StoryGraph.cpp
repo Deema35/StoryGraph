@@ -7,6 +7,7 @@
 #include "StoryScenObject.h"
 #include "HUD_StoryGraph.h"
 #include "StoryGraphWiget.h"
+#include "SaveGameInstance.h"
 
 //UStoryGraphBlueprint...............................................
 
@@ -24,22 +25,17 @@ UEdGraph_StoryGraph* UStoryGraphBlueprint::FindGraph(UObject* GraphOwner)
 }
 
 
-//FExecutionTree...................................................................
-void FExecutionTree::Refresh()
+//UExecutionTree...................................................................
+void UExecutionTree::Refresh()
 {
 	TArray<UCustomNodeBase*> ChildNodes;
-	
+
 	TArray<UStoryVerticalNodeBase*> NodsForAdd;
 	bool AllNodsPerfomed;
 
-	if (QuestStartNode->pGraphObject->GetCurentState() == (int)EQuestStates::Active ||
-		QuestStartNode->pGraphObject->GetCurentState() == (int)EQuestStates::UnActive)
+	if (MainQuest->GetCurentState() == (int)EQuestStates::Active ||
+		MainQuest->GetCurentState() == (int)EQuestStates::UnActive)
 	{
-
-		if (PredActiveNodesBuffer.Num() == 0)
-		{
-			PredActiveNodesBuffer.Add(QuestStartNode);
-		}
 
 		AllNodsPerfomed = false;
 
@@ -47,80 +43,134 @@ void FExecutionTree::Refresh()
 		{
 
 			AllNodsPerfomed = true;
-			
+
 			for (int j = 0; j < PredActiveNodesBuffer.Num(); j++)
 			{
-				EPerformNodeResult PerformResult = PredActiveNodesBuffer[j]->PerformNode();
-			
-				if (PerformResult == EPerformNodeResult::Sucssed)
+				if (UStoryVerticalNodeBase* VerticalNode = Cast<UStoryVerticalNodeBase>(PredActiveNodesBuffer[j]))
 				{
-					PredActiveNodesBuffer[j]->ResetUnPerformBrunch(); //if we have already perform node, we must reset others ways for this node
-					PredActiveNodesBuffer[j]->GetChildNodes(ChildNodes, EPinDataTypes::PinType_Vertical);
-					if (ChildNodes.Num() == 0)
+					EPerformNodeResult PerformResult = VerticalNode->PerformNode();
+
+					if (PerformResult == EPerformNodeResult::Sucssed)
 					{
-						
-						QuestStartNode->pGraphObject->SetCurentState((int)EQuestStates::Complite); //We find end of tree an quest complite
-						break;
+
+						VerticalNode->ResetUnPerformBrunch(); //if we have already perform node, we must reset others ways for this node
+						VerticalNode->GetChildNodes(ChildNodes, EPinDataTypes::PinType_Vertical);
+						if (ChildNodes.Num() == 0)
+						{
+
+							MainQuest->SetCurentState((int)EQuestStates::Complite); //We find end of tree an quest complite
+							break;
+						}
+						for (int i = 0; i < ChildNodes.Num(); i++)
+						{
+							NodsForAdd.Add((UStoryVerticalNodeBase*)ChildNodes[i]);
+						}
+						AllNodsPerfomed = false;
+
+
 					}
-					for (int i = 0; i < ChildNodes.Num(); i++)
+					else if (PerformResult == EPerformNodeResult::Fail)
 					{
-						NodsForAdd.Add((UStoryVerticalNodeBase*)ChildNodes[i]);
+						NodsForAdd.Add(PredActiveNodesBuffer[j]);
+
 					}
-					AllNodsPerfomed = false;
-					
-				}
-				else if (PerformResult == EPerformNodeResult::Fail)
-				{
-					NodsForAdd.Add(PredActiveNodesBuffer[j]);
-					
 				}
 				
 
 			}
-				
+
 			PredActiveNodesBuffer.Empty();
 			PredActiveNodesBuffer.Append(NodsForAdd);
 			NodsForAdd.Empty();
 
 		}
 
-	
+
 	}
 	
 	
 }
 
+//UStoryGraph...........................................................................
 
+void UStoryGraph::GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum)
+{
+	if (CompilationCounter != LoadedCompilationCounter)
+	{
+		UE_LOG(StoryGraphPluginRuntime, Error, TEXT("Use old save file"));//If Compilercounters mismatch this mean we use old save file
+		OldSaveFile = true;
+	}
+
+	Objects.Append(GarphObjects);
+
+	for (int i = 0; i < GarphNods.Num(); i++)
+	{
+		if (Cast<UStoryVerticalNodeBase>(GarphNods[i]))
+		{
+			Objects.Add(GarphNods[i]);
+		}
+
+	}
+
+	if (WantedObjectsNum == 0) //Save object
+	{
+		Objects.Append(ExecutionTrees);
+	}
+	else //Load object
+	{
+		int NodeNum = 0;
+		for (int i = 0; i < GarphNods.Num(); i++)
+		{
+			if (Cast<UStoryVerticalNodeBase>(GarphNods[i]))
+			{
+				NodeNum++;
+			}
+		}
+		int ExecutionTreeNum = WantedObjectsNum - GarphObjects.Num() - NodeNum;
+		for (int i = 0; i < ExecutionTreeNum; i++)
+		{
+			UExecutionTree* NewExecutionTree = NewObject<UExecutionTree>(this);
+			ExecutionTrees.Add(NewExecutionTree);
+			Objects.Add(NewExecutionTree);
+		}
+	}
+}
 
 
 void UStoryGraph::CreateExecutionTrees()
 {
 	TArray<UQuestStartNode*> QuestStartNodes;
-
 	ExecutionTrees.Empty();
 	
 	for (int i = 0; i < GarphNods.Num(); i++)
 	{
 		if (UQuestStartNode* QuestStartNode = Cast<UQuestStartNode>(GarphNods[i]))
 		{
+			
 			QuestStartNodes.Add(QuestStartNode);
 		}
 	}
-
+	
 	for (int i = 0; i < QuestStartNodes.Num(); i++)
 	{
-		ExecutionTrees.Add(FExecutionTree());
-		ExecutionTrees[i].QuestStartNode = QuestStartNodes[i];
+		UExecutionTree* NewExecutionTree = NewObject<UExecutionTree>(this);
+		ExecutionTrees.Add(NewExecutionTree);
+		NewExecutionTree->MainQuest = (UStoryGraphQuest*)QuestStartNodes[i]->pGraphObject;
+		NewExecutionTree->PredActiveNodesBuffer.Add(QuestStartNodes[i]);
 	}
-	
+
 }
 
 void UStoryGraph::RefreshExecutionTrees(bool NeedRefreshQuestsPhase)
 {
-
+	if (OldSaveFile)
+	{
+		GWorld->GetFirstPlayerController()->ConsoleCommand("Exit");
+		return;
+	}
 	for (int i = 0; i < ExecutionTrees.Num(); i++)
 	{
-		ExecutionTrees[i].Refresh();
+		ExecutionTrees[i]->Refresh();
 	}
 	
 	if (QuestStateWasChange)
@@ -134,6 +184,7 @@ void UStoryGraph::RefreshExecutionTrees(bool NeedRefreshQuestsPhase)
 		RefreshQuestsPhase();
 		RefreshRadarTargets();
 	}
+	
 }
 
 void UStoryGraph::RefreshQuestsPhase()
@@ -152,11 +203,14 @@ void UStoryGraph::RefreshQuestsPhase()
 
 	for (int i = 0; i < ExecutionTrees.Num(); i++)
 	{
-		for (int j = 0; j <  ExecutionTrees[i].PredActiveNodesBuffer.Num(); j++)
+		for (int j = 0; j <  ExecutionTrees[i]->PredActiveNodesBuffer.Num(); j++)
 		{
-			if (ExecutionTrees[i].PredActiveNodesBuffer[j]->pQuestPhase)
+			if (UStoryVerticalNodeBase* VerticalNode = Cast<UStoryVerticalNodeBase>(ExecutionTrees[i]->PredActiveNodesBuffer[j]))
 			{
-				ExecutionTrees[i].PredActiveNodesBuffer[j]->pQuestPhase->QuestPhaseState = EQuestPhaseState::Active;
+				if (VerticalNode->pQuestPhase)
+				{
+					VerticalNode->pQuestPhase->QuestPhaseState = EQuestPhaseState::Active;
+				}
 			}
 		}
 	}
@@ -182,10 +236,12 @@ void UStoryGraph::RefreshRadarTargets()
 		}
 
 	}
-	
-	if (Radar)
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-		Radar->RefreshTargets(RadarTargets);
+		if (HUD->Radar)
+		{
+			HUD->Radar->RefreshTargets(RadarTargets);
+		}
 	}
 }
 
@@ -225,6 +281,14 @@ bool AStoryGraphActor::CreateStoryGraph()
 	return false;
 }
 
+void AStoryGraphActor::GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum)
+{
+	if (StoryGraph)
+	{
+		Objects.Add(StoryGraph);
+	}
+}
+
 void AStoryGraphActor::ClearCrossLevelReferences()
 {
 	Super::ClearCrossLevelReferences();
@@ -234,14 +298,15 @@ void AStoryGraphActor::ClearCrossLevelReferences()
 void AStoryGraphActor::PreInitializeComponents()
 {
 	Super::PreInitializeComponents();
-	
+
+
 	if (StoryGraph)
 	{
 		
 		for (int i = 0; i < StoryGraph->GarphObjects.Num(); i++)
 		{
-			UStoryGraphObjectWithScenObject* ObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(StoryGraph->GarphObjects[i]);
-			if (ObjectWithScenObject)
+			
+			if (UStoryGraphObjectWithScenObject* ObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(StoryGraph->GarphObjects[i]))
 			{
 				
 				TArray<IStoryScenObject *> ScenObjects;
@@ -254,21 +319,36 @@ void AStoryGraphActor::PreInitializeComponents()
 					
 
 				}
-
-
-				ObjectWithScenObject->SetActiveStateOfScenObjects(); //Set initial active state
+								
 			}
 		}
-		StoryGraph->CreateExecutionTrees();
+
+		USaveGameInstance* SaveGameInstance = Cast<USaveGameInstance>(GetGameInstance());
+
+		if (!(SaveGameInstance && SaveGameInstance->IsLevelLoded))
+		{
+			StoryGraph->CreateExecutionTrees();
+		}
 	}
 	
-	
+
 }
+
 
 
 void AStoryGraphActor::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	for (int i = 0; i < StoryGraph->GarphObjects.Num(); i++)
+	{
+		
+		if (UStoryGraphObjectWithScenObject* ObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(StoryGraph->GarphObjects[i]))
+		{
+			ObjectWithScenObject->InitializeObject(); //Set initial active state
+		}
+	}
+
 	StoryGraph->RefreshExecutionTrees();
 }
 

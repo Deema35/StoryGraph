@@ -78,6 +78,8 @@ public:
 
 };
 
+
+
 //DialogNodeBase..................................................................................................................
 class SGraphNode_DialogBase : public SGraphNode_CustomNodeBase
 {

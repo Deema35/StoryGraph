@@ -122,6 +122,9 @@ public:
 	UPROPERTY()
 	UStoryGraphObject* pGraphObject;
 
+	UPROPERTY()
+	int32 NodeNumber;
+
 	ENodeType NodeType;
 
 	UPROPERTY()
@@ -169,6 +172,8 @@ public:
 	static EIncertNodeType GetIncertNodeType(ENodeType NodeType); //If node Dependent you must add this node to UStoryGraphObject::DependetNodes appropriate obgect
 
 	static TSubclassOf<UCustomNodeBase> GetClassFromNodeType(ENodeType NodeType);
+
+	static FName GetIconNameFromNodeType(ENodeType NodeType);
 
 	
 
@@ -249,6 +254,7 @@ public:
 
 	UStoryVerticalNodeBase() : bPerformNode(false), pQuestOwner(NULL), pQuestPhase(NULL){}
 
+	UPROPERTY(Transient, SaveGame)
 	bool bPerformNode;
 
 	UPROPERTY()
@@ -328,7 +334,8 @@ class STORYGRAPHPLUGINRUNTIME_API  UDialogStartNode : public UDialogNodeBase
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, SaveGame)
 		bool IsActive;
 	
 	/*0 - hight priority*/
@@ -506,6 +513,8 @@ public:
 
 #if WITH_EDITORONLY_DATA
 	virtual void InitNode(class UStoryGraphObject* pGraphObject_) override;
+
+	virtual void RefreshQuestOwner() override;
 
 	virtual void RefreshCollor() override;
 

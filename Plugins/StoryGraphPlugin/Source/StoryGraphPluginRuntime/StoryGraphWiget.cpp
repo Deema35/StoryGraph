@@ -11,48 +11,33 @@
 #include "StoryScenObject.h"
 
 
-TArray<UStoryGraph*> UBase_StoryGraphWiget::StoryGraphs;
-UWorld* UBase_StoryGraphWiget::CurrentWorld;
 
-void UBase_StoryGraphWiget::GetStoryGraphs(TArray<class UStoryGraph*>& StoryGraphs_)
-{
-	if (GWorld && CurrentWorld != GWorld)
-	{
 
-		StoryGraphs.Empty();
-		for (TActorIterator<AStoryGraphActor> ActorItr(GWorld); ActorItr; ++ActorItr)
-		{
-			if (ActorItr->StoryGraph)
-			{
-				StoryGraphs.Add(ActorItr->StoryGraph);
-			}
-		}
-		CurrentWorld = GWorld;
-	}
-	StoryGraphs_.Empty();
-	StoryGraphs_.Append(StoryGraphs);
-}
 
 //UJurnal_StoryGraphWidget......................................................................................
 
 void UJurnal_StoryGraphWidget::GetQuests(TArray<class UStoryGraphQuest*>& Quests)
 {
-	TArray<UStoryGraph*> StoryGraphs;
-	GetStoryGraphs(StoryGraphs);
-
-	for (int i = 0; i < StoryGraphs.Num(); i++)
+	
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-		for (int j = 0; j < StoryGraphs[i]->GarphObjects.Num(); j++)
-		{
-			UStoryGraphQuest* Quest = Cast<UStoryGraphQuest>(StoryGraphs[i]->GarphObjects[j]);
+		TArray<UStoryGraph*> StoryGraphs;
+		HUD->GetStoryGraphs(StoryGraphs);
 
-			if (Quest && Quest->GetCurentState() != (int)EQuestStates::UnActive && Quest->QuestPhase.Num() > 0)
+		for (int i = 0; i < StoryGraphs.Num(); i++)
+		{
+			for (int j = 0; j < StoryGraphs[i]->GarphObjects.Num(); j++)
 			{
-				Quests.Add(Quest);
+				UStoryGraphQuest* Quest = Cast<UStoryGraphQuest>(StoryGraphs[i]->GarphObjects[j]);
+
+				if (Quest && Quest->GetCurentState() != (int)EQuestStates::UnActive && Quest->QuestPhase.Num() > 0)
+				{
+					Quests.Add(Quest);
+				}
+
 			}
 
 		}
-
 	}
 
 }
@@ -61,17 +46,16 @@ void UJurnal_StoryGraphWidget::GetQuests(TArray<class UStoryGraphQuest*>& Quests
 void UGameScreen_StoryGraphWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	if (!IsIniciate)
+		
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-		TArray<UStoryGraph*> StoryGraphs;
-		GetStoryGraphs(StoryGraphs);
-		for (int i = 0; i < StoryGraphs.Num(); i++)
+		if (!IsIniciate)
 		{
-			StoryGraphs[i]->GameScreen = this;
+			TArray<UStoryGraph*> StoryGraphs;
+			HUD->GameScreen = this;
+			IsIniciate = true;
 		}
-		IsIniciate = true;
 	}
-	
 }
 
 void UGameScreen_StoryGraphWidget::AddMessageOnScreen(FText Text, float Duration)
@@ -114,16 +98,14 @@ void URadar_StoryGraphWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	Character = GetWorld() ? GetWorld()->GetFirstPlayerController()->GetPawn() : NULL;
-
-	if (!IsIniciate)
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-		TArray<UStoryGraph*> StoryGraphs;
-		GetStoryGraphs(StoryGraphs);
-		for (int i = 0; i < StoryGraphs.Num(); i++)
+		if (!IsIniciate)
 		{
-			StoryGraphs[i]->Radar = this;
+			TArray<UStoryGraph*> StoryGraphs;
+			HUD->Radar = this;
+			IsIniciate = true;
 		}
-		IsIniciate = true;
 	}
 
 }
@@ -254,26 +236,29 @@ FText UDialog_StoryGraphWidget::GetCharacterName()
 void UInventory_StoryGraphWidget::GetStoryInventoryItems(TArray<UStoryGraphInventoryItem*>& InventoryItems)
 {
 	TArray<UStoryGraph*> StoryGraphs;
-	GetStoryGraphs(StoryGraphs);
-	TArray<IStoryScenObject*> ObjectFilterData;
-
-	for (int i = 0; i < StoryGraphs.Num(); i++)
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-		for (int j = 0; j < StoryGraphs[i]->GarphObjects.Num(); j++)
+		HUD->GetStoryGraphs(StoryGraphs);
+		TArray<IStoryScenObject*> ObjectFilterData;
+
+		for (int i = 0; i < StoryGraphs.Num(); i++)
 		{
-			UStoryGraphInventoryItem* InventoryItem = Cast<UStoryGraphInventoryItem>(StoryGraphs[i]->GarphObjects[j]);
-			if (InventoryItem &&
-				InventoryItem->IsScenObjectActive &&
-				InventoryItem->GetCurentState() != (int)EInventoryItemeStates::OnLevel + 1)
+			for (int j = 0; j < StoryGraphs[i]->GarphObjects.Num(); j++)
 			{
-				if (ObjectFilter(InventoryItem, ObjectFilterData))
+				UStoryGraphInventoryItem* InventoryItem = Cast<UStoryGraphInventoryItem>(StoryGraphs[i]->GarphObjects[j]);
+				if (InventoryItem &&
+					InventoryItem->IsScenObjectActive &&
+					InventoryItem->GetCurentState() != (int)EInventoryItemeStates::OnLevel + 1)
 				{
-					InventoryItems.Add(InventoryItem);
+					if (ObjectFilter(InventoryItem, ObjectFilterData))
+					{
+						InventoryItems.Add(InventoryItem);
+					}
 				}
+
 			}
 
 		}
-
 	}
 }
 

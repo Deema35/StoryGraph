@@ -520,7 +520,25 @@ TSubclassOf<UCustomNodeBase> UCustomNodeBase::GetClassFromNodeType(ENodeType Nod
 	}
 }
 
+FName UCustomNodeBase::GetIconNameFromNodeType(ENodeType NodeType)
+{
 
+	switch (NodeType)
+	{
+	case ENodeType::AddTargetObjectToPhase:
+
+		return FName("CustomNode.Radar");
+
+	case ENodeType::QuestStart:
+
+		return FName("CustomNode.QuestStart");
+
+	default:
+
+		return FName("Non");
+	}
+
+}
 
 FLinearColor UCustomNodeBase::GetCollorFromNodeType(ENodeType NodeType, int CollorNumber)
 {
@@ -553,7 +571,7 @@ FLinearColor UCustomNodeBase::GetCollorFromNodeType(ENodeType NodeType, int Coll
 
 	case ENodeType::AddTargetObjectToPhase:
 
-		return FLinearColor(0.4f, 0.1f, 0.1f);
+		return FLinearColor(0.1f, 0.4f, 0.1f);
 
 	case ENodeType::CancelQuest:
 
@@ -1074,7 +1092,6 @@ void UAddQuestPhaseNode::RefreshQuestOwner()
 
 		//Refresh Quest owner
 		pQuestOwner = AnotherVerticalNode->pQuestOwner;
-
 	}
 	else
 	{
@@ -1452,7 +1469,6 @@ EPerformNodeResult UAddDialogNode::PerformNode()
 	Super::PerformNode();
 
 	SelectedDialog->IsActive = Activate;
-
 	return EPerformNodeResult::Sucssed;
 
 }
@@ -1573,6 +1589,27 @@ void UQuestStartNode::RefreshCollor()
 
 	
 }
+
+void UQuestStartNode::RefreshQuestOwner()
+{
+	pQuestOwner = (UStoryGraphQuest*)pGraphObject;
+	
+	RefreshCollor();
+	UpdateGraphNode();
+
+	TArray<UCustomNodeBase*> ChildNodes;
+
+	GetChildNodes(ChildNodes, EPinDataTypes::PinType_Vertical);
+
+	for (int i = 0; i < ChildNodes.Num(); i++)
+	{
+
+
+		((UStoryVerticalNodeBase*)ChildNodes[i])->RefreshQuestOwner();
+
+
+	}
+}
 #endif //WITH_EDITORONLY_DATA
 //UEndGameNode..................................................................................................................
 
@@ -1587,10 +1624,9 @@ EPerformNodeResult UEndGameNode::PerformNode()
 {
 	Super::PerformNode();
 
-	AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD());
-	if (HUD)
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-	HUD->EndGame(pQuestPhase->Decription);
+		HUD->EndGame(pQuestPhase->Decription);
 	}
 	else
 	{
@@ -1635,12 +1671,8 @@ USendMessageNode::USendMessageNode()
 EPerformNodeResult USendMessageNode::PerformNode()
 {
 	Super::PerformNode();
-	TArray<IStoryScenObject*> ScenObjects;
-	((UStoryGraphObjectWithScenObject*)pGraphObject)->GetScenObjects(ScenObjects);
-	for (int i = 0; i < ScenObjects.Num(); i++)
-	{
-		ScenObjects[i]->SendMessageToScenObject(Message);
-	}
+
+	((UStoryGraphObjectWithScenObject*)pGraphObject)->SendMessageToScenObject(Message);
 	return EPerformNodeResult::Sucssed;
 }
 
@@ -1705,9 +1737,12 @@ UAddScreenMessageNode::UAddScreenMessageNode()
 EPerformNodeResult UAddScreenMessageNode::PerformNode()
 {
 	Super::PerformNode();
-	if (pStoryGraph->GameScreen)
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-		pStoryGraph->GameScreen->AddMessageOnScreen(Message, Duration);
+		if (HUD->GameScreen)
+		{
+			HUD->GameScreen->AddMessageOnScreen(Message, Duration);
+		}
 	}
 
 	return EPerformNodeResult::Sucssed;

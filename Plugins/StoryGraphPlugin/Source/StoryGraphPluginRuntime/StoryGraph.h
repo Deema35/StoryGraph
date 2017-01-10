@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "Classes/Engine/Blueprint.h"
 #include "GameFramework/Actor.h"
+#include "ObjectrRecord.h"
 #include "StoryGraph.generated.h"
 
 class UCustomNodeBase;
@@ -38,7 +39,7 @@ public:
 
 
 UCLASS(NotBlueprintable)
-class STORYGRAPHPLUGINRUNTIME_API AStoryGraphActor : public AActor
+class STORYGRAPHPLUGINRUNTIME_API AStoryGraphActor : public AActor, public ISaveObject_StoryGraph
 {
 	GENERATED_BODY()
 
@@ -57,8 +58,6 @@ public:
 
 	virtual void PreInitializeComponents() override;
 
-	//virtual void PostLoad() override;
-
 
 	virtual void BeginPlay() override;
 
@@ -67,20 +66,24 @@ public:
 	virtual void ClearCrossLevelReferences() override;
 
 	bool CreateStoryGraph();
+	
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override; // ISaveObject_StoryGraph interface
 
 private:
 
 	void MarkPackageDirtyCustom() const;
 };
 
-
-struct FExecutionTree
+UCLASS()
+class UExecutionTree : public UObject
 {
+	GENERATED_BODY()
 public:
-	class UQuestStartNode* QuestStartNode;
-	
-	TArray<UStoryVerticalNodeBase*> PredActiveNodesBuffer;
+	UPROPERTY(SaveGame)
+	class UStoryGraphQuest* MainQuest;
 
+	UPROPERTY(SaveGame)
+	TArray<class UStoryVerticalNodeBase*> PredActiveNodesBuffer;
 
 public:
 	void Refresh();
@@ -88,7 +91,7 @@ public:
 };
 
 UCLASS()
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraph : public UObject
+class STORYGRAPHPLUGINRUNTIME_API UStoryGraph : public UObject, public ISaveObject_StoryGraph
 {
 	GENERATED_BODY()
 
@@ -97,19 +100,21 @@ public:
 	UPROPERTY()
 	int32 CompilationCounter;
 
+	UPROPERTY(SaveGame)
+		int32 LoadedCompilationCounter;
+
 	UPROPERTY()
 	TArray<class UStoryGraphObject*> GarphObjects;
 
 	UPROPERTY()
 		TArray<class UCustomNodeBase*> GarphNods;
 
-	TArray<FExecutionTree> ExecutionTrees;
+	UPROPERTY()
+	TArray<UExecutionTree*> ExecutionTrees;
 
-	class UGameScreen_StoryGraphWidget* GameScreen;
-
-	class URadar_StoryGraphWidget* Radar;
 
 	bool QuestStateWasChange; // If quest state was change during refresh execution tree, tree must be refresh again.
+
 	
 #if WITH_EDITORONLY_DATA
 	FAssetEditor_StoryGraph* pAssetEditor;
@@ -117,8 +122,14 @@ public:
 	UPROPERTY()
 		EStoryGraphState StoryGraphState;
 #endif //WITH_EDITORONLY_DATA
+
+private:
+
+	bool OldSaveFile;
 	
 public:
+	
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
 
 	void CreateExecutionTrees();
 

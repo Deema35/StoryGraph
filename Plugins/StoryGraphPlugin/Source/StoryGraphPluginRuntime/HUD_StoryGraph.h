@@ -18,7 +18,13 @@ class STORYGRAPHPLUGINRUNTIME_API AHUD_StoryGraph : public AHUD
 public:
 	TArray<class UStoryGraphObject*> CurrentStoryGraphObjects;
 
+	class UGameScreen_StoryGraphWidget* GameScreen;
 
+	class URadar_StoryGraphWidget* Radar;
+
+private:
+	TArray<class UStoryGraph*> StoryGraphs;
+	bool StoryGraphFind;
 public:
 	/*Event perform when perform quest phase marked as "End game"*/
 	UFUNCTION(BlueprintImplementableEvent, Category = StoryGraph)
@@ -44,6 +50,12 @@ public:
 	void GetRootDialogs(TArray<UDialogObject*>& Dialogs);
 
 
-	static void GetNextDialogFromBrunch(UCustomNodeBase* Brunch, TArray<UDialogObject*>& Dialogs);
+	static void GetNextDialogFromBrunch(class UCustomNodeBase* Brunch, TArray<UDialogObject*>& Dialogs);
+
+	virtual void PreInitializeComponents() override;
+
+	virtual void BeginPlay() override;
+
+	void GetStoryGraphs(TArray<class UStoryGraph*>& StoryGraphs_);
 
 };

@@ -4,6 +4,7 @@
 #include "StoryGraph.h"
 #include "StoryScenObject.h"
 #include "HUD_StoryGraph.h"
+#include "CustomNods.h"
 #if WITH_EDITORONLY_DATA
 #include "AssetEditorManager.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
@@ -97,7 +98,20 @@ UStoryGraphObjectWithScenObject::UStoryGraphObjectWithScenObject()
 	
 }
 
-
+void UStoryGraphObjectWithScenObject::InitializeObject()
+{
+	SetActiveStateOfScenObjects();
+	TArray<IStoryScenObject*> ScenObjects;
+	GetScenObjects(ScenObjects);
+	for (int i = 0; i < ObjectMesssageStack.Num(); i++)
+	{
+		
+		for (int j = 0; j < ScenObjects.Num(); j++)
+		{
+			ScenObjects[j]->SendMessageToScenObject(ObjectMesssageStack[i]);
+		}
+	}
+}
 
 void UStoryGraphObjectWithScenObject::SetActiveStateOfScenObjects()
 {
@@ -116,7 +130,17 @@ void UStoryGraphObjectWithScenObject::SetScenObjectActive(bool Active)
 	SetActiveStateOfScenObjects();
 }
 
+void UStoryGraphObjectWithScenObject::SendMessageToScenObject(FString Message)
+{
+	TArray<IStoryScenObject*> ScenObjects;
+	GetScenObjects(ScenObjects);
+	for (int i = 0; i < ScenObjects.Num(); i++)
+	{
+		ScenObjects[i]->SendMessageToScenObject(Message);
+	}
 
+	ObjectMesssageStack.Add(Message);
+}
 //UStoryGraphCharecter.................................................................................
 
 UStoryGraphCharecter::UStoryGraphCharecter()
@@ -161,6 +185,19 @@ void UStoryGraphCharecter::SetScenObjectRealPointers()
 void UStoryGraphCharecter::ClearScenObjects()
 {
 	ScenCharecters.Empty();
+}
+
+void UStoryGraphCharecter::GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum)
+{
+	for (int i = 0; i < GarphNods.Num(); i++)
+	{
+		if (Cast<UDialogStartNode>(GarphNods[i]))
+		{
+			Objects.Add(GarphNods[i]);
+		}
+
+	}
+
 }
 
 //UStoryGraphQuest.................................................................................
@@ -213,9 +250,12 @@ void UStoryGraphQuest::SetCurentState(int NewState)
 
 		break;
 	}
-	if (((UStoryGraph*)GetOuter())->GameScreen)
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)GetOuter()->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
-		((UStoryGraph*)GetOuter())->GameScreen->AddMessageOnScreen(Mesg, 5);
+		if (HUD->GameScreen)
+		{
+			HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
+		}
 	}
 	((UStoryGraph*)GetOuter())->QuestStateWasChange = true;
 }
@@ -229,10 +269,14 @@ void UStoryGraphQuest::AddPhase(UQuestPhase* Phase)
 	}
 	else
 	{
-		FText Mesg = FText::Format(NSLOCTEXT("StoryGraph", "AddQuestPhaseMessage2", "Quest {0} changed"), ObjName);
-		if (((UStoryGraph*)GetOuter())->GameScreen)
+		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)GetOuter()->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
 		{
-			((UStoryGraph*)GetOuter())->GameScreen->AddMessageOnScreen(Mesg, 5);
+			FText Mesg = FText::Format(NSLOCTEXT("StoryGraph", "AddQuestPhaseMessage2", "Quest {0} changed"), ObjName);
+
+			if (HUD->GameScreen)
+			{
+				HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
+			}
 		}
 	}
 
@@ -287,6 +331,19 @@ void UStoryGraphPlaceTrigger::SetScenObjectRealPointers()
 void UStoryGraphPlaceTrigger::ClearScenObjects()
 {
 	ScenTriggers.Empty();
+}
+
+void UStoryGraphPlaceTrigger::GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum)
+{
+	for (int i = 0; i < GarphNods.Num(); i++)
+	{
+		if (Cast<UDialogStartNode>(GarphNods[i]))
+		{
+			Objects.Add(GarphNods[i]);
+		}
+
+	}
+
 }
 
 //UStoryGraphDialogTrigger.................................................................................

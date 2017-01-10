@@ -4,19 +4,17 @@
 #include "Object.h"
 #include "GameFramework/Actor.h"
 #include "StoryGraphObject.h"
+#include "ObjectrRecord.h"
 #include "StoryScenObject.generated.h"
 
-
-
-
-class STORYGRAPHPLUGINRUNTIME_API IStoryScenObject 
+class STORYGRAPHPLUGINRUNTIME_API IStoryScenObject
 {
-	
 public:
-	
+
 	TArray<UStoryGraphObjectWithScenObject*> OwningStoryGraphObject;
 
 	bool IsEnabel;
+
 
 public:
 	IStoryScenObject() : IsEnabel(true) {}
@@ -24,13 +22,13 @@ public:
 	virtual void EnabelObjectOnMap(bool Enabel) = 0;
 	virtual void SetStoryGraphObjectState(int NewState);
 	virtual void SendMessageToScenObject(FString Message) = 0;
-	
+
 };
 
 
 UCLASS()
 
-class STORYGRAPHPLUGINRUNTIME_API ACharecter_StoryGraph : public ACharacter, public IStoryScenObject
+class STORYGRAPHPLUGINRUNTIME_API ACharecter_StoryGraph : public ACharacter, public IStoryScenObject, public ISaveObject_StoryGraph
 {
 	
 
@@ -61,7 +59,7 @@ public:
 
 UCLASS()
 
-class STORYGRAPHPLUGINRUNTIME_API AScenObjectActor_StoryGraph : public AActor, public IStoryScenObject
+class STORYGRAPHPLUGINRUNTIME_API AScenObjectActor_StoryGraph : public AActor ,public IStoryScenObject , public ISaveObject_StoryGraph
 {
 	GENERATED_BODY()
 

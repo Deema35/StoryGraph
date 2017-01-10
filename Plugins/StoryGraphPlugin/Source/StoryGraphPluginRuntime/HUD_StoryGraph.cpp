@@ -6,6 +6,7 @@
 #include "CustomNods.h"
 #include "StoryGraph.h"
 #include "StoryGraphWiget.h"
+#include "SaveGameInstance.h"
 
 void AHUD_StoryGraph::OpenDialogOrOpenPlaceTriggerMessages(TArray<UStoryGraphObjectWithScenObject*>& OwningObjects)
 {
@@ -40,7 +41,7 @@ void AHUD_StoryGraph::OpenDialogOrOpenPlaceTriggerMessages(TArray<UStoryGraphObj
 				{
 					if (Character->DefaultAnswer.ToString().Len() > 0)
 					{
-						((UStoryGraph*)Character->GetOuter())->GameScreen->AddDefaultAnswerOnScreen(Character->DefaultAnswer);
+						GameScreen->AddDefaultAnswerOnScreen(Character->DefaultAnswer);
 						break;
 					}
 					else
@@ -52,7 +53,7 @@ void AHUD_StoryGraph::OpenDialogOrOpenPlaceTriggerMessages(TArray<UStoryGraphObj
 				{
 					if (PlaceTrigger->DefaultAnswer.ToString().Len() > 0)
 					{
-						((UStoryGraph*)PlaceTrigger->GetOuter())->GameScreen->AddDefaultAnswerOnScreen(PlaceTrigger->DefaultAnswer);
+						GameScreen->AddDefaultAnswerOnScreen(PlaceTrigger->DefaultAnswer);
 						break;
 					}
 					else
@@ -168,4 +169,50 @@ FString  AHUD_StoryGraph::GetCurrentLocalization()
 {
 	FCultureRef CultRef = FInternationalization::Get().GetCurrentCulture();
 	return CultRef->GetName();
+}
+
+
+void AHUD_StoryGraph::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+	if (GetGameInstance())
+	{
+		if (USaveGameInstance* SaveGameInstance = Cast<USaveGameInstance>(GetGameInstance()))
+		{
+			SaveGameInstance->LoadGameContinue();
+		}
+
+
+		else UE_LOG(StoryGraphPluginRuntime, Error, TEXT("You must set GameIstans clas as USaveGameInstance"));
+	}
+}
+
+void AHUD_StoryGraph::BeginPlay()
+{
+	Super::BeginPlay();
+	USaveGameInstance* SaveGameInstance = Cast<USaveGameInstance>(GetGameInstance());
+	if (SaveGameInstance)
+	{
+		SaveGameInstance->LoadCharacter(); // Load our character
+	}
+	
+}
+
+void AHUD_StoryGraph::GetStoryGraphs(TArray<class UStoryGraph*>& StoryGraphs_)
+{
+	if (GWorld && !StoryGraphFind)
+	{
+
+		StoryGraphs.Empty();
+		for (TActorIterator<AStoryGraphActor> ActorItr(GWorld); ActorItr; ++ActorItr)
+		{
+			if (ActorItr->StoryGraph)
+			{
+				StoryGraphs.Add(ActorItr->StoryGraph);
+			}
+		}
+		StoryGraphFind = true;
+	}
+	StoryGraphs_.Empty();
+	StoryGraphs_.Append(StoryGraphs);
 }

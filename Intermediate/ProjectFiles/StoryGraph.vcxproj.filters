@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<None Include="..\..\StoryGraph.uproject" />
 		<Filter Include="Source">
-			<UniqueIdentifier>{B229BAB3-3420-44C8-83E4-34DCA6B98C5A}</UniqueIdentifier>
+			<UniqueIdentifier>{BC000E7C-FEAE-4118-9245-5E44B9EBB34F}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\StoryGraph.Target.cs">
 			<Filter>Source</Filter>
@@ -13,7 +13,7 @@
 			<Filter>Source</Filter>
 		</None >
 		<Filter Include="Config">
-			<UniqueIdentifier>{F3ACA557-7148-4B99-89A7-612DF972A2CD}</UniqueIdentifier>
+			<UniqueIdentifier>{A9A60254-0552-4F66-AB2D-F027204E3BEF}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\DefaultEditor.ini">
 			<Filter>Config</Filter>
@@ -31,7 +31,7 @@
 			<Filter>Config</Filter>
 		</None >
 		<Filter Include="Config\Localization">
-			<UniqueIdentifier>{C1A705F4-D2F7-43AA-B8F5-C9432A4ED507}</UniqueIdentifier>
+			<UniqueIdentifier>{9A936E51-5D3A-44B9-A24C-87AB9D8F820A}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\Localization\Game_Compile.ini">
 			<Filter>Config\Localization</Filter>
@@ -46,16 +46,16 @@
 			<Filter>Config\Localization</Filter>
 		</None >
 		<Filter Include="Plugins">
-			<UniqueIdentifier>{042978D2-44E1-42E3-B588-D2E432D73B53}</UniqueIdentifier>
+			<UniqueIdentifier>{03A5B632-E971-4A99-921C-54E33A5FA4B7}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="Plugins\StoryGraphPlugin">
-			<UniqueIdentifier>{695CC4F6-1534-42EF-884A-46288DEC89BE}</UniqueIdentifier>
+			<UniqueIdentifier>{F7EB814C-B199-4382-B6F8-023273F88386}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="Plugins\StoryGraphPlugin\Source">
-			<UniqueIdentifier>{3E70100E-57FC-4F94-A977-41026309DA38}</UniqueIdentifier>
+			<UniqueIdentifier>{55E47FC6-A2FB-43B6-9D8A-0E244C6626AF}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor">
-			<UniqueIdentifier>{4C09F8B8-7146-465C-93FE-A1F03ADCD3E9}</UniqueIdentifier>
+			<UniqueIdentifier>{49A1F11F-3120-4511-8CB7-5A19D01FBDC9}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\AssetEditor_StoryGraph.cpp">
 			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
@@ -132,6 +132,12 @@
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphSchema_StoryGraph.h">
 			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
 		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\NodeStyle.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\NodeStyle.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
+		</ClInclude >
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\ProxyNods.cpp">
 			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor</Filter>
 		</ClCompile >
@@ -151,7 +157,7 @@
 			<Filter>Plugins\StoryGraphPlugin</Filter>
 		</None >
 		<Filter Include="Plugins\StoryGraphPlugin\Resources">
-			<UniqueIdentifier>{38605173-BCF9-46D1-BD08-255DBA44AB08}</UniqueIdentifier>
+			<UniqueIdentifier>{929C0175-E1DA-4C1F-82AE-9B22C77DF4F1}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icon128.png">
 			<Filter>Plugins\StoryGraphPlugin\Resources</Filter>
@@ -162,8 +168,17 @@
 		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icone_64x.png">
 			<Filter>Plugins\StoryGraphPlugin\Resources</Filter>
 		</None >
+		<Filter Include="Plugins\StoryGraphPlugin\Resources\NodeIcons">
+			<UniqueIdentifier>{09433454-B2FF-47AB-89D8-8B20FD1D81C1}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\NodeIcons\QuestStartIcon_x64.png">
+			<Filter>Plugins\StoryGraphPlugin\Resources\NodeIcons</Filter>
+		</None >
+		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\NodeIcons\Radar_64x.png">
+			<Filter>Plugins\StoryGraphPlugin\Resources\NodeIcons</Filter>
+		</None >
 		<Filter Include="Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime">
-			<UniqueIdentifier>{6886E08B-EA84-449B-ABB7-865AB2D0EABD}</UniqueIdentifier>
+			<UniqueIdentifier>{6E43142C-BE9D-4BA0-A5A3-FC41D01AA9ED}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\CustomNods.cpp">
 			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
@@ -178,6 +193,18 @@
 			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
 		</ClCompile >
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\HUD_StoryGraph.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\ObjectrRecord.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\ObjectrRecord.h">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\SaveGameInstance.cpp">
+			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\SaveGameInstance.h">
 			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
 		</ClInclude >
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraph.cpp">
@@ -214,7 +241,7 @@
 			<Filter>Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime</Filter>
 		</ClInclude >
 		<Filter Include="Source\StoryGraph">
-			<UniqueIdentifier>{FA639DA8-F99A-4218-AC42-AE91EFE47334}</UniqueIdentifier>
+			<UniqueIdentifier>{F837AA4C-0238-4CE9-A900-675BF135F457}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Source\StoryGraph\MyActor.cpp">
 			<Filter>Source\StoryGraph</Filter>

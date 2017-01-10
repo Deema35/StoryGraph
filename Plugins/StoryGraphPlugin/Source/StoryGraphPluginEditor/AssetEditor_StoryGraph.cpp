@@ -219,7 +219,6 @@ void FAssetEditor_StoryGraph::AddToolbarExtension(FToolBarBuilder &builder)
 	FSlateIcon IconBrushFindInContentBrowser = FSlateIcon(FEditorStyle::GetStyleSetName(), "SystemWideCommands.FindInContentBrowser", "SystemWideCommands.FindInContentBrowser.Small");
 	FSlateIcon IconBrushCheckObjects = FSlateIcon(FEditorStyle::GetStyleSetName(), "Kismet.CompileBlueprint", "Kismet.CompileBlueprint");
 	FSlateIcon IconBrushUnlinkAllObjects = FSlateIcon(FEditorStyle::GetStyleSetName(), "Cascade.DeleteLOD", "Cascade.DeleteLOD.Small");
-
 	
 	builder.AddToolBarButton(FCommands_StoryGraph::Get().CheckObjects, NAME_None,
 		FText::FromString("Compile"),
@@ -1221,7 +1220,7 @@ void FAssetEditor_StoryGraph::CompilStoryObjects()
 	}
 
 	EditedObject->CompilationCounter++;
-	
+	EditedObject->LoadedCompilationCounter = EditedObject->CompilationCounter;
 	for (TActorIterator<AStoryGraphActor> ActorItr(GWorld); ActorItr; ++ActorItr)
 	{
 		if (ActorItr->GetClass()->ClassGeneratedBy == AssetObject)
@@ -1444,8 +1443,11 @@ void FAssetEditor_StoryGraph::JumpToNode(const UEdGraphNode* Node, bool bRequest
 
 void FAssetEditor_StoryGraph::RefreshDetailPanel()
 {
-	if (UProxyNodeBase* ProxyNode = Cast<UProxyNodeBase>(CurrentSelectedObject))
+	if (CurrentSelectedObject)
 	{
-		PropertyEditor->SetObject(ProxyNode->CustomNode, true);
+		if (UProxyNodeBase* ProxyNode = Cast<UProxyNodeBase>(CurrentSelectedObject))
+		{
+			PropertyEditor->SetObject(ProxyNode->CustomNode, true);
+		}
 	}
 }

@@ -1,5 +1,5 @@
-F:\StoryGraph\Source\StoryGraph\StoryGraph.Build.cs
-F:\StoryGraph\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\StoryGraphPluginEditor.Build.cs
-F:\StoryGraph\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphPluginRuntime.Build.cs
-F:\StoryGraph\Source\StoryGraph.Target.cs
-F:\StoryGraph\Source\StoryGraphEditor.Target.cs
+D:\Git\StoryGraph\Source\StoryGraph\StoryGraph.Build.cs
+D:\Git\StoryGraph\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\StoryGraphPluginEditor.Build.cs
+D:\Git\StoryGraph\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphPluginRuntime.Build.cs
+D:\Git\StoryGraph\Source\StoryGraph.Target.cs
+D:\Git\StoryGraph\Source\StoryGraphEditor.Target.cs

@@ -11,6 +11,7 @@
 #include "AssetRegistryModule.h"
 #include "SNumericEntryBox.h"
 #include "ProxyNods.h"
+#include "NodeStyle.h"
 
 //PinNode..........................................................................
 void SCustomOutputPin::Construct(const FArguments& InArgs, UEdGraphPin* InPin, int PinNumber)
@@ -212,26 +213,40 @@ void SGraphNode_CustomNodeBase::CreateNodeWidget()
 void SGraphNode_CustomNodeBase::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 {
 	const FSlateBrush* NodeTypeIcon = GetNameIcon();
-	NodeBox->AddSlot()
-		.AutoHeight()
-		[
-			SNew(SHorizontalBox)
+	if (UCustomNodeBase::GetIconNameFromNodeType(NodeBace->CustomNode->NodeType) == FName("Non"))
+	{
+		NodeBox->AddSlot()
+			.AutoHeight()
+			[
+				SNew(SHorizontalBox)
 
-			+ SHorizontalBox::Slot()
+				+ SHorizontalBox::Slot()
 			.AutoWidth()
 			.VAlign(VAlign_Center)
 			[
 				SNew(SImage)
 				.Image(NodeTypeIcon)
 			]
-			+ SHorizontalBox::Slot()
+		+ SHorizontalBox::Slot()
 			.Padding(FMargin(4.0f, 0.0f, 4.0f, 0.0f))
 			[
 				SNew(STextBlock)
 				.Text(NodeBace->GetNodeTitle(ENodeTitleType::FullTitle))
-				.Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Bold.ttf"), 16))
+			.Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Bold.ttf"), 16))
 			]
-		];
+			];
+	}
+	else
+	{
+		NodeBox->AddSlot()
+			.HAlign(HAlign_Center)
+			.AutoHeight()
+			[
+				SNew(SImage)
+				.Image(FNodeStyle::Get().GetBrush(UCustomNodeBase::GetIconNameFromNodeType(NodeBace->CustomNode->NodeType)))
+			];
+	}
+	
 }
 
 void SGraphNode_CustomNodeBase::CreatePinWidgets()
@@ -349,6 +364,8 @@ void SGraphNode_StoryGraphDependetNode::AddNodeStrings(TSharedPtr<SVerticalBox> 
 		SGraphNode_CustomNodeBase::AddNodeStrings(NodeBox);
 	}
 }
+
+
 
 //DialogBaceNode.......................................................................................................
 

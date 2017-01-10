@@ -44,7 +44,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{613DB268-5565-418A-817F-210CA79C5411}</ProjectGuid>
+		<ProjectGuid>{8F21D331-C171-4D48-8819-460BE85AF600}</ProjectGuid>
 		<Keyword>MakeFileProj</Keyword>
 		<RootNamespace>StoryGraph</RootNamespace>
        <PlatformToolset>v140</PlatformToolset>
@@ -291,6 +291,8 @@
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphSchemaAction_StoryGraph.h" />
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphSchema_StoryGraph.cpp" />
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\GraphSchema_StoryGraph.h" />
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\NodeStyle.cpp" />
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\NodeStyle.h" />
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\ProxyNods.cpp" />
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\ProxyNods.h" />
 		<None Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginEditor\StoryGraphPluginEditor.Build.cs" />
@@ -300,11 +302,17 @@
 		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icon128.png" />
 		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icone_16x.png" />
 		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\Icone_64x.png" />
+		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\NodeIcons\QuestStartIcon_x64.png" />
+		<None Include="..\..\Plugins\StoryGraphPlugin\Resources\NodeIcons\Radar_64x.png" />
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\CustomNods.cpp" />
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\CustomNods.h" />
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\Graph_StoryGraph.h" />
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\HUD_StoryGraph.cpp" />
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\HUD_StoryGraph.h" />
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\ObjectrRecord.cpp" />
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\ObjectrRecord.h" />
+		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\SaveGameInstance.cpp" />
+		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\SaveGameInstance.h" />
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraph.cpp" />
 		<ClInclude Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraph.h" />
 		<ClCompile Include="..\..\Plugins\StoryGraphPlugin\Source\StoryGraphPluginRuntime\StoryGraphObject.cpp" />

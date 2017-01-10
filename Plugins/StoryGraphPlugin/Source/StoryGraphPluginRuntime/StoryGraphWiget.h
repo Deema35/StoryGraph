@@ -11,13 +11,7 @@ UCLASS(Abstract)
 class UBase_StoryGraphWiget : public UUserWidget
 {
 	GENERATED_BODY()
-public:
 
-	static  void GetStoryGraphs(TArray<class UStoryGraph*>& StoryGraphs_);
-
-private:
-	static TArray<class UStoryGraph*> StoryGraphs;
-	static UWorld* CurrentWorld;
 };
 
 UCLASS(Blueprintable)
