@@ -5,7 +5,7 @@ With this plugin you can create story and dialogs in the user frandly graphical 
 If you want add this plugin in you project copy folder StoryGraphPlugin from folder plugins in
 "your progect folder"\plugins. 
 
-
+Update: Add save load system (press [ - save, ] - load)
 
 #Редактор квестов и диалого для UnrealEngine.
 
@@ -13,6 +13,8 @@ If you want add this plugin in you project copy folder StoryGraphPlugin from fol
 
 Чтобы использовать плагин скопируйте папку StoryGraphPlugin из папки plugins в папку
 "директоря вашего проекта"\plugins.
+
+Обновление: Добавлена система сохранения ( [ - сохранить игру, ] - загрузить игру).
 
 habrahabr: https://habrahabr.ru/post/318366/
 
