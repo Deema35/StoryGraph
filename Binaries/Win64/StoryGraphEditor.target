@@ -2,13 +2,13 @@
 	"TargetName" : "StoryGraphEditor",
 	"Platform" : "Win64",
 	"Configuration" : "Development",
-	"BuildId" : "925578bb-e449-4c31-9a47-77c79853834f",
+	"BuildId" : "0a9a7385-e014-44b7-9529-1555800a205b",
 	"Version" : 
 	{
 		"MajorVersion" : 4,
 		"MinorVersion" : 14,
-		"PatchVersion" : 1,
-		"Changelist" : 3224400,
+		"PatchVersion" : 3,
+		"Changelist" : 3249277,
 		"CompatibleChangelist" : 3195953,
 		"IsLicenseeVersion" : 0,
 		"BranchName" : "++UE4+Release-4.14"

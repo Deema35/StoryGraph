@@ -14,7 +14,6 @@ void USaveGameInstance::SaveGame()
 
 		APawn* Pawn = GWorld->GetFirstPlayerController()->GetPawn();
 		ObjectrRecordStoreSave.Add(FObjectRecord(Pawn));
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Save Location %s"), *Pawn->GetActorLocation().ToString());
 		
 		for (TActorIterator<AActor> ActorItr(GWorld); ActorItr; ++ActorItr)
 		{
@@ -43,7 +42,7 @@ void USaveGameInstance::SaveGame()
 
 		FString SavePath = FPaths::GameSavedDir() + FString("SaveGames/") + "quicksave.save";
 
-		SaveToFile(SavePath, Data);
+		SaveToFileCompresed(SavePath, Data);
 
 		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GWorld->GetFirstPlayerController()->GetHUD()))
 		{
@@ -64,7 +63,7 @@ void USaveGameInstance::LoadGame()
 		FString SavePath = FPaths::GameSavedDir() + FString("SaveGames/") + "quicksave.save";
 		IsLevelLoded = true;
 
-		LoadToFile(SavePath, Data);
+		LoadToFileCompresed(SavePath, Data);
 		FMemoryReader MemoryReader(Data, true);
 
 		FSaveAchiveHeader  AchiveHeader;
