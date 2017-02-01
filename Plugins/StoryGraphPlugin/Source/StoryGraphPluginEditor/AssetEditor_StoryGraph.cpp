@@ -89,11 +89,11 @@ FText FAssetEditor_StoryGraph::GetToolkitName() const
 void FAssetEditor_StoryGraph::OnTabForegrounded(TSharedPtr<SDockTab> ForegroundedTab, TSharedPtr<SDockTab> BackgroundedTab)
 {
 	//UE_LOG(StoryGraphEditor, Warning, TEXT("TabForegrounded"));
-	TSharedRef<SGraphEditor> GraphEditor = StaticCastSharedRef<SGraphEditor>(ForegroundedTab->GetContent());
+	TSharedRef<SGraphEditor> GraphEditorLoc = StaticCastSharedRef<SGraphEditor>(ForegroundedTab->GetContent());
 	
 	if (ForegroundedTab->GetTabLabel().ToString() == "Story Graph" || ForegroundedTab->GetTabLabel().ToString().Find("DG_") != -1 || ForegroundedTab->GetTabLabel().ToString().Find("MS_") != -1)
 	{
-		OnGraphEditorFocused(GraphEditor);
+		OnGraphEditorFocused(GraphEditorLoc);
 	}	
 }
 

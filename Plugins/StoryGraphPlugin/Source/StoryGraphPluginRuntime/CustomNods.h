@@ -428,7 +428,7 @@ public:
 
 	virtual EPerformNodeResult PerformNode() override;
 
-	virtual FText USetScenObjectActiveNode::GetNodeTitle() const override;
+	virtual FText GetNodeTitle() const override;
 };
 
 UCLASS()

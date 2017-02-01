@@ -51,7 +51,7 @@ static FORCEINLINE int GetNumberEnums(const FString& Name)
 	
 }
 
-
+enum class ENodeType;
 
 UCLASS()
 
@@ -90,7 +90,7 @@ public:
 
 	static FString GetObjectTypeEnumAsString(EStoryObjectType);
 
-	TArray<enum class ENodeType> DependetNodes;
+	TArray<ENodeType> DependetNodes;
 
 	virtual void GetObjectStateAsString(TArray<FString>& States) { }
 

@@ -39,6 +39,8 @@ struct  FCustomSchemaAction_NewNode : public FEdGraphSchemaAction
 	
 };
 
+enum class ENodeType;
+
 UCLASS()
 class UEdGraphSchema_Base : public UEdGraphSchema
 {
@@ -50,7 +52,7 @@ public:
 	EIncertNodeType SuitableStandaloneNodesType;
 
 public:
-	static void AddAction(class UStoryGraphObject* OwnedObject, enum class ENodeType NodeType, FString Category, TArray<TSharedPtr<FEdGraphSchemaAction> >& OutActions, UEdGraph* OwnerOfTemporaries, int InGruping);
+	static void AddAction(class UStoryGraphObject* OwnedObject, const ENodeType NodeType, FString Category, TArray<TSharedPtr<FEdGraphSchemaAction> >& OutActions, UEdGraph* OwnerOfTemporaries, int InGruping);
 
 
 protected:

@@ -126,7 +126,7 @@ protected:
 	FText OnGetSectionTitle(int32 InSectionID);
 	TSharedRef<SWidget> OnGetSectionWidget(TSharedRef<SWidget> RowWidget, int32 InSectionID);
 	TSharedRef<SWidget> CreateAddToSectionButton(int32 InSectionID, TWeakPtr<SWidget> WeakRowWidget, FText AddNewText, FName MetaDataTag);
-	FReply FAssetEditor_StoryGraph::OnAddButtonClickedOnSection(int32 InSectionID);
+	FReply OnAddButtonClickedOnSection(int32 InSectionID);
 
 	
 

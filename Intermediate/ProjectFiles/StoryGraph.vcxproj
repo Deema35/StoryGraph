@@ -44,7 +44,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{CAF126E4-869F-4886-B51B-B2E4CBEEACC9}</ProjectGuid>
+		<ProjectGuid>{F254254C-EB98-4C52-B156-C2308FC3B119}</ProjectGuid>
 		<Keyword>MakeFileProj</Keyword>
 		<RootNamespace>StoryGraph</RootNamespace>
        <PlatformToolset>v140</PlatformToolset>
