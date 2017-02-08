@@ -1,0 +1,10 @@
+{
+	"Changelist" : 3249277,
+	"CompatibleChangelist" : 3195953,
+	"BuildId" : "",
+	"Modules" : 
+	{
+		"StoryGraphPluginRuntime" : "UE4Editor-StoryGraphPluginRuntime.dylib",
+		"StoryGraphPluginEditor" : "UE4Editor-StoryGraphPluginEditor.dylib"
+	}
+}
