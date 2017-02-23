@@ -5,6 +5,7 @@
 #include "StoryScenObject.h"
 #include "HUD_StoryGraph.h"
 #include "CustomNods.h"
+#include "StoryGraphWiget.h"
 #if WITH_EDITORONLY_DATA
 #include "AssetEditorManager.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
@@ -76,6 +77,7 @@ FString UStoryGraphObject::GetObjectTypeEnumAsString(EStoryObjectType EnumValue)
 	return EnumPtr->GetEnumName((int)EnumValue);
 }
 
+
 void UStoryGraphObject::SetCurentState(int NewState)
 {
 
@@ -83,9 +85,24 @@ void UStoryGraphObject::SetCurentState(int NewState)
 	((UStoryGraph*)GetOuter())->RefreshExecutionTrees();
 }
 
+void UStoryGraphObject::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Propertys.clear();
 
+	Propertys.insert(std::pair<FString, XMLProperty>("ObjName", XMLProperty(ObjName.ToString())));
+	Propertys.insert(std::pair<FString, XMLProperty>("ObjectType", XMLProperty(GetEnumValueAsString<EStoryObjectType>("EStoryObjectType", ObjectType))));
+	Propertys.insert(std::pair<FString, XMLProperty>("Category", XMLProperty( Category)));
+	Propertys.insert(std::pair<FString, XMLProperty>("Comment", XMLProperty(Comment)));
+	
 
+}
 
+void UStoryGraphObject::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	ObjName = FText::FromString(Propertys["ObjName"].Val);
+	Category = Propertys["Category"].Val;
+	Comment = Propertys["Comment"].Val;
+}
 //UStoryGraphObjectWithScenObject.........................................................
 
 UStoryGraphObjectWithScenObject::UStoryGraphObjectWithScenObject()
@@ -140,6 +157,19 @@ void UStoryGraphObjectWithScenObject::SendMessageToScenObject(FString Message)
 	}
 
 	ObjectMesssageStack.Add(Message);
+}
+
+void UStoryGraphObjectWithScenObject::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+	Propertys.insert(std::pair<FString, XMLProperty>("IsScenObjectActive", XMLProperty(IsScenObjectActive ? "true" : "false" )));
+}
+
+void UStoryGraphObjectWithScenObject::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::LoadPropertyFromXML(Propertys);
+	IsScenObjectActive = Propertys["IsScenObjectActive"].Val == "true" ? true : false;
+	
 }
 //UStoryGraphCharecter.................................................................................
 
@@ -197,6 +227,19 @@ void UStoryGraphCharecter::GetInternallySaveObjects(TArray<UObject*>& Objects, i
 		}
 
 	}
+
+}
+
+void UStoryGraphCharecter::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+	Propertys.insert(std::pair<FString, XMLProperty>("DefaultAnswer", XMLProperty(DefaultAnswer.ToString())));
+}
+
+void UStoryGraphCharecter::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::LoadPropertyFromXML(Propertys);
+	DefaultAnswer = FText::FromString(Propertys["DefaultAnswer"].Val);
 
 }
 
@@ -283,6 +326,20 @@ void UStoryGraphQuest::AddPhase(UQuestPhase* Phase)
 	QuestPhase.Add(Phase);
 }
 
+void UStoryGraphQuest::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("MainQuest", XMLProperty(MainQuest  ? "true" : "false")));
+}
+
+void UStoryGraphQuest::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::LoadPropertyFromXML(Propertys);
+
+	MainQuest = Propertys["MainQuest"].Val == "true" ? true : false;
+
+}
 
 //UStoryGraphPlaceTrigger.................................................................................
 
@@ -346,6 +403,23 @@ void UStoryGraphPlaceTrigger::GetInternallySaveObjects(TArray<UObject*>& Objects
 
 }
 
+void UStoryGraphPlaceTrigger::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("DefaultAnswer", XMLProperty(DefaultAnswer.ToString())));
+	Propertys.insert(std::pair<FString, XMLProperty>("PlaceTriggerType", XMLProperty(GetEnumValueAsString<EPlaceTriggerType>("EPlaceTriggerType", PlaceTriggerType))));
+}
+
+void UStoryGraphPlaceTrigger::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::LoadPropertyFromXML(Propertys);
+
+	DefaultAnswer = FText::FromString(Propertys["DefaultAnswer"].Val);
+	PlaceTriggerType = GetEnumValueFromString<EPlaceTriggerType>("EPlaceTriggerType", Propertys["PlaceTriggerType"].Val);
+
+}
+
 //UStoryGraphDialogTrigger.................................................................................
 
 UStoryGraphDialogTrigger::UStoryGraphDialogTrigger()
@@ -373,6 +447,7 @@ UStoryGraphInventoryItem::UStoryGraphInventoryItem()
 {
 	ObjName = FText::FromString("Inventory Item" + FString::FromInt(InventoryItemNum++));
 	ObjectType = EStoryObjectType::InventoryItem;
+	InventoryItemWithoutScenObject = false;
 
 	DependetNodes.Add(ENodeType::SetInventoryItemState);
 	DependetNodes.Add(ENodeType::SetInventoryItemStateFromMessage);
@@ -477,6 +552,36 @@ int UStoryGraphInventoryItem::GetCurentState()
 		}
 	}
 	return 0;
+}
+
+void UStoryGraphInventoryItem::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	
+
+	Propertys.insert(std::pair<FString, XMLProperty>("InventoryItemWithoutScenObject", XMLProperty(InventoryItemWithoutScenObject ? "true" : "false")));
+	Propertys.insert(std::pair<FString, XMLProperty>("Arr_InventoryItemPhase", XMLProperty("")));
+
+	XMLProperty& InventoryItemPhasePointer = Propertys["Arr_InventoryItemPhase"];
+
+	for (int i = 0; i < InventoryItemPhase.Num(); i++)
+	{
+		InventoryItemPhasePointer.Propertys.insert(std::pair<FString, XMLProperty>(FString::FromInt(i), XMLProperty( InventoryItemPhase[i].ToString())));
+	}
+}
+
+void UStoryGraphInventoryItem::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::LoadPropertyFromXML(Propertys);
+
+	InventoryItemWithoutScenObject = Propertys["InventoryItemWithoutScenObject"].Val == "true" ? true : false;
+
+	for (auto it = Propertys["Arr_InventoryItemPhase"].Propertys.begin(); it != Propertys["Arr_InventoryItemPhase"].Propertys.end(); ++it)
+	{
+		
+		InventoryItemPhase.Add(FText::FromString(it->second.Val));
+	}
 }
 
 //UStoryGraphOthers.................................................................................

@@ -51,10 +51,15 @@ void FStoryGraphEditorModule::StartupModule()
 			break;
 
 		case EStoryObjectType::InventoryItem:
+
+			PropertyModule.RegisterCustomClassLayout(FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
+				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphInventoryItemDetail::MakeInstance));
+			break;
+
 		case EStoryObjectType::Others:
 
 			PropertyModule.RegisterCustomClassLayout(FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
-				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphObjectWithScenObjectDetail::MakeInstance));
+				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphOthersDetail::MakeInstance));
 			break;
 		default:
 

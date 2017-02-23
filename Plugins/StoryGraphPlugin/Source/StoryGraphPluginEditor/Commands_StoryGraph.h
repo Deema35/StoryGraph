@@ -14,6 +14,8 @@ public:
 	virtual void RegisterCommands() override;
 	TSharedPtr<FUICommandInfo> CheckObjects;
 	TSharedPtr<FUICommandInfo> SaveAsset;
+	TSharedPtr<FUICommandInfo> ExportInXML;
+	TSharedPtr<FUICommandInfo> ImportFromXML;
 	TSharedPtr<FUICommandInfo> FindInContentBrowser;
 	TSharedPtr<FUICommandInfo> UnlinkAllObjects;
 };

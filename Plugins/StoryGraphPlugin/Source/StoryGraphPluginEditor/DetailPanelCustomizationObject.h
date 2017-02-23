@@ -35,8 +35,8 @@ public:
 
 	/** IDetailCustomization interface */
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
-
-
+protected:
+	class IDetailCategoryBuilder* pScenObjectsPanel;
 };
 
 class FStoryGraphCharecterDetail : public FStoryGraphObjectWithScenObjectDetail
@@ -70,4 +70,26 @@ public:
 	void DefaultAnswerCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder);
 };
 
+class FStoryGraphInventoryItemDetail : public FStoryGraphObjectDetail
+{
+public:
 
+	/** Makes a new instance of this detail layout class for a specific detail view requesting it */
+	static TSharedRef<IDetailCustomization> MakeInstance();
+
+	/** IDetailCustomization interface */
+	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
+
+};
+
+class FStoryGraphOthersDetail : public FStoryGraphObjectWithScenObjectDetail
+{
+public:
+
+	/** Makes a new instance of this detail layout class for a specific detail view requesting it */
+	static TSharedRef<IDetailCustomization> MakeInstance();
+
+	/** IDetailCustomization interface */
+	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
+
+};

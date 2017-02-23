@@ -39,6 +39,15 @@ static FORCEINLINE FString GetEnumValueAsString(const FString& Name, TEnum Value
 	return enumPtr->GetEnumName((int32)Value);
 }
 
+template<typename TEnum>
+static FORCEINLINE TEnum GetEnumValueFromString(const FString& NameOfClass, const FString& ValueName)
+{
+	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *NameOfClass, true);
+	if (!EnumPtr) return (TEnum)0;
+
+	return (TEnum)EnumPtr->FindEnumIndex(FName(*ValueName));
+}
+
 
 static FORCEINLINE int GetNumberEnums(const FString& Name)
 {
@@ -51,7 +60,17 @@ static FORCEINLINE int GetNumberEnums(const FString& Name)
 	
 }
 
+
+
 enum class ENodeType;
+
+struct XMLProperty
+{
+	XMLProperty(FString Val_): Val(Val_){}
+	XMLProperty() {}
+	FString Val;
+	std::map<FString, XMLProperty> Propertys;
+};
 
 UCLASS()
 
@@ -72,7 +91,7 @@ public:
 	UPROPERTY()
 	FString Comment;
 
-	
+	FString XMLID;
 
 	static int CharNum;
 
@@ -85,6 +104,9 @@ public:
 	static int OthersNum;
 
 	static int InventoryItemNum;
+
+
+public:
 
 	UStoryGraphObject();
 
@@ -101,6 +123,10 @@ public:
 	virtual void SetCurentState(int NewState);
 
 	virtual int GetCurentState() { return ObjectState; }
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys);
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, SaveGame)
@@ -144,6 +170,10 @@ public:
 	void SetScenObjectActive(bool Active);
 
 	void SendMessageToScenObject(FString Message);
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 
 	template<class ReturnType, class ObjectType>
 	void TExstractScenObgects(TArray<ReturnType*>& ScenObjects, TArray<TAssetPtr<ObjectType>> ScenLazyPointerArray, TArray<ObjectType*> ScenPointerArray)
@@ -216,6 +246,10 @@ public:
 	virtual int GetScenObjectsNum() override { return ScenCharecters.Num(); }
 
 	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override; 
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 };
 
 UENUM(BlueprintType)
@@ -279,7 +313,9 @@ public:
 
 	void AddPhase(UQuestPhase* Phase);
 
-	
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 };
 
 UENUM(BlueprintType)
@@ -337,6 +373,10 @@ public:
 	virtual int GetScenObjectsNum() override { return ScenTriggers.Num(); }
 
 	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 };
 
 UENUM(BlueprintType)
@@ -411,6 +451,10 @@ public:
 	virtual void SetCurentState(int NewState) override;
 
 	virtual int GetCurentState() override;
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 };
 
 UCLASS()

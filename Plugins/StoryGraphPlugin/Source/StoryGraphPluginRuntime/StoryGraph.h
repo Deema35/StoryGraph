@@ -35,6 +35,10 @@ public:
 		TArray<UEdGraph_StoryGraph*> Graphs;
 public:
 	UEdGraph_StoryGraph* FindGraph(UObject* GraphOwner);
+
+	void AddGraph(UEdGraph_StoryGraph* Graph) { Graphs.Add(Graph); }
+
+	void RemoveGraph(UEdGraph_StoryGraph* Graph) { Graphs.RemoveSingle(Graph); }
 };
 
 
@@ -138,21 +142,12 @@ public:
 	void RefreshQuestsPhase();
 
 	void RefreshRadarTargets();
-//.....................................................................................................
+
 private:
 	/** Gets all the Graph Objects of a given type */
 	template<class MinRequiredType>
-	inline void GetGraphObjectsOfClass(TArray<MinRequiredType*>& OutObjects) const
-	{
-		for (int32 i = 0; i < GarphObjects.Num(); i++)
-		{
-			UStoryGraphObject* GarphObject = GarphObjects[i];
-			if (MinRequiredType* TypedGarphObject = Cast<MinRequiredType>(GarphObject))
-			{
-				OutObjects.Add(TypedGarphObject);
-			}
-		}
-	}
+	void GetGraphObjectsOfClass(TArray<MinRequiredType*>& OutObjects) const;
+	
 
 };
 

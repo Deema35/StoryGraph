@@ -100,6 +100,7 @@ struct FStoryGraphPin
 	int32 PinDataType;
 	UPROPERTY()
 	TArray<UCustomNodeBase*> Links;
+	int XMLID;
 };
 
 
@@ -122,9 +123,6 @@ public:
 	UPROPERTY()
 	UStoryGraphObject* pGraphObject;
 
-	UPROPERTY()
-	int32 NodeNumber;
-
 	ENodeType NodeType;
 
 	UPROPERTY()
@@ -135,15 +133,17 @@ public:
 #if WITH_EDITORONLY_DATA
 	UPROPERTY()
 		FLinearColor NodeColor;
+
+	FString XMLID;
 #endif //WITH_EDITORONLY_DATA
 	FNodeUpdateDelegate NodeUpdateDelegate; // Update Node UI
 
 	FPropertyUpdateDelegate ProprtyUpdateDelegate; //Update detail panel
-
+	
 	FCreatePinDelegate CreatePinDelegate;
-
+	
 	FRemovePinDelegate RemovePinDelegate;
-
+	
 	FBreakPinDelegate BreakPinDelegate;
 public:
 
@@ -195,6 +195,10 @@ public:
 	void UpdateGraphNode();
 
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& e) override;
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys); 
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys);
 #endif //WITH_EDITORONLY_DATA
 };
 
@@ -242,6 +246,14 @@ public:
 	virtual void RefreshDialogOwner();
 
 	virtual void PinConnectionListChanged(FStoryGraphPin* Pin) override;
+
+	void AddDialog();
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override; 
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+
+	
 #endif //WITH_EDITORONLY_DATA
 };
 
@@ -324,6 +336,10 @@ public:
 	virtual void PinConnectionListChanged(FStoryGraphPin*  Pin) override;
 
 	virtual void RefreshQuestOwner() override;
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 #endif //WITH_EDITORONLY_DATA
 
 };
@@ -354,6 +370,10 @@ public:
 	virtual void RefreshCollor() override;
 
 	virtual void RefreshDialogOwner() override;
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 #endif //WITH_EDITORONLY_DATA
 };
 
@@ -410,6 +430,13 @@ public:
 	virtual EPerformNodeResult PerformNode() override;
 
 	virtual FText GetNodeTitle() const override;
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
+	
 };
 
 
@@ -429,6 +456,12 @@ public:
 	virtual EPerformNodeResult PerformNode() override;
 
 	virtual FText GetNodeTitle() const override;
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 };
 
 UCLASS()
@@ -449,6 +482,12 @@ public:
 	virtual FText GetNodeTitle() const override;
 
 	void SetWantedObjectState(int WantedState_);
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 
 };
 
@@ -475,6 +514,10 @@ public:
 	void SetCurentDialog(UDialogStartNode* SelectedDialog_);
 
 	virtual void RefreshCollor() override;
+
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
 #endif //WITH_EDITORONLY_DATA
 };
 
@@ -497,6 +540,12 @@ public:
 	virtual FText GetNodeTitle() const override;
 
 	void SetCurentDialog(UDialogStartNode* SelectedDialog_);
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 };
 
 
@@ -563,6 +612,12 @@ public:
 	virtual EPerformNodeResult PerformNode() override;
 	
 	virtual FText GetNodeTitle() const override;
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys);  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 };
 
 
@@ -593,6 +648,12 @@ public:
 	virtual EPerformNodeResult PerformNode() override;
 	
 	virtual FText GetNodeTitle() const override;
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys);  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 };
 
 UCLASS()
@@ -613,6 +674,12 @@ public:
 	virtual EPerformNodeResult PerformNode() override;
 
 	virtual FText GetNodeTitle() const override;
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 };
 
 UCLASS()
@@ -683,6 +750,8 @@ public:
 	virtual EPerformNodeResult PerformNode() override;
 
 	virtual FText GetNodeTitle() const override;
+
+
 };
 
 UCLASS()
@@ -701,6 +770,12 @@ public:
 	virtual FText GetNodeTitle() const override;
 
 	void SetCurrentState(int State);
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 };
 
 UCLASS()
@@ -750,5 +825,11 @@ public:
 	virtual EPerformNodeResult PerformNode() override;
 
 	virtual FText GetNodeTitle() const override;
+
+#if WITH_EDITORONLY_DATA
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys);  
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+#endif //WITH_EDITORONLY_DATA
 
 };

@@ -25,6 +25,8 @@ UEdGraph_StoryGraph* UStoryGraphBlueprint::FindGraph(UObject* GraphOwner)
 }
 
 
+
+
 //UExecutionTree...................................................................
 void UExecutionTree::Refresh()
 {
@@ -245,6 +247,21 @@ void UStoryGraph::RefreshRadarTargets()
 	}
 }
 
+template<class MinRequiredType>
+void UStoryGraph::GetGraphObjectsOfClass(TArray<MinRequiredType*>& OutObjects) const
+{
+	for (int32 i = 0; i < GarphObjects.Num(); i++)
+	{
+		UStoryGraphObject* GarphObject = GarphObjects[i];
+		if (MinRequiredType* TypedGarphObject = Cast<MinRequiredType>(GarphObject))
+		{
+			OutObjects.Add(TypedGarphObject);
+		}
+	}
+}
+
+//AStoryGraphActor.....................................................................................
+
 AStoryGraphActor::AStoryGraphActor()
 {
 	
@@ -391,3 +408,4 @@ void AStoryGraphActor::MarkPackageDirtyCustom() const
 		Package->PackageMarkedDirtyEvent.Broadcast(Package, bIsDirty);
 	}
 }
+

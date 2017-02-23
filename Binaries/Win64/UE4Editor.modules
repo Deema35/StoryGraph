@@ -1,7 +1,7 @@
 {
 	"Changelist" : 3249277,
 	"CompatibleChangelist" : 3195953,
-	"BuildId" : "6d657789-a46c-48a4-bf8b-1d0550e1acde",
+	"BuildId" : "51545da9-05c5-4215-ab40-b5c4cdf2782f",
 	"Modules" : 
 	{
 		"StoryGraph" : "UE4Editor-StoryGraph.dll"

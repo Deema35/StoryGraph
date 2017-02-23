@@ -62,21 +62,19 @@ public:
 	virtual void GetSaveableObjects(TArray<UObject*>& OutObjects) const override;
 
 	void InitAssetEditor_StoryGraph(const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, UObject* ObjectToEdit);
-	void OpenDialogEditorTab(class UStoryGraphCharecter* pStoryGraphCharecter);
-	void OpenMessageEditorTab(class UStoryGraphPlaceTrigger* pStoryGraphPlaceTrigger);
+	void OpenDialogEditorTab(class UStoryGraphObject* pStoryGraphObject);
+	
 	void ClearSelection();
 	void JumpToNode(const class UEdGraphNode* Node, bool bRequestRename = false);
 	void RefreshDetailPanel();
 
-protected:
+private:
 	TSharedRef<class SGraphEditor> CreateGraphEditorWidget(UEdGraph* InGraph, FString CornerText);
 	TSharedRef<class SGraphActionMenu> CreateActionMenuWidget();
 
 	TSharedRef<SDockTab> SpawnTab_Viewport(const FSpawnTabArgs& Args);
 	TSharedRef<SDockTab> SpawnTab_Details(const FSpawnTabArgs& Args);
 	TSharedRef<SDockTab> SpawnTab_ActionMenu(const FSpawnTabArgs& Args);
-
-	
 
 	void SelectAllNodes();
 	bool CanSelectAllNodes() const;
@@ -134,6 +132,8 @@ protected:
 	TSharedRef<SDockTab> CreateDialogTab(const TSharedPtr<SGraphEditor> DialogEditor, FString TabName);
 	void DeleteStoryGraphObject();
 	void CompilStoryObjects();
+	void ExportInXMLFile();
+	void ImportFromXMLFile();
 	void UnlinkAllStoryGraphObjects();
 	void FindDependetNodsInGraph(TArray<class UEdGraphNode*>& Nodes, UStoryGraphObject* OwningObject);
 	void OnMyRequestRenameOnActionNode();
@@ -141,8 +141,16 @@ protected:
 	void OnTabForegrounded(TSharedPtr<SDockTab> ForegroundedTab, TSharedPtr<SDockTab> BackgroundedTab);
 	static void ShowNotification(FString Text, SNotificationItem::ECompletionState State = SNotificationItem::CS_None);
 	FSlateIcon GetStatusImage() const;
-private:
 	void OnGraphEditorFocused(const TSharedRef<SGraphEditor>& InGraphEditor);
+	void SerializedStoryGraphObjectsToXMLNode(class FXmlNode* XMLNode);
+	void SerializedGraphNodesToXMLNode(class FXmlNode* XMLNode, UObject* OwnedGraphObject);
+	static void CreateXMLArray(struct XMLProperty& Property, FString Name, FXmlNode* RootNode);
+	static void CreatePropertyArray(XMLProperty& Property, FXmlNode* PropertyNode);
+	void SpawnStoryGraphObjectsFromXMLNode(FXmlNode* GraphObjectsNode);
+	void SpawnGraphNodsFromXMLNode(FXmlNode* XMLNode, UObject* OwnedGraphObject);
+	class UEdGraph_StoryGraph* CreateDialogGraph(UStoryGraphObject* pStoryGraphObject);
+	void FillPropertyMapFromXMLNode(std::map<FString, XMLProperty>& Propertys, FXmlNode* CurrentObjectNode);
+	void EraseStroyGraph();
 };
 
 

@@ -716,6 +716,51 @@ void UCustomNodeBase::PostEditChangeProperty(struct FPropertyChangedEvent& e)
 	Super::PostEditChangeProperty(e);
 	UpdateGraphNode();
 }
+
+void UCustomNodeBase::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Propertys.clear();
+
+	Propertys.insert(std::pair<FString, XMLProperty>("NodeType", XMLProperty(GetEnumValueAsString<ENodeType>("ENodeType", NodeType))));
+
+	if (pGraphObject)
+	{
+		Propertys.insert(std::pair<FString, XMLProperty>("GraphOject", XMLProperty(pGraphObject->XMLID)));
+	}
+	else
+	{
+		Propertys.insert(std::pair<FString, XMLProperty>("GraphOject", XMLProperty("Non")));
+	}
+	Propertys.insert(std::pair<FString, XMLProperty>("Comment", XMLProperty(Comment)));
+
+
+	//Add links to another nods
+	
+	Propertys.insert(std::pair<FString, XMLProperty>("Arr_Pins", XMLProperty("")));
+	XMLProperty& PinsPointer = Propertys["Arr_Pins"];
+
+	for (int i = 0; i < NodePins.Num(); i++)
+	{
+		PinsPointer.Propertys.insert(std::pair<FString, XMLProperty>("Arr_Pin" + FString::FromInt(i), XMLProperty( "")));
+		XMLProperty& LinksPointer = PinsPointer.Propertys["Arr_Pin" + FString::FromInt(i)];
+		if (NodePins[i].Direction == (int)EEdGraphPinDirection::EGPD_Output)
+		{
+			for (int j = 0; j < NodePins[i].Links.Num(); j++)
+			{
+				LinksPointer.Propertys.insert(std::pair<FString, XMLProperty>("Link" + FString::FromInt(i) + FString::FromInt(j), XMLProperty(NodePins[i].Links[j]->XMLID)));
+			}
+		}
+	}
+
+	
+}
+
+void UCustomNodeBase::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	Comment = Propertys["Comment"].Val;
+	RefreshCollor();
+}
+
 #endif //WITH_EDITORONLY_DATA
 
 //UDialogNodeBase...........................................................................................
@@ -812,6 +857,51 @@ void UDialogNodeBase::PinConnectionListChanged(FStoryGraphPin* Pin)
 
 	}
 
+}
+
+void UDialogNodeBase::AddDialog()
+{
+	UDialogObject* NewDialog = NewObject<UDialogObject>(this, UDialogObject::StaticClass());
+	NewDialog->DialogNode = this;
+	NewDialog->Dialog = FText::FromString("New dialog");
+
+	NewDialog->CurrentDialogPin = Dialogs.Add(NewDialog) + 1;
+	CreatePin(FStoryGraphPin(EGPD_Output, EPinDataTypes::PinType_Horizontal));
+	UpdateGraphNode(); //Update graph node
+}
+
+void UDialogNodeBase::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	
+	Propertys.insert(std::pair<FString, XMLProperty>("Arr_Dialogs", XMLProperty("")));
+	XMLProperty& DialogsPointer = Propertys["Arr_Dialogs"];
+
+	for (int i = 0; i < Dialogs.Num(); i++)
+	{
+		DialogsPointer.Propertys.insert(std::pair<FString, XMLProperty>("Dialog_" + FString::FromInt(i), XMLProperty(Dialogs[i]->Dialog.ToString())));
+	}
+}
+
+void UDialogNodeBase::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	if (Propertys["Arr_Dialogs"].Propertys.size() > 1)
+	{
+		for (int i = 0; i < Propertys["Arr_Dialogs"].Propertys.size() - 1; i++)
+		{
+			AddDialog();
+		}
+	}
+
+	int i = 0;
+	for (auto it = Propertys["Arr_Dialogs"].Propertys.begin(); it != Propertys["Arr_Dialogs"].Propertys.end(); ++it)
+	{
+		Dialogs[i++]->Dialog = FText::FromString(it->second.Val);
+	}
+
+	Super::LoadPropertyFromXML(Propertys);
 }
 #endif //WITH_EDITORONLY_DATA
 
@@ -1117,6 +1207,25 @@ void UAddQuestPhaseNode::RefreshQuestOwner()
 
 	}
 }
+
+void UAddQuestPhaseNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("QuestPhaseToAdd", XMLProperty(QuestPhaseToAdd->Decription.ToString())));
+	Propertys.insert(std::pair<FString, XMLProperty>("IsEmpty", XMLProperty(IsEmpty ? "true" : "false")));
+	
+}
+
+void UAddQuestPhaseNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	QuestPhaseToAdd->Decription = FText::FromString(Propertys["QuestPhaseToAdd"].Val);
+	IsEmpty = Propertys["IsEmpty"].Val == "true";
+
+	Super::LoadPropertyFromXML(Propertys);
+	
+}
 #endif //WITH_EDITORONLY_DATA
 //UDialogStartNode...........................................................................................
 
@@ -1176,6 +1285,25 @@ void UDialogStartNode::RefreshDialogOwner()
 	}
 
 	Super::RefreshDialogOwner();
+}
+
+void UDialogStartNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("IsActive", IsActive ? "true" : "false"));
+	Propertys.insert(std::pair<FString, XMLProperty>("DialogPriority", XMLProperty(FString::FromInt(DialogPriority))));
+
+}
+
+void UDialogStartNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	IsActive = Propertys["IsActive"].Val == "true";
+	DialogPriority = FCString::Atoi(*Propertys["DialogPriority"].Val);
+
+	Super::LoadPropertyFromXML(Propertys);
+
 }
 #endif //WITH_EDITORONLY_DATA
 //UDialogNode...........................................................................................
@@ -1372,6 +1500,27 @@ FText USetDialogTriggerNode::GetNodeTitle() const
 	return FText::FromString(GetEnumValueAsString<EDialogTriggerStates>("EDialogTriggerStates", TriggerState));
 }
 
+#if WITH_EDITORONLY_DATA
+
+void USetDialogTriggerNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("TriggerState", XMLProperty(FString::FromInt((int)TriggerState))));
+}
+
+void USetDialogTriggerNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+
+	TriggerState = (EDialogTriggerStates)FCString::Atoi(*Propertys["TriggerState"].Val);
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
+
+#endif //WITH_EDITORONLY_DATA
+
 //USetScenObjectActiveNode...................................................................
 
 USetScenObjectActiveNode::USetScenObjectActiveNode()
@@ -1394,6 +1543,24 @@ FText USetScenObjectActiveNode::GetNodeTitle() const
 {
 	return IsActive ? FText::FromString("Active") : FText::FromString("Unactive");
 }
+
+#if WITH_EDITORONLY_DATA
+
+void USetScenObjectActiveNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("IsActive", XMLProperty(IsActive ? "true" : "false")));
+}
+
+void USetScenObjectActiveNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	IsActive = Propertys["IsActive"].Val == "true";
+
+	Super::LoadPropertyFromXML(Propertys);
+}
+#endif //WITH_EDITORONLY_DATA
 
 //UGetStoryGraphObjectNode.................................................................
 
@@ -1453,6 +1620,24 @@ void UGetStoryGraphObjectStateNode::SetWantedObjectState(int WantedState_)
 	UpdateGraphNode();
 #endif //WITH_EDITORONLY_DATA
 }
+
+#if WITH_EDITORONLY_DATA
+
+void UGetStoryGraphObjectStateNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("WantedObjectState", XMLProperty(FString::FromInt(WantedObjectState))));
+}
+
+void UGetStoryGraphObjectStateNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	WantedObjectState = FCString::Atoi(*Propertys["WantedObjectState"].Val);
+
+	Super::LoadPropertyFromXML(Propertys);
+}
+#endif //WITH_EDITORONLY_DATA
 //UAddDialogNode...........................................................................................
 
 UAddDialogNode::UAddDialogNode()
@@ -1501,6 +1686,34 @@ void UAddDialogNode::RefreshCollor()
 
 	}
 }
+
+void UAddDialogNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("SelectedDialog", XMLProperty(SelectedDialog->XMLID)));
+	Propertys.insert(std::pair<FString, XMLProperty>("Activate", XMLProperty(Activate ? "true" : "false")));
+}
+
+void UAddDialogNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	int32 SignNum = Propertys["SelectedDialog"].Val.Find("_");
+	UStoryGraphObject* CurrentStoryGarphObject = pStoryGraph->GarphObjects[FCString::Atoi(*Propertys["SelectedDialog"].Val.Left(SignNum))];
+	if (UStoryGraphCharecter* pStoryGraphCharecter = Cast<UStoryGraphCharecter>(CurrentStoryGarphObject))
+	{
+		SelectedDialog = (UDialogStartNode*)pStoryGraphCharecter->GarphNods[FCString::Atoi(*Propertys["SelectedDialog"].Val.RightChop(SignNum + 1))];
+	}
+	else if (UStoryGraphPlaceTrigger* pStoryGraphPlaceTrigger = Cast<UStoryGraphPlaceTrigger>(CurrentStoryGarphObject))
+	{
+		SelectedDialog = (UDialogStartNode*)pStoryGraphPlaceTrigger->GarphNods[FCString::Atoi(*Propertys["SelectedDialog"].Val.RightChop(SignNum + 1))];
+	}
+
+	Activate = Propertys["Activate"].Val == "true";
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
 #endif //WITH_EDITORONLY_DATA
 //UAddDialogFromDialogNode...........................................................................................
 
@@ -1534,6 +1747,39 @@ void UAddDialogFromDialogNode::SetCurentDialog(UDialogStartNode* SelectedDialog_
 	UpdateGraphNode();
 #endif //WITH_EDITORONLY_DATA
 }
+
+#if WITH_EDITORONLY_DATA
+
+void UAddDialogFromDialogNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+	
+	Propertys.insert(std::pair<FString, XMLProperty>("SelectedDialog", XMLProperty(SelectedDialog->XMLID)));
+	Propertys.insert(std::pair<FString, XMLProperty>("Activate", XMLProperty(Activate ? "true" : "false")));
+
+}
+
+void UAddDialogFromDialogNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	int32 SignNum = Propertys["SelectedDialog"].Val.Find("_");
+	UStoryGraphObject* CurrentStoryGarphObject = pStoryGraph->GarphObjects[FCString::Atoi(*Propertys["SelectedDialog"].Val.Left(SignNum))];
+	if (UStoryGraphCharecter* pStoryGraphCharecter = Cast<UStoryGraphCharecter>(CurrentStoryGarphObject))
+	{
+		SelectedDialog = (UDialogStartNode*)pStoryGraphCharecter->GarphNods[FCString::Atoi(*Propertys["SelectedDialog"].Val.RightChop(SignNum + 1))];
+	}
+	else if (UStoryGraphPlaceTrigger* pStoryGraphPlaceTrigger = Cast<UStoryGraphPlaceTrigger>(CurrentStoryGarphObject))
+	{
+		SelectedDialog = (UDialogStartNode*)pStoryGraphPlaceTrigger->GarphNods[FCString::Atoi(*Propertys["SelectedDialog"].Val.RightChop(SignNum + 1))];
+	}
+
+	Activate = Propertys["Activate"].Val == "true";
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
+
+#endif //WITH_EDITORONLY_DATA
 
 //UCancelQuestNode.............................................................................................
 
@@ -1681,6 +1927,27 @@ FText USendMessageNode::GetNodeTitle() const
 	return FText::FromString("Msg: " + Message);
 }
 
+#if WITH_EDITORONLY_DATA
+
+void USendMessageNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("Message", XMLProperty(Message)));
+}
+
+
+void USendMessageNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	Message = Propertys["Message"].Val;
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
+
+#endif //WITH_EDITORONLY_DATA
+
 //UPrintStringNode..................................................................................................................
 UPrintStringNode::UPrintStringNode()
 {
@@ -1723,6 +1990,32 @@ FText UPrintStringNode::GetNodeTitle() const
 	return FText::FromString(InString);
 }
 
+#if WITH_EDITORONLY_DATA
+
+void UPrintStringNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("InString", XMLProperty(InString)));
+	Propertys.insert(std::pair<FString, XMLProperty>("PrintToScreen", XMLProperty(PrintToScreen ? "true" : "false")));
+	Propertys.insert(std::pair<FString, XMLProperty>("PrintToLog", XMLProperty(PrintToLog ? "true" : "false")));
+	Propertys.insert(std::pair<FString, XMLProperty>("Duration", XMLProperty(FString::SanitizeFloat(Duration))));
+}
+
+void UPrintStringNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	InString = Propertys["InString"].Val;
+	PrintToScreen = Propertys["PrintToScreen"].Val == "true";
+	PrintToLog = Propertys["PrintToLog"].Val == "true";
+	Duration = FCString::Atof(*Propertys["Duration"].Val);
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
+
+#endif //WITH_EDITORONLY_DATA
+
 //UAddScreenMessageNode..................................................................................................................
 UAddScreenMessageNode::UAddScreenMessageNode()
 {
@@ -1752,6 +2045,27 @@ FText UAddScreenMessageNode::GetNodeTitle() const
 {
 	return Message;
 }
+
+#if WITH_EDITORONLY_DATA
+
+void UAddScreenMessageNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("Message", XMLProperty(Message.ToString())));
+	Propertys.insert(std::pair<FString, XMLProperty>("Duration", XMLProperty(FString::SanitizeFloat(Duration))));
+}
+
+void UAddScreenMessageNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	Message = FText::FromString(Propertys["Message"].Val);
+	Duration = FCString::Atof(*Propertys["Duration"].Val);
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
+#endif //WITH_EDITORONLY_DATA
 
 //UAddTargetObjectToPhaseNode..................................................................................................................
 UAddTargetObjectToPhaseNode::UAddTargetObjectToPhaseNode()
@@ -1830,6 +2144,8 @@ FText UActivateTriggerNode::GetNodeTitle() const
 	return FText::FromString("Activate");
 }
 
+
+
 //USetInventoryItemStateNode..................................................................................................................
 USetInventoryItemStateNode::USetInventoryItemStateNode()
 {
@@ -1869,6 +2185,26 @@ void USetInventoryItemStateNode::SetCurrentState(int State)
 	UpdateGraphNode();
 #endif //WITH_EDITORONLY_DATA
 }
+
+#if WITH_EDITORONLY_DATA
+
+void USetInventoryItemStateNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("NewCurentInventoryItemState", XMLProperty(FString::FromInt(NewCurentInventoryItemState))));
+}
+
+void USetInventoryItemStateNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	NewCurentInventoryItemState = FCString::Atoi(*Propertys["NewCurentInventoryItemState"].Val);
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
+
+#endif //WITH_EDITORONLY_DATA
 
 //USetInventoryItemStateFromMessageNode......................................................
 
@@ -1944,3 +2280,24 @@ FText USendMessagToLevelBlueprintNode::GetNodeTitle() const
 {
 	return FText::FromString("Msg: " + Message);
 }
+
+
+#if WITH_EDITORONLY_DATA
+
+void USendMessagToLevelBlueprintNode::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+{
+	Super::GetXMLSavingProperty(Propertys);
+
+	Propertys.insert(std::pair<FString, XMLProperty>("Message", XMLProperty(Message)));
+}
+
+void USendMessagToLevelBlueprintNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+{
+	
+	Message = Propertys["Message"].Val;
+
+	Super::LoadPropertyFromXML(Propertys);
+
+}
+
+#endif //WITH_EDITORONLY_DATA

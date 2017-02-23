@@ -57,7 +57,7 @@ UEdGraphNode* FCustomSchemaAction_NewNode::SpawnNode(ENodeType NodeType, UStoryG
 	
 	if (UStoryGraph* StoryGraph = Cast<UStoryGraph>(CustomNodeParent))
 	{
-		pStoryGraph->GarphNods.Add(ActorNode);
+		StoryGraph->GarphNods.Add(ActorNode);
 	}
 	else if (UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(CustomNodeParent))
 	{
@@ -97,6 +97,13 @@ UEdGraphNode* FCustomSchemaAction_NewNode::SpawnNode(ENodeType NodeType, UStoryG
 				}
 			}
 		}
+	}
+	
+	if (ProxyNode->CustomNode->NodeType == ENodeType::DialogNode || ProxyNode->CustomNode->NodeType == ENodeType::Message)
+	{
+		ProxyNode->CustomNode->CreatePinDelegate.BindUObject(ProxyNode, &UProxyNodeBase::HandleCreatePin);
+		ProxyNode->CustomNode->RemovePinDelegate.BindUObject(ProxyNode, &UProxyNodeBase::HandleRemovePin);
+		ProxyNode->CustomNode->BreakPinDelegate.BindUObject(ProxyNode, &UProxyNodeBase::HandleBreakPin);
 	}
 
 	((UEdGraph_StoryGraph*)ParentGraph)->GetStoryGraph()->StoryGraphState = EStoryGraphState::ST_Modify;

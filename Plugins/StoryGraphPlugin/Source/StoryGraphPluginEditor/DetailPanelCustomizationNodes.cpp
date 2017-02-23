@@ -331,14 +331,10 @@ void FDialogNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 FReply FDialogNodeDetail::AddDialogButtonClick(IDetailLayoutBuilder* DetailBuilder)
 {
 	UDialogNode* Object = (UDialogNode*)GetDetailObject(DetailBuilder);
-	UDialogObject* NewDialog = NewObject<UDialogObject>(Object, UDialogObject::StaticClass());
-	NewDialog->DialogNode = Object;
-	NewDialog->Dialog = FText::FromString("New dialog");
 
-	NewDialog->CurrentDialogPin = Object->Dialogs.Add(NewDialog) + 1;
-	Object->CreatePin(FStoryGraphPin(EGPD_Output, EPinDataTypes::PinType_Horizontal));
+	Object->AddDialog();
+	
 	DetailBuilder->ForceRefreshDetails(); //Update detail panel
-	Object->UpdateGraphNode(); //Update graph node
 	return FReply::Handled();
 }
 

@@ -2,20 +2,14 @@
 
 #pragma once
 
-#include "Core.h"
-#include "CoreUObject.h"
 #include "Engine.h"
-
-
-#include "Engine/EngineTypes.h"
-#include "SlateCore.h"
-#include "SlateBasics.h"
 #include "ModuleManager.h"
 #include "StoryGraphPluginRuntimeClasses.h"
 #include "EditorStyleSet.h"
 #include "EdGraph/EdGraphNodeUtils.h"
 #include "ScopedTransaction.h"
 #include "EdGraph/EdGraphPin.h"
+#include <map>
 
 DECLARE_LOG_CATEGORY_EXTERN(StoryGraphEditor, All, All)
 

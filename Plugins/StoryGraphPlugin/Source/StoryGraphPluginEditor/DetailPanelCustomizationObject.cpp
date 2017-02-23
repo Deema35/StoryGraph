@@ -77,7 +77,8 @@ void FStoryGraphObjectWithScenObjectDetail::CustomizeDetails(IDetailLayoutBuilde
 {
 	FStoryGraphObjectDetail::CustomizeDetails(DetailBuilder);
 
-	pMainPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithScenObject, IsScenObjectActive), UStoryGraphObjectWithScenObject::StaticClass());
+	pScenObjectsPanel = &DetailBuilder.EditCategory("Scen objects links", FText::GetEmpty(), ECategoryPriority::Important);
+	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithScenObject, IsScenObjectActive), UStoryGraphObjectWithScenObject::StaticClass());
 	
 }
 
@@ -96,11 +97,12 @@ void FStoryGraphCharecterDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 {
 	FStoryGraphObjectWithScenObjectDetail::CustomizeDetails(DetailBuilder);
 
+	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphCharecter, ScenCharecters), UStoryGraphCharecter::StaticClass());
+
 	UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(GetDetailObject(&DetailBuilder));
 
 	IDetailCategoryBuilder& CharecterPanel = DetailBuilder.EditCategory("Charecter property", FText::GetEmpty(), ECategoryPriority::Important);
 
-	CharecterPanel.AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphCharecter, ScenCharecters));
 	CharecterPanel.AddCustomRow(FText::FromString("Default Answer"))
 		.NameContent()
 		[
@@ -161,9 +163,9 @@ void FStoryGraphPlaceTriggerDetail::CustomizeDetails(IDetailLayoutBuilder& Detai
 
 	UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(GetDetailObject(&DetailBuilder));
 
-	IDetailCategoryBuilder& PlaceTriggerPanel = DetailBuilder.EditCategory("PlaceTrigger property", FText::GetEmpty(), ECategoryPriority::Important);
+	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphPlaceTrigger, ScenTriggers), UStoryGraphPlaceTrigger::StaticClass());
 
-	PlaceTriggerPanel.AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphPlaceTrigger, ScenTriggers));
+	IDetailCategoryBuilder& PlaceTriggerPanel = DetailBuilder.EditCategory("PlaceTrigger property", FText::GetEmpty(), ECategoryPriority::Important);
 
 	PlaceTriggerPanel.AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphPlaceTrigger, PlaceTriggerType));
 
@@ -198,7 +200,7 @@ FReply FStoryGraphPlaceTriggerDetail::EditMessageButtonClick(IDetailLayoutBuilde
 	UStoryGraphPlaceTrigger* Object = (UStoryGraphPlaceTrigger*)GetDetailObject(DetailBuilder);
 	
 	UStoryGraph* StoryGraph = Cast<UStoryGraph>(Object->GetOuter());
-	StoryGraph->pAssetEditor->OpenMessageEditorTab(Object);
+	StoryGraph->pAssetEditor->OpenDialogEditorTab(Object);
 
 	return FReply::Handled();
 }
@@ -210,4 +212,56 @@ void FStoryGraphPlaceTriggerDetail::DefaultAnswerCommitted(const FText& NewText,
 	PlaceTrigger->DefaultAnswer = NewText;
 
 	PlaceTrigger->Modify();
+}
+
+//FStoryGraphInventoryItemDetail...........................................................
+
+TSharedRef<IDetailCustomization> FStoryGraphInventoryItemDetail::MakeInstance()
+{
+	return MakeShareable(new FStoryGraphInventoryItemDetail);
+}
+
+
+
+void FStoryGraphInventoryItemDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+{
+	FStoryGraphObjectDetail::CustomizeDetails(DetailBuilder);
+
+	UStoryGraphInventoryItem* InventoryItem = Cast<UStoryGraphInventoryItem>(GetDetailObject(&DetailBuilder));
+
+	IDetailCategoryBuilder* ScenObjectsPanel = &DetailBuilder.EditCategory("Scen objects links", FText::GetEmpty(), ECategoryPriority::Important);
+
+	ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, InventoryItemWithoutScenObject), UStoryGraphInventoryItem::StaticClass());
+	
+	IDetailPropertyRow* IsScenObjectActiveProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithScenObject, IsScenObjectActive), UStoryGraphObjectWithScenObject::StaticClass());
+	IDetailPropertyRow* ScenInventoryItemsProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, ScenInventoryItems), UStoryGraphInventoryItem::StaticClass());
+	if (!InventoryItem->InventoryItemWithoutScenObject)
+	{
+		IsScenObjectActiveProperty->IsEnabled(true);
+		ScenInventoryItemsProperty->IsEnabled(true);
+	}
+	else
+	{
+		IsScenObjectActiveProperty->IsEnabled(false);
+		ScenInventoryItemsProperty->IsEnabled(false);
+	}
+	
+
+}
+
+//FStoryGraphOthersDetail...........................................................
+
+TSharedRef<IDetailCustomization> FStoryGraphOthersDetail::MakeInstance()
+{
+	return MakeShareable(new FStoryGraphOthersDetail);
+}
+
+
+
+void FStoryGraphOthersDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+{
+	FStoryGraphObjectWithScenObjectDetail::CustomizeDetails(DetailBuilder);
+
+	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphOthers, ScenOtherObjects), UStoryGraphOthers::StaticClass());
+
 }

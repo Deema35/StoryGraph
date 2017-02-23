@@ -91,7 +91,8 @@ void UProxyNodeBase::PostLoad()
 {
 	Super::PostLoad();
 
-	CustomNode->RefreshCollor();
+	
+	if (CustomNode) CustomNode->RefreshCollor();
 }
 
 

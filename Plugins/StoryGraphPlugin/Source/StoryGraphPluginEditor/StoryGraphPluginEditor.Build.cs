@@ -22,6 +22,8 @@ public class StoryGraphPluginEditor : ModuleRules
             "GraphEditor",
             "BlueprintGraph",
             "Kismet",
+            "XmlParser",
+            "DesktopPlatform",
         });
 
 

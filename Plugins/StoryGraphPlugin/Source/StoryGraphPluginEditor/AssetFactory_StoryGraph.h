@@ -5,7 +5,6 @@
 #include "AssetFactory_StoryGraph.generated.h"
 
 
-
 UCLASS()
 class STORYGRAPHPLUGINEDITOR_API UAssetFactory_StoryGraph : public UFactory
 {

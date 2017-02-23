@@ -29,7 +29,7 @@ UObject* UAssetFactory_StoryGraph::FactoryCreateNew(UClass* Class, UObject* InPa
 
 UObject* UAssetFactory_StoryGraph::FactoryCreateNew(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, FFeedbackContext* Warn, FName CallingContext)
 {
-
+	
 	UClass* BlueprintClass = UStoryGraphBlueprint::StaticClass();
 	UClass* BlueprintGeneratedClass = UBlueprintGeneratedClass::StaticClass();
 
