@@ -5,7 +5,11 @@ With this plugin you can create story and dialogs in the user frandly graphical 
 If you want add this plugin in you project copy folder StoryGraphPlugin from folder plugins in
 "your progect folder"\plugins. 
 
+To create Visual Studio project file right click on UE project file and choose "Generate VS project file".
+
 Update: Add save load system (press [ - save, ] - load)
+
+Update: Add export to XML file and import from XML file.
 
 #Редактор квестов и диалого для UnrealEngine.
 
@@ -14,7 +18,11 @@ Update: Add save load system (press [ - save, ] - load)
 Чтобы использовать плагин скопируйте папку StoryGraphPlugin из папки plugins в папку
 "директоря вашего проекта"\plugins.
 
+Чтобы создать файл проекта для Visual Studio, кликнете правой кнопкой мыши по файлу проекта UE и выберите "Generate VS project file".
+
 Обновление: Добавлена система сохранения ( [ - сохранить игру, ] - загрузить игру).
+
+Обновление: Добавлен экспорт в XML файл и импорт из XML.
 
 habrahabr: https://habrahabr.ru/post/318366/
 
