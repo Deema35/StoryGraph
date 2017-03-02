@@ -147,12 +147,11 @@ public:
 	FBreakPinDelegate BreakPinDelegate;
 public:
 
-	UCustomNodeBase()
+	UCustomNodeBase() : pGraphObject(NULL), pStoryGraph(NULL),
 #if WITH_EDITORONLY_DATA
-		: NodeColor(FLinearColor(0.08f, 0.08f, 0.08f))
+		NodeColor(FLinearColor(0.08f, 0.08f, 0.08f))
 #endif //WITH_EDITORONLY_DATA
 	{}
-
 
 
 	void GetChildNodes(TArray<UCustomNodeBase*>& ChildNodes, EPinDataTypes OutPinType);
@@ -174,8 +173,6 @@ public:
 	static TSubclassOf<UCustomNodeBase> GetClassFromNodeType(ENodeType NodeType);
 
 	static FName GetIconNameFromNodeType(ENodeType NodeType);
-
-	
 
 	virtual EPerformNodeResult PerformNode();
 
@@ -199,6 +196,8 @@ public:
 	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys); 
 
 	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys);
+
+	void DelitLinkToNode(UCustomNodeBase* NodeLink);
 #endif //WITH_EDITORONLY_DATA
 };
 

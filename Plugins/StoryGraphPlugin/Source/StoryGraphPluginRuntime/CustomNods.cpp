@@ -761,6 +761,20 @@ void UCustomNodeBase::LoadPropertyFromXML(std::map<FString, XMLProperty>& Proper
 	RefreshCollor();
 }
 
+void UCustomNodeBase::DelitLinkToNode(UCustomNodeBase* NodeLink)
+{
+	for (int i = 0; i < NodePins.Num(); i++)
+	{
+		for (int j = 0; j < NodePins[i].Links.Num(); j++)
+		{
+			if (NodePins[i].Links[j] == NodeLink)
+			{
+				NodePins[i].Links.RemoveAt(j);
+				return;
+			}
+		}
+	}
+}
 #endif //WITH_EDITORONLY_DATA
 
 //UDialogNodeBase...........................................................................................

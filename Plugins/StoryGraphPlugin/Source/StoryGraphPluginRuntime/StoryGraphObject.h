@@ -118,7 +118,9 @@ public:
 
 	virtual void DoubleClick() {}
 
-	static TSubclassOf<UStoryGraphObject> GetClassFromStoryObjectType(EStoryObjectType);
+	static TSubclassOf<UStoryGraphObject> GetClassFromStoryObjectType(EStoryObjectType EnumValue);
+
+	static FString GetObjectToolTip(EStoryObjectType EnumValue);
 
 	virtual void SetCurentState(int NewState);
 

@@ -77,6 +77,39 @@ FString UStoryGraphObject::GetObjectTypeEnumAsString(EStoryObjectType EnumValue)
 	return EnumPtr->GetEnumName((int)EnumValue);
 }
 
+FString UStoryGraphObject::GetObjectToolTip(EStoryObjectType EnumValue)
+{
+	switch (EnumValue)
+	{
+		case EStoryObjectType::Character:
+
+			return "Character has dialogs.";
+
+		case EStoryObjectType::Quest:
+
+			return "List of all available quests. After you added quest, will available start quest node.";
+
+		case EStoryObjectType::DialogTrigger:
+
+			return "Special facility for interaction dialogue(meesage) graph and main graph.";
+
+		case EStoryObjectType::PlaceTrigger:
+
+			return "PlaceTrigger - interactive object on map.";
+
+		case EStoryObjectType::InventoryItem:
+
+			return "Story object which can be added to inventory.";
+
+		case EStoryObjectType::Others:
+
+			return "Objects that do not have states. But can get messages.";
+
+	default:
+
+		return "Non.";
+	}
+}
 
 void UStoryGraphObject::SetCurentState(int NewState)
 {

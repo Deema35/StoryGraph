@@ -56,6 +56,8 @@ public:
 	void HandleRemovePin(int32 PinNumber);
 
 	void HandleBreakPin(int32 PinNumber);
+
+	virtual void DestroyNode() override;
 };
 
 

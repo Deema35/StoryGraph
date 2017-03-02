@@ -5,6 +5,8 @@
 #include "EdGraph/EdGraphPin.h"
 #include "EdGraph/EdGraph.h"
 #include "AssetEditorManager.h"
+#include "Graph_StoryGraph.h"
+#include "StoryGraph.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
 
 
@@ -78,7 +80,6 @@ void UProxyNodeBase::PinConnectionListChanged(UEdGraphPin* Pin)
 			{
 				CustomNode->NodePins[i].Links.Add(((UProxyNodeBase*)Pins[i]->LinkedTo[j]->GetOwningNode())->CustomNode);
 			}
-
 			CustomNode->PinConnectionListChanged(&CustomNode->NodePins[i]);
 		}
 	}
@@ -117,4 +118,27 @@ void UProxyNodeBase::HandleRemovePin(int32 PinNumber)
 void UProxyNodeBase::HandleBreakPin(int32 PinNumber)
 {
 	Pins[PinNumber]->BreakAllPinLinks();
+}
+
+void UProxyNodeBase::DestroyNode()
+{
+	Super::DestroyNode();
+	//Remove pins custom nod
+	
+	UEdGraph_StoryGraph* ParrentGraph = Cast<UEdGraph_StoryGraph>(GetGraph());
+
+	if (UStoryGraph* StoryGraph = Cast<UStoryGraph>(ParrentGraph->GraphOwner))
+	{
+		StoryGraph->GarphNods.Remove(CustomNode);
+			
+	}
+	else if (UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(ParrentGraph->GraphOwner))
+	{
+		Charecter->GarphNods.Remove(CustomNode);
+	}
+	else if (UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(ParrentGraph->GraphOwner))
+	{
+		PlaceTrigger->GarphNods.Remove(CustomNode);
+	}
+	
 }

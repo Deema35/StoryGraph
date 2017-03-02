@@ -616,28 +616,23 @@ void FAssetEditor_StoryGraph::DeleteNodes(const TArray<class UEdGraphNode*>& Nod
 {
 	if (NodesToDelete.Num() > 0)
 	{
-		UEdGraph_StoryGraph* ParrentGraph = Cast<UEdGraph_StoryGraph>(NodesToDelete[0]->GetGraph());
 		for (int32 Index = 0; Index < NodesToDelete.Num(); ++Index)
 		{
 			if (!NodesToDelete[Index]->CanUserDeleteNode())
 			{
 				continue;
 			}
-			// Remove costom node
-			if (UStoryGraph* StoryGraph = Cast<UStoryGraph>(ParrentGraph->GraphOwner))
+			// Remove custom node links
+			UProxyNodeBase* ProxyNode = Cast<UProxyNodeBase>(NodesToDelete[Index]);
+			for (int i = 0; i < ProxyNode->CustomNode->NodePins.Num(); i++)
 			{
-				StoryGraph->GarphNods.RemoveSingle(((UProxyNodeBase*)NodesToDelete[Index])->CustomNode);
-			}
-			else if (UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(ParrentGraph->GraphOwner))
-			{
-				Charecter->GarphNods.RemoveSingle(((UProxyNodeBase*)NodesToDelete[Index])->CustomNode);
-			}
-			else if (UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(ParrentGraph->GraphOwner))
-			{
-				PlaceTrigger->GarphNods.RemoveSingle(((UProxyNodeBase*)NodesToDelete[Index])->CustomNode);
+				for (int j = 0; j < ProxyNode->CustomNode->NodePins[i].Links.Num(); j++)
+				{
+					ProxyNode->CustomNode->NodePins[i].Links[j]->DelitLinkToNode(ProxyNode->CustomNode);
+				}
 			}
 
-			// Break all node links first so that we don't update the material before deleting
+			/// Remove proxy node links
 			NodesToDelete[Index]->BreakAllNodeLinks();
 
 			FBlueprintEditorUtils::RemoveNode(NULL, NodesToDelete[Index], true);
@@ -928,6 +923,7 @@ TSharedRef<SGraphActionMenu> FAssetEditor_StoryGraph::CreateActionMenuWidget()
 		//.OnCategoryTextCommitted(this, &FAssetEditor_StoryGraph::OnCategoryNameCommitted)
 		.OnCanRenameSelectedAction(this, &FAssetEditor_StoryGraph::CanRequestRenameOnActionNode)
 		.OnGetSectionTitle(this, &FAssetEditor_StoryGraph::OnGetSectionTitle)
+		.OnGetSectionToolTip(this, &FAssetEditor_StoryGraph::OnGetSectionToolTip)
 		.OnGetSectionWidget(this, &FAssetEditor_StoryGraph::OnGetSectionWidget)
 		.AlphaSortItems(false)
 		.UseSectionStyling(true);
@@ -1066,6 +1062,14 @@ FText FAssetEditor_StoryGraph::OnGetSectionTitle(int32 InSectionID)
 {
 	
 	return FText::FromString(UStoryGraphObject::GetObjectTypeEnumAsString((EStoryObjectType)InSectionID) + (FString("s")));
+}
+
+TSharedPtr<IToolTip> FAssetEditor_StoryGraph::OnGetSectionToolTip(int32 InSectionID)
+{
+	return SNew(SToolTip)
+		.BorderImage(FCoreStyle::Get().GetBrush("ToolTip.BrightBackground"))
+		.Text(FText::FromString(UStoryGraphObject::GetObjectToolTip((EStoryObjectType)InSectionID)));
+	
 }
 
 TSharedRef<SWidget> FAssetEditor_StoryGraph::OnGetSectionWidget(TSharedRef<SWidget> RowWidget, int32 InSectionID)
