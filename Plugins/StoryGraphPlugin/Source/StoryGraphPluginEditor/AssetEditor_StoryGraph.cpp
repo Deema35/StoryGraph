@@ -1253,8 +1253,12 @@ void FAssetEditor_StoryGraph::CompilStoryObjects()
 
 void FAssetEditor_StoryGraph::ExportInXMLFile()
 {
+	TSharedPtr<SWindow> ParentWindow = FSlateApplication::Get().GetActiveTopLevelWindow();
+	const void* ParentWindowHandle = (ParentWindow.IsValid() && ParentWindow->GetNativeWindow().IsValid()) ? ParentWindow->GetNativeWindow()->GetOSWindowHandle() : nullptr;
+	if (!ParentWindowHandle) return;
+
 	TArray<FString> OutputFile;
-	if (FDesktopPlatformModule::Get()->SaveFileDialog(GetActiveWindow(), FString("Save XML File"), FPaths::GameDir(), FString("XMLFile.xml"), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
+	if (FDesktopPlatformModule::Get()->SaveFileDialog(ParentWindowHandle, FString("Save XML File"), FPaths::GameDir(), FString("XMLFile.xml"), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
 	{
 		const FString FileTemplate = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n<root>\n</root>";
 		FXmlFile File(FileTemplate, EConstructMethod::ConstructFromBuffer);
@@ -1312,10 +1316,7 @@ void FAssetEditor_StoryGraph::ExportInXMLFile()
 
 		File.Save(OutputFile[0]);
 	}
-	else
-	{
-		UE_LOG(StoryGraphEditor, Error, TEXT("Cann't open file"));
-	}
+	
 }
 
 void FAssetEditor_StoryGraph::SerializedStoryGraphObjectsToXMLNode(FXmlNode* XMLNode)
@@ -1408,9 +1409,12 @@ void FAssetEditor_StoryGraph::CreateXMLArray(XMLProperty& Property, FString Name
 
 void FAssetEditor_StoryGraph::ImportFromXMLFile()
 {
-	
+	TSharedPtr<SWindow> ParentWindow = FSlateApplication::Get().GetActiveTopLevelWindow();
+	const void* ParentWindowHandle = (ParentWindow.IsValid() && ParentWindow->GetNativeWindow().IsValid()) ? ParentWindow->GetNativeWindow()->GetOSWindowHandle() : nullptr;
+	if (!ParentWindowHandle) return;
+
 	TArray<FString> OutputFile;
-	if (FDesktopPlatformModule::Get()->OpenFileDialog(GetActiveWindow(), FString("Open XML File"), FPaths::GameDir(), FString(""), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
+	if (FDesktopPlatformModule::Get()->OpenFileDialog(ParentWindowHandle, FString("Open XML File"), FPaths::GameDir(), FString(""), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
 	{
 		EraseStroyGraph(); 
 

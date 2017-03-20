@@ -2,8 +2,7 @@
 
 With this plugin you can create story and dialogs in the user frandly graphical interface, for you game.
 
-If you want add this plugin in you project copy folder StoryGraphPlugin from folder plugins in
-"your progect folder"\plugins. 
+If you want add this plugin in you project copy folder StoryGraphPlugin from folder plugins in "your progect folder"\plugins.
 
 To create Visual Studio project file right click on UE project file and choose "Generate VS project file".
 
@@ -15,8 +14,7 @@ Update: Add export to XML file and import from XML file.
 
 При помощи этого плагина вы сможете создавать квесты и диалоги для своей игры в удобном графическом интерфейсе.
 
-Чтобы использовать плагин скопируйте папку StoryGraphPlugin из папки plugins в папку
-"директоря вашего проекта"\plugins.
+Чтобы использовать плагин скопируйте папку StoryGraphPlugin из папки plugins в папку "директоря вашего проекта"\plugins.
 
 Чтобы создать файл проекта для Visual Studio, кликнете правой кнопкой мыши по файлу проекта UE и выберите "Generate VS project file".
 

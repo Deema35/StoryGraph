@@ -19,7 +19,7 @@
 
 
 UENUM(BlueprintType)
-enum class EPinDataTypes
+enum class EPinDataTypes : uint8
 {
 	PinType_Vertical,
 	PinType_Horizontal
@@ -34,7 +34,7 @@ enum class ECharDialogOwner : uint8
 };
 
 UENUM(BlueprintType)
-enum class ENodeType
+enum class ENodeType : uint8
 {
 	PrintString,
 	DialogStart,

@@ -5,7 +5,7 @@
 
 
 
-
+enum class ENodeType : uint8;
 
 /** Action to add a node to the graph */
 USTRUCT()
@@ -14,7 +14,7 @@ struct  FCustomSchemaAction_NewNode : public FEdGraphSchemaAction
 	GENERATED_USTRUCT_BODY();
 
 	
-	enum class ENodeType NodeType;
+	ENodeType NodeType;
 
 	class UStoryGraphObject* OwnedObject;
 
@@ -39,7 +39,7 @@ struct  FCustomSchemaAction_NewNode : public FEdGraphSchemaAction
 	
 };
 
-enum class ENodeType;
+enum class ENodeType : uint8;
 
 UCLASS()
 class UEdGraphSchema_Base : public UEdGraphSchema

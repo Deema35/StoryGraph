@@ -7,7 +7,7 @@
 #include "ProxyNods.generated.h"
 
 class UStoryGraphObject;
-enum class ENodeType;
+enum class ENodeType : uint8;
 
 UCLASS()
 

@@ -62,7 +62,7 @@ static FORCEINLINE int GetNumberEnums(const FString& Name)
 
 
 
-enum class ENodeType;
+enum class ENodeType : uint8;
 
 struct XMLProperty
 {
