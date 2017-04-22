@@ -10,7 +10,7 @@ To create Visual Studio project file right click on UE project file and choose "
 
 - Update: Add export to XML file and import from XML file.
 
-- Update: Enabel [IWYU](https://docs.unrealengine.com/latest/INT/Programming/UnrealBuildSystem/IWYUReferenceGuide/index.html). Project will compil faster, but will not compil on version UE late than 4.15.
+- Update: Enabel [IWYU](https://docs.unrealengine.com/latest/INT/Programming/UnrealBuildSystem/IWYUReferenceGuide/index.html). Project will compile faster, but will not compile on version UE lower than 4.15.
 
 ## Редактор квестов и диалого для UnrealEngine.
 
