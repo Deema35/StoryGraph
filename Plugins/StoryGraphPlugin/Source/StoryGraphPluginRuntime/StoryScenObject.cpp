@@ -1,9 +1,9 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginRuntime.h"
+
 #include "StoryScenObject.h"
 #include "HUD_StoryGraph.h"
 #include "ObjectrRecord.h"
-
+#include "LogCategoryRutime.h"
 
 
 //IStoryScenObject.......................................................
@@ -55,7 +55,7 @@ void ACharecter_StoryGraph::OpenDialog()
 		}
 		else
 		{
-			UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+			UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
 		}
 		
 	}
@@ -146,7 +146,7 @@ void APlaceTrigger_StoryGraph::Activate()
 		}
 		else
 		{
-			UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+			UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
 		}
 		
 	}

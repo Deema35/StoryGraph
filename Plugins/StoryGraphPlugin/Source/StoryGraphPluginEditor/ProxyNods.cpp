@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "ProxyNods.h"
 #include "CustomNods.h"
 #include "EdGraph/EdGraphPin.h"

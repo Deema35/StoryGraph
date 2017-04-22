@@ -147,9 +147,9 @@ public:
 	FBreakPinDelegate BreakPinDelegate;
 public:
 
-	UCustomNodeBase() : pGraphObject(NULL), pStoryGraph(NULL),
+	UCustomNodeBase() : pGraphObject(NULL), pStoryGraph(NULL)
 #if WITH_EDITORONLY_DATA
-		NodeColor(FLinearColor(0.08f, 0.08f, 0.08f))
+		,NodeColor(FLinearColor(0.08f, 0.08f, 0.08f))
 #endif //WITH_EDITORONLY_DATA
 	{}
 

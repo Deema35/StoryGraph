@@ -6,7 +6,9 @@ public class StoryGraphPluginRuntime : ModuleRules
 {
 	public StoryGraphPluginRuntime(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] {
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs; // Enabel IWYU
+
+        PublicDependencyModuleNames.AddRange(new string[] {
             "Core",
             "CoreUObject",
             "Engine",

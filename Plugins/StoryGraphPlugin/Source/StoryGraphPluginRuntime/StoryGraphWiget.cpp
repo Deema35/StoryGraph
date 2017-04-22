@@ -1,7 +1,7 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma warning(disable: 4458)
 
-#include "StoryGraphPluginRuntime.h"
+
 #include "StoryGraphWiget.h"
 #include "StoryGraph.h"
 #include "StoryGraphObject.h"
@@ -9,7 +9,7 @@
 #include "Runtime/UMG/Public/Blueprint/WidgetBlueprintLibrary.h"
 #include "HUD_StoryGraph.h"
 #include "StoryScenObject.h"
-
+#include "LogCategoryRutime.h"
 
 
 
@@ -219,7 +219,7 @@ ECharDialogOwner UDialog_StoryGraphWidget::GetDialogs(const UDialogObject* Curre
 	}
 	else
 	{
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
 	}
 	return ECharDialogOwner::NotDefine;
 }

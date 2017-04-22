@@ -2,6 +2,9 @@
 #pragma once
 #include "Toolkits/AssetEditorToolkit.h"
 #include "SNotificationList.h"
+#include "EngineMinimal.h"
+#include <map>
+#include "NotifyHook.h"
 
 
 struct FCustomEditorTabs
@@ -69,7 +72,7 @@ public:
 	void RefreshDetailPanel();
 
 private:
-	TSharedRef<class SGraphEditor> CreateGraphEditorWidget(UEdGraph* InGraph, FString CornerText);
+	TSharedRef<class SGraphEditor> CreateGraphEditorWidget(class UEdGraph* InGraph, FString CornerText);
 	TSharedRef<class SGraphActionMenu> CreateActionMenuWidget();
 
 	TSharedRef<SDockTab> SpawnTab_Viewport(const FSpawnTabArgs& Args);
@@ -112,9 +115,9 @@ private:
 	FText GetFilterText() const;
 	TSharedRef<SWidget> OnCreateWidgetForAction(struct FCreateWidgetForActionData* const InCreateData);
 	void ActionNameCommitted(const FText& NewText, ETextCommit::Type InTextCommit);
-	void CollectAllActions(FGraphActionListBuilderBase& OutAllActions);
+	void CollectAllActions(struct FGraphActionListBuilderBase& OutAllActions);
 	void CollectStaticSections(TArray<int32>& StaticSectionIDs);
-	FReply OnActionDragged(const TArray< TSharedPtr<FEdGraphSchemaAction> >& InActions, const FPointerEvent& MouseEvent);
+	FReply OnActionDragged(const TArray< TSharedPtr<struct FEdGraphSchemaAction> >& InActions, const FPointerEvent& MouseEvent);
 	//FReply OnCategoryDragged(const FText& InCategory, const FPointerEvent& MouseEvent);
 	void OnActionSelected(const TArray< TSharedPtr<FEdGraphSchemaAction> >& InActions, ESelectInfo::Type InSelectionType);
 	void OnActionDoubleClicked(const TArray< TSharedPtr<FEdGraphSchemaAction> >& InActions);

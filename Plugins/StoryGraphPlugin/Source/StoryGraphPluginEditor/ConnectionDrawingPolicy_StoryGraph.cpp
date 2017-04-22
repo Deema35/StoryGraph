@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "ConnectionDrawingPolicy_StoryGraph.h"
 #include "GraphEditor.h"
 #include "SGraphNode.h"

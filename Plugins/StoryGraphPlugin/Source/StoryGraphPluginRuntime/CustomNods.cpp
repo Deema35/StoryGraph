@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginRuntime.h"
+
 #include "CustomNods.h"
 #include "StoryGraphObject.h"
 #include "StoryGraph.h"
@@ -7,8 +7,8 @@
 #include "StoryScenObject.h"
 #include "HUD_StoryGraph.h"
 #include "StoryGraphWiget.h"
-
-
+#include "LogCategoryRutime.h"
+#include "Engine/Engine.h"
 
 
 //UCustomNodeBase...........................................................................................
@@ -1460,7 +1460,7 @@ EPerformNodeResult UDialogEndNode::PerformNode()
 	}
 	else
 	{
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Top dialog non"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Top dialog non"));
 	}
 	return EPerformNodeResult::Sucssed;
 }
@@ -1486,7 +1486,7 @@ EPerformNodeResult UDialogExitNode::PerformNode()
 	}
 	else
 	{
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
 	}
 	return EPerformNodeResult::Sucssed;
 }
@@ -1890,7 +1890,7 @@ EPerformNodeResult UEndGameNode::PerformNode()
 	}
 	else
 	{
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
 	}
 
 	return EPerformNodeResult::Sucssed;
@@ -1992,7 +1992,7 @@ EPerformNodeResult UPrintStringNode::PerformNode()
 	{
 
 		if (PrintToScreen) GEngine->AddOnScreenDebugMessage(-1, Duration, TextColor, InString);
-		if (PrintToLog) UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("%s"), *InString);
+		if (PrintToLog) UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("%s"), *InString);
 		bPerformNode = true;
 		return EPerformNodeResult::Sucssed;
 	}
@@ -2246,7 +2246,7 @@ EPerformNodeResult UPrintQuestPhaseOnScreenNode::PerformNode()
 	}
 	else
 	{
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
 	}
 	return EPerformNodeResult::Sucssed;
 }
@@ -2285,7 +2285,7 @@ EPerformNodeResult USendMessagToLevelBlueprintNode::PerformNode()
 	}
 	else
 	{
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Reparen level blueprint"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Reparen level blueprint"));
 	}
 	return EPerformNodeResult::Sucssed;
 }

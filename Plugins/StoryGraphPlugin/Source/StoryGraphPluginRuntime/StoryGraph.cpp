@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginRuntime.h"
+
 #include "StoryGraph.h"
 #include "CustomNods.h"
 #include "EdGraph/EdGraph.h"
@@ -8,6 +8,7 @@
 #include "HUD_StoryGraph.h"
 #include "StoryGraphWiget.h"
 #include "SaveGameInstance.h"
+#include "LogCategoryRutime.h"
 
 //UStoryGraphBlueprint...............................................
 
@@ -99,7 +100,7 @@ void UStoryGraph::GetInternallySaveObjects(TArray<UObject*>& Objects, int Wanted
 {
 	if (CompilationCounter != LoadedCompilationCounter)
 	{
-		UE_LOG(StoryGraphPluginRuntime, Error, TEXT("Use old save file"));//If Compilercounters mismatch this mean we use old save file
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Use old save file"));//If Compilercounters mismatch this mean we use old save file
 		OldSaveFile = true;
 	}
 

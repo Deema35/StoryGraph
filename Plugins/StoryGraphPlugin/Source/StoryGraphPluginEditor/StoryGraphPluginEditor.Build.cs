@@ -6,7 +6,9 @@ public class StoryGraphPluginEditor : ModuleRules
 {
 	public StoryGraphPluginEditor(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] {
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs; // Enabel IWYU
+
+        PublicDependencyModuleNames.AddRange(new string[] {
             "Core",
             "CoreUObject",
             "InputCore",

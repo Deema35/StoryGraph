@@ -1,8 +1,12 @@
 // Copyright 2016 Dmitriy Pavlov
 
-#include "StoryGraphPluginRuntime.h"
+
 #include "SaveGameInstance.h"
 #include "HUD_StoryGraph.h"
+#include "LogCategoryRutime.h"
+#include "Engine/Engine.h"
+#include "EngineUtils.h"
+#include "StoryGraphWiget.h"
 
 void USaveGameInstance::SaveGame()
 {
@@ -129,12 +133,12 @@ void USaveGameInstance::LoadGameContinue()
 					}
 					else
 					{
-						UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Was find objec witch has not record in save file %s"), *ActorItr->GetName());
+						UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Was find objec witch has not record in save file %s"), *ActorItr->GetName());
 					}
 				}
 				else
 				{
-					UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Object records in save file less then objects on map"));
+					UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Object records in save file less then objects on map"));
 					return;
 				}
 
@@ -184,7 +188,7 @@ bool USaveGameInstance::SaveToFileCompresed(FString SavePath, TArray<uint8>& Dat
 
 	if (!FFileHelper::SaveArrayToFile(CompressedData, *SavePath))
 	{
-		UE_LOG(StoryGraphPluginRuntime, Error, TEXT("Cann't save file"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Cann't save file"));
 
 		Compressor.FlushCache();
 		CompressedData.Empty();
@@ -203,7 +207,7 @@ bool USaveGameInstance::LoadToFileCompresed(FString SavePath, TArray<uint8>& Dat
 
 	if (!FFileHelper::LoadFileToArray(CompressedData, *SavePath))
 	{
-		UE_LOG(StoryGraphPluginRuntime, Error, TEXT("Cann't open file"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Cann't open file"));
 
 		CompressedData.Empty();
 		return false;
@@ -214,7 +218,7 @@ bool USaveGameInstance::LoadToFileCompresed(FString SavePath, TArray<uint8>& Dat
 	//Decompression Error?
 	if (Decompressor.GetError())
 	{
-		UE_LOG(StoryGraphPluginRuntime, Error, TEXT("File Was Not Compressed"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("File Was Not Compressed"));
 
 		Decompressor.FlushCache();
 		CompressedData.Empty();
@@ -236,7 +240,7 @@ bool USaveGameInstance::SaveToFile(FString SavePath, TArray<uint8>& Data)
 
 	if (!FFileHelper::SaveArrayToFile(Data, *SavePath))
 	{
-		UE_LOG(StoryGraphPluginRuntime, Error, TEXT("Cann't save file"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Cann't save file"));
 		return false;
 
 	}
@@ -250,7 +254,7 @@ bool USaveGameInstance::LoadToFile(FString SavePath, TArray<uint8>& Data)
 
 	if (!FFileHelper::LoadFileToArray(Data, *SavePath))
 	{
-		UE_LOG(StoryGraphPluginRuntime, Error, TEXT("Cann't open file"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Cann't open file"));
 		return false;
 	}
 

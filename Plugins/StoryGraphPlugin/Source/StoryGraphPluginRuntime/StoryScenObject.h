@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "StoryGraphObject.h"
 #include "ObjectrRecord.h"
+#include "Engine/LevelScriptActor.h"
 #include "StoryScenObject.generated.h"
 
 class STORYGRAPHPLUGINRUNTIME_API IStoryScenObject

@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginRuntime.h"
+
 #include "StoryGraphObject.h"
 #include "StoryGraph.h"
 #include "StoryScenObject.h"

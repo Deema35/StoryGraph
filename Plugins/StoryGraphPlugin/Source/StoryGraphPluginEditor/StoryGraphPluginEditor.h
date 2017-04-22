@@ -2,16 +2,16 @@
 
 #pragma once
 
-#include "Engine.h"
+#include "EngineMinimal.h"
 #include "ModuleManager.h"
-#include "StoryGraphPluginRuntimeClasses.h"
-#include "EditorStyleSet.h"
-#include "EdGraph/EdGraphNodeUtils.h"
-#include "ScopedTransaction.h"
-#include "EdGraph/EdGraphPin.h"
-#include <map>
+//#include "StoryGraphPluginRuntimeClasses.h"
+//#include "EditorStyleSet.h"
+//#include "EdGraph/EdGraphNodeUtils.h"
+//#include "ScopedTransaction.h"
+//#include "EdGraph/EdGraphPin.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(StoryGraphEditor, All, All)
+
+
 
 class FStoryGraphEditorModule : public IModuleInterface
 {

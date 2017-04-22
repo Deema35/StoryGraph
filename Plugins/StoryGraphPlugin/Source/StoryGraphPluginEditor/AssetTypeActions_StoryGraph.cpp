@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "AssetTypeActions_StoryGraph.h"
 #include "Developer/AssetTools/Public/AssetTypeCategories.h"
 #include "AssetEditor_StoryGraph.h"

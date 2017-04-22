@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "DetailPanelCustomizationObject.h"
 #include "PropertyEditorModule.h"
 #include "DetailWidgetRow.h"

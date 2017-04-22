@@ -1,6 +1,7 @@
-#include "StoryGraphPluginRuntime.h"
+
 #include "ObjectrRecord.h"
 #include "CustomNods.h"
+#include "LogCategoryRutime.h"
 
 FObjectRecord::FObjectRecord(UObject* Object)
 {
@@ -68,7 +69,7 @@ void FObjectRecord::Load(UObject* Object)
 	}
 	else
 	{
-		UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Mismatch internaly objects and records num"));
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Mismatch internaly objects and records num"));
 	}
 	
 }

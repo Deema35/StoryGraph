@@ -1,12 +1,14 @@
 // Copyright 2016 Dmitriy Pavlov
 
-#include "StoryGraphPluginRuntime.h"
+
 #include "HUD_StoryGraph.h"
 #include "StoryGraphObject.h"
 #include "CustomNods.h"
 #include "StoryGraph.h"
 #include "StoryGraphWiget.h"
 #include "SaveGameInstance.h"
+#include "LogCategoryRutime.h"
+#include "EngineUtils.h"
 
 void AHUD_StoryGraph::OpenDialogOrOpenPlaceTriggerMessages(TArray<UStoryGraphObjectWithScenObject*>& OwningObjects)
 {
@@ -46,7 +48,7 @@ void AHUD_StoryGraph::OpenDialogOrOpenPlaceTriggerMessages(TArray<UStoryGraphObj
 					}
 					else
 					{
-						UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("Character %s dont have default answer"), *Character->ObjName.ToString());
+						UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Character %s dont have default answer"), *Character->ObjName.ToString());
 					}
 				}
 				else if (UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(CurrentStoryGraphObjects[i]))
@@ -58,7 +60,7 @@ void AHUD_StoryGraph::OpenDialogOrOpenPlaceTriggerMessages(TArray<UStoryGraphObj
 					}
 					else
 					{
-						UE_LOG(StoryGraphPluginRuntime, Warning, TEXT("PlaceTrigger %s dont have default answer"), *PlaceTrigger->ObjName.ToString());
+						UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("PlaceTrigger %s dont have default answer"), *PlaceTrigger->ObjName.ToString());
 					}
 				}
 			}
@@ -183,7 +185,7 @@ void AHUD_StoryGraph::PreInitializeComponents()
 		}
 
 
-		else UE_LOG(StoryGraphPluginRuntime, Error, TEXT("You must set GameIstans clas as USaveGameInstance"));
+		else UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("You must set GameIstans clas as USaveGameInstance"));
 	}
 }
 

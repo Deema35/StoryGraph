@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "GraphNodes_StoryGraph.h"
 #include "ScopedTransaction.h"
 #include "EditorStyleSet.h"

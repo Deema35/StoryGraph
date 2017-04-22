@@ -1,7 +1,7 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma once
 #include "Engine/DataAsset.h"
-#include "UnrealEd.h"
+#include "Factories/Factory.h"
 #include "AssetFactory_StoryGraph.generated.h"
 
 

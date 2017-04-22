@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "DragDropAction_StoryGraph.h"
 #include "StoryGraphObject.h"
 #include "CustomNods.h"

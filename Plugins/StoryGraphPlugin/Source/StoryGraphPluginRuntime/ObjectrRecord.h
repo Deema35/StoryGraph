@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-
+#include "Interface.h"
 #include "ObjectrRecord.generated.h"
 
 

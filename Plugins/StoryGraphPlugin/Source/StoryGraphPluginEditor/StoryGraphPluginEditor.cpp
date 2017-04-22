@@ -11,7 +11,7 @@
 #include "ClassIconFinder.h"
 #include "NodeStyle.h"
 
-DEFINE_LOG_CATEGORY(StoryGraphEditor)
+
 
 void FStoryGraphEditorModule::StartupModule()
 {

@@ -9,6 +9,8 @@
 
 #include "Object.h"
 #include "ObjectrRecord.h"
+#include <map>
+#include "EngineMinimal.h"
 #include "StoryGraphObject.generated.h"
 
 

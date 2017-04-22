@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "GraphSchema_StoryGraph.h"
 #include "ScopedTransaction.h"
 #include "CustomNods.h"

@@ -1,5 +1,5 @@
 // Copyright 2016 Dmitriy Pavlov
-#include "StoryGraphPluginEditor.h"
+
 #include "AssetFactory_StoryGraph.h"
 #include "StoryGraph.h"
 #include "Kismet2/KismetEditorUtilities.h"

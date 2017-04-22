@@ -1,7 +1,7 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma warning(disable: 4458)
 
-#include "StoryGraphPluginEditor.h"
+
 #include "AssetEditor_StoryGraph.h"
 #include "EditorStyleSet.h"
 #include "EdGraph/EdGraphNodeUtils.h"
@@ -38,7 +38,8 @@
 #include "Runtime/XmlParser/Public/XmlNode.h"
 #include "Runtime/XmlParser/Public/XmlFile.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
-
+#include "LogCategoryEditor.h"
+#include "EngineUtils.h"
 
 
 const FName CustomEditorAppName = FName(TEXT("CustomEditorApp"));
@@ -1222,7 +1223,7 @@ void FAssetEditor_StoryGraph::CompilStoryObjects()
 					continue;
 				}
 				CheckResult = false;
-				UE_LOG(StoryGraphEditor, Warning, TEXT("%s %s dont have any reference"), *UStoryGraphObject::GetObjectTypeEnumAsString(EditedObject->GarphObjects[j]->ObjectType),
+				UE_LOG(LogCategoryStoryGraphPluginEditor, Warning, TEXT("%s %s dont have any reference"), *UStoryGraphObject::GetObjectTypeEnumAsString(EditedObject->GarphObjects[j]->ObjectType),
 					*EditedObject->GarphObjects[j]->ObjName.ToString());
 				
 			}
@@ -1423,7 +1424,7 @@ void FAssetEditor_StoryGraph::ImportFromXMLFile()
 
 		if (!RootNode)
 		{
-			UE_LOG(StoryGraphEditor, Error, TEXT("Bad file"));
+			UE_LOG(LogCategoryStoryGraphPluginEditor, Error, TEXT("Bad file"));
 			return;
 		}
 
@@ -1709,7 +1710,7 @@ void FAssetEditor_StoryGraph::OnGraphEditorFocused(const TSharedRef<SGraphEditor
 
 void FAssetEditor_StoryGraph::ShowNotification(FString Text, SNotificationItem::ECompletionState State)
 {
-	UE_LOG(StoryGraphEditor, Error, TEXT("Notification"));
+	UE_LOG(LogCategoryStoryGraphPluginEditor, Error, TEXT("Notification"));
 	FNotificationInfo Info(FText::FromString(Text));
 	Info.bFireAndForget = true;
 	Info.FadeOutDuration = 1.0f;
