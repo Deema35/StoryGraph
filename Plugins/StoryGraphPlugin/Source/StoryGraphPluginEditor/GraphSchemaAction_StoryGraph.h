@@ -5,7 +5,7 @@
 
 struct FEdGraphSchemaAction_StoryGraph : public FEdGraphSchemaAction
 {
-	FEdGraphSchemaAction_StoryGraph(const FText& InNodeCategory, const FText& InMenuDesc, const FString& InToolTip, const int32 InGrouping, const int32 InSectionID)
+	FEdGraphSchemaAction_StoryGraph(const FText& InNodeCategory, const FText& InMenuDesc, const FText& InToolTip, const int32 InGrouping, const int32 InSectionID)
 		: FEdGraphSchemaAction(InNodeCategory, InMenuDesc, InToolTip, InGrouping, FText(), InSectionID)
 	{}
 	

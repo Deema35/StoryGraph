@@ -74,7 +74,7 @@ FString UStoryGraphObject::GetObjectTypeEnumAsString(EStoryObjectType EnumValue)
 	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("EStoryObjectType"), true);
 	if (!EnumPtr) return FString("Invalid");
 
-	return EnumPtr->GetEnumName((int)EnumValue);
+	return EnumPtr->GetNameStringByIndex((int)EnumValue);
 }
 
 FString UStoryGraphObject::GetObjectToolTip(EStoryObjectType EnumValue)

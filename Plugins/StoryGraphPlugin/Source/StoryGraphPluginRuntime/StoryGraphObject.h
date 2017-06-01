@@ -38,7 +38,7 @@ static FORCEINLINE FString GetEnumValueAsString(const FString& Name, TEnum Value
 		return FString("Invalid");
 	}
 
-	return enumPtr->GetEnumName((int32)Value);
+	return enumPtr->GetNameStringByIndex((int32)Value);
 }
 
 template<typename TEnum>
@@ -47,7 +47,7 @@ static FORCEINLINE TEnum GetEnumValueFromString(const FString& NameOfClass, cons
 	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *NameOfClass, true);
 	if (!EnumPtr) return (TEnum)0;
 
-	return (TEnum)EnumPtr->FindEnumIndex(FName(*ValueName));
+	return (TEnum)EnumPtr->GetIndexByName(FName(*ValueName));
 }
 
 

@@ -87,7 +87,7 @@ FString UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes EnumValue)
 	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("EPinDataTypes"), true);
 	if (!EnumPtr) return FString("Invalid");
 
-	return EnumPtr->GetEnumName((int)EnumValue);
+	return EnumPtr->GetNameStringByIndex((int)EnumValue);
 }
 
 

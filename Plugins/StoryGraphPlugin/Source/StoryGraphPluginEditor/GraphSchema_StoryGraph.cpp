@@ -231,7 +231,7 @@ void UEdGraphSchema_Base::AddAction(UStoryGraphObject* OwnedObject, ENodeType No
 	
 	
 	FText MenuDesc = FText::FromString(UCustomNodeBase::GetActionNameFromNodeType(NodeType));
-	FString ToolTip = UCustomNodeBase::GetToolTipFromNodeType(NodeType);
+	FText ToolTip = FText::FromString(UCustomNodeBase::GetToolTipFromNodeType(NodeType));
 	TSharedPtr<FCustomSchemaAction_NewNode> NewActorNodeAction = TSharedPtr<FCustomSchemaAction_NewNode>(new FCustomSchemaAction_NewNode(FText::FromString(Category), MenuDesc, ToolTip, InGruping));
 	
 	NewActorNodeAction->NodeType = NodeType;

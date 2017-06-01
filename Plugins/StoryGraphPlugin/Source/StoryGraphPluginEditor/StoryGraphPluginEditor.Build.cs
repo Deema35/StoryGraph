@@ -4,8 +4,8 @@ using UnrealBuildTool;
 
 public class StoryGraphPluginEditor : ModuleRules
 {
-	public StoryGraphPluginEditor(TargetInfo Target)
-	{
+	public StoryGraphPluginEditor(ReadOnlyTargetRules ROTargetRules) : base(ROTargetRules)
+    {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs; // Enabel IWYU
 
         PublicDependencyModuleNames.AddRange(new string[] {

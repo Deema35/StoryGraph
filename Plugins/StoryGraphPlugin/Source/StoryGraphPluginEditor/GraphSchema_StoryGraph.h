@@ -24,7 +24,7 @@ struct  FCustomSchemaAction_NewNode : public FEdGraphSchemaAction
 		: FEdGraphSchemaAction()
 	{}
 
-	FCustomSchemaAction_NewNode(const FText& InNodeCategory, const FText& InMenuDesc, const FString& InToolTip, const int32 InGrouping)
+	FCustomSchemaAction_NewNode(const FText& InNodeCategory, const FText& InMenuDesc, const FText& InToolTip, const int32 InGrouping)
 		: FEdGraphSchemaAction(InNodeCategory, InMenuDesc, InToolTip, InGrouping)
 	{}
 

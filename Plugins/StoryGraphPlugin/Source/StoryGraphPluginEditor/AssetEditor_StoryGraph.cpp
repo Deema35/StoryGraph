@@ -966,7 +966,7 @@ void FAssetEditor_StoryGraph::CollectAllActions(FGraphActionListBuilderBase& Out
 		
 		TSharedPtr<FEdGraphSchemaAction_StoryGraph> NewVarAction = MakeShareable(new FEdGraphSchemaAction_StoryGraph(FText::FromString(EditedObject->GarphObjects[i]->Category),
 			EditedObject->GarphObjects[i]->ObjName,
-			"PropertyTooltip",
+			FText::FromString("PropertyTooltip"),
 			0,
 			(int)EditedObject->GarphObjects[i]->ObjectType));
 		
