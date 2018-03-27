@@ -40,6 +40,7 @@
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
 #include "LogCategoryEditor.h"
 #include "EngineUtils.h"
+#include "HAL/PlatformApplicationMisc.h"
 
 
 const FName CustomEditorAppName = FName(TEXT("CustomEditorApp"));
@@ -673,7 +674,7 @@ void FAssetEditor_StoryGraph::CopySelectedNodes()
 		FString ExportedText;
 
 		FEdGraphUtilities::ExportNodesToText(SelectedNodes, /*out*/ ExportedText);
-		FPlatformMisc::ClipboardCopy(*ExportedText);
+		FPlatformApplicationMisc::ClipboardCopy(*ExportedText);
 	}
 	// Make sure the owner remains the same for the copied node
 	// TODO: Check MaterialEditor.cpp for reference
@@ -730,7 +731,7 @@ void FAssetEditor_StoryGraph::PasteNodesHere(const FVector2D& Location)
 
 		// Grab the text to paste from the clipboard.
 		FString TextToImport;
-		FPlatformMisc::ClipboardPaste(TextToImport);
+		FPlatformApplicationMisc::ClipboardPaste(TextToImport);
 
 		TSet<UEdGraphNode*> PastedNodes;
 
@@ -833,7 +834,7 @@ void FAssetEditor_StoryGraph::PasteNodesHere(const FVector2D& Location)
 bool  FAssetEditor_StoryGraph::CanPasteNodes() const
 {
 	FString ClipboardContent;
-	FPlatformMisc::ClipboardPaste(ClipboardContent);
+	FPlatformApplicationMisc::ClipboardPaste(ClipboardContent);
 
 	return FEdGraphUtilities::CanImportNodesFromText(AssetObject->FindGraph(EditedObject), ClipboardContent);
 }
@@ -1259,7 +1260,7 @@ void FAssetEditor_StoryGraph::ExportInXMLFile()
 	if (!ParentWindowHandle) return;
 
 	TArray<FString> OutputFile;
-	if (FDesktopPlatformModule::Get()->SaveFileDialog(ParentWindowHandle, FString("Save XML File"), FPaths::GameDir(), FString("XMLFile.xml"), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
+	if (FDesktopPlatformModule::Get()->SaveFileDialog(ParentWindowHandle, FString("Save XML File"), FPaths::ProjectDir(), FString("XMLFile.xml"), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
 	{
 		const FString FileTemplate = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n<root>\n</root>";
 		FXmlFile File(FileTemplate, EConstructMethod::ConstructFromBuffer);
@@ -1415,7 +1416,7 @@ void FAssetEditor_StoryGraph::ImportFromXMLFile()
 	if (!ParentWindowHandle) return;
 
 	TArray<FString> OutputFile;
-	if (FDesktopPlatformModule::Get()->OpenFileDialog(ParentWindowHandle, FString("Open XML File"), FPaths::GameDir(), FString(""), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
+	if (FDesktopPlatformModule::Get()->OpenFileDialog(ParentWindowHandle, FString("Open XML File"), FPaths::ProjectDir(), FString(""), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
 	{
 		EraseStroyGraph(); 
 

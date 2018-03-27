@@ -87,6 +87,7 @@ enum class EPerformNodeResult
 
 
 class UStoryGraphObject;
+class UStoryGraph;
 
 USTRUCT()
 struct FStoryGraphPin
@@ -121,12 +122,12 @@ public:
 	FString Comment;
 
 	UPROPERTY()
-	UStoryGraphObject* pGraphObject;
+	UStoryGraphObject* pGraphObject = nullptr;
 
 	ENodeType NodeType;
 
 	UPROPERTY()
-		class UStoryGraph* pStoryGraph;
+	UStoryGraph* pStoryGraph = nullptr;
 
 	UPROPERTY()
 	TArray<FStoryGraphPin> NodePins;

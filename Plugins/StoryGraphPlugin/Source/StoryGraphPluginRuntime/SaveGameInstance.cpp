@@ -44,7 +44,7 @@ void USaveGameInstance::SaveGame()
 			MemoryWriter << ObjectrRecordStoreSave[i];
 		}
 
-		FString SavePath = FPaths::GameSavedDir() + FString("SaveGames/") + "quicksave.save";
+		FString SavePath = FPaths::ProjectSavedDir() + FString("SaveGames/") + "quicksave.save";
 
 		SaveToFileCompresed(SavePath, Data);
 
@@ -64,7 +64,7 @@ void USaveGameInstance::LoadGame()
 	if (GWorld)
 	{
 		TArray<uint8> Data;
-		FString SavePath = FPaths::GameSavedDir() + FString("SaveGames/") + "quicksave.save";
+		FString SavePath = FPaths::ProjectSavedDir() + FString("SaveGames/") + "quicksave.save";
 		IsLevelLoded = true;
 
 		LoadToFileCompresed(SavePath, Data);

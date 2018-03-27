@@ -769,7 +769,7 @@ void FQuestStarNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 
 	TArray<UObject*> Objects;
 	Objects.Add(QuestPhaseNode->pGraphObject);
-	MyCategory.AddExternalProperty(Objects,GET_MEMBER_NAME_CHECKED(UStoryGraphQuest, MainQuest));
+	MyCategory.AddExternalObjectProperty(Objects,GET_MEMBER_NAME_CHECKED(UStoryGraphQuest, MainQuest));
 
 }
 

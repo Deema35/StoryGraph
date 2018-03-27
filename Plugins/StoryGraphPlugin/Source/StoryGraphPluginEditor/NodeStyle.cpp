@@ -28,7 +28,7 @@ FName FNodeStyle::GetStyleSetName()
 	return StyleSetName;
 }
 
-#define IMAGE_BRUSH( RelativePath, ... ) FSlateImageBrush( FPaths::GamePluginsDir() / "StoryGraphPlugin/Resources"/ RelativePath + TEXT(".png"), __VA_ARGS__ )
+#define IMAGE_BRUSH( RelativePath, ... ) FSlateImageBrush( FPaths::ProjectPluginsDir() / "StoryGraphPlugin/Resources"/ RelativePath + TEXT(".png"), __VA_ARGS__ )
 
 
 TSharedRef< FSlateStyleSet > FNodeStyle::Create()

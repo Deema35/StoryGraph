@@ -11,7 +11,7 @@
 class STORYGRAPHPLUGINRUNTIME_API IStoryScenObject
 {
 public:
-
+	virtual ~IStoryScenObject() {}
 	TArray<UStoryGraphObjectWithScenObject*> OwningStoryGraphObject;
 
 	bool IsEnabel;

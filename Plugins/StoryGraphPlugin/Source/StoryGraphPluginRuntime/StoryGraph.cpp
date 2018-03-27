@@ -320,7 +320,8 @@ void AStoryGraphActor::PreInitializeComponents()
 
 	if (StoryGraph)
 	{
-		
+		StoryGraph->OwnedActor = this;
+
 		for (int i = 0; i < StoryGraph->GarphObjects.Num(); i++)
 		{
 			

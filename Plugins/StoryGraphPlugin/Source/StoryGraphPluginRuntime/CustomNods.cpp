@@ -1477,16 +1477,18 @@ UDialogExitNode::UDialogExitNode()
 EPerformNodeResult UDialogExitNode::PerformNode()
 {
 	Super::PerformNode();
+	if (pStoryGraph && pStoryGraph->OwnedActor)
+	{
+		AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(pStoryGraph->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD());
 
-	AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD());
-	
-	if (HUD)
-	{
-		HUD->OpenDialogEvent(false);
-	}
-	else
-	{
-		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		if (HUD)
+		{
+			HUD->OpenDialogEvent(false);
+		}
+		else
+		{
+			UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		}
 	}
 	return EPerformNodeResult::Sucssed;
 }
@@ -1884,13 +1886,16 @@ EPerformNodeResult UEndGameNode::PerformNode()
 {
 	Super::PerformNode();
 
-	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
+	if (pStoryGraph && pStoryGraph->OwnedActor)
 	{
-		HUD->EndGame(pQuestPhase->Decription);
-	}
-	else
-	{
-		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(pStoryGraph->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD()))
+		{
+			HUD->EndGame(pQuestPhase->Decription);
+		}
+		else
+		{
+			UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		}
 	}
 
 	return EPerformNodeResult::Sucssed;
@@ -2044,11 +2049,14 @@ UAddScreenMessageNode::UAddScreenMessageNode()
 EPerformNodeResult UAddScreenMessageNode::PerformNode()
 {
 	Super::PerformNode();
-	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
+	if (pStoryGraph && pStoryGraph->OwnedActor)
 	{
-		if (HUD->GameScreen)
+		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(pStoryGraph->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD()))
 		{
-			HUD->GameScreen->AddMessageOnScreen(Message, Duration);
+			if (HUD->GameScreen)
+			{
+				HUD->GameScreen->AddMessageOnScreen(Message, Duration);
+			}
 		}
 	}
 
@@ -2238,15 +2246,17 @@ UPrintQuestPhaseOnScreenNode::UPrintQuestPhaseOnScreenNode()
 EPerformNodeResult UPrintQuestPhaseOnScreenNode::PerformNode()
 {
 	Super::PerformNode();
-
-	AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD());
-	if (HUD)
+	if (pStoryGraph && pStoryGraph->OwnedActor)
 	{
-		HUD->PrintQuestPhaseOnScreen(pQuestPhase->Decription);
-	}
-	else
-	{
-		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(pStoryGraph->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD());
+		if (HUD)
+		{
+			HUD->PrintQuestPhaseOnScreen(pQuestPhase->Decription);
+		}
+		else
+		{
+			UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+		}
 	}
 	return EPerformNodeResult::Sucssed;
 }
@@ -2277,16 +2287,20 @@ EPerformNodeResult USendMessagToLevelBlueprintNode::PerformNode()
 {
 	Super::PerformNode();
 
-	ALevelScriptActor_StoryGraph* LevelBlueprint = Cast<ALevelScriptActor_StoryGraph>(((AActor*)pStoryGraph->GetOuter())->GetWorld()->GetLevelScriptActor());
+	if (pStoryGraph && pStoryGraph->OwnedActor)
+	{
+		ALevelScriptActor_StoryGraph* LevelBlueprint = Cast<ALevelScriptActor_StoryGraph>(pStoryGraph->OwnedActor->GetWorld()->GetLevelScriptActor());
 
-	if (LevelBlueprint)
-	{
-		LevelBlueprint->GetMessegeFromStoryGraph(Message);
+		if (LevelBlueprint)
+		{
+			LevelBlueprint->GetMessegeFromStoryGraph(Message);
+		}
+		else
+		{
+			UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Reparen level blueprint"));
+		}
 	}
-	else
-	{
-		UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Reparen level blueprint"));
-	}
+	
 	return EPerformNodeResult::Sucssed;
 }
 

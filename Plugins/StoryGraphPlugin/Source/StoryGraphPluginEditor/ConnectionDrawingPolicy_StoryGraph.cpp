@@ -3,7 +3,7 @@
 #include "ConnectionDrawingPolicy_StoryGraph.h"
 #include "GraphEditor.h"
 #include "SGraphNode.h"
-
+#include "DrawElements.h"
 
 FConnectionDrawingPolicy_StoryGraph::FConnectionDrawingPolicy_StoryGraph(int32 InBackLayerID, int32 InFrontLayerID, float ZoomFactor, const FSlateRect& InClippingRect, FSlateWindowElementList& InDrawElements)
 : FConnectionDrawingPolicy(InBackLayerID, InFrontLayerID, ZoomFactor, InClippingRect, InDrawElements)
@@ -85,7 +85,6 @@ void FConnectionDrawingPolicy_StoryGraph::Internal_DrawLineWithArrow(const FVect
 		ArrowLayerID,
 		FPaintGeometry(ArrowDrawPos, ArrowImage->ImageSize * ZoomFactor, ZoomFactor),
 		ArrowImage,
-		ClippingRect,
 		ESlateDrawEffect::None,
 		AngleInRadians,
 		TOptional<FVector2D>(),

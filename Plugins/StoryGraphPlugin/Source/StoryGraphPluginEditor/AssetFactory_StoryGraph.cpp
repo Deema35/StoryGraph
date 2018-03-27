@@ -35,5 +35,6 @@ UObject* UAssetFactory_StoryGraph::FactoryCreateNew(UClass* Class, UObject* InPa
 
 	UBlueprint* NewBlueprint = FKismetEditorUtilities::CreateBlueprint(ParentClass, InParent, Name, BPTYPE_Normal, BlueprintClass, BlueprintGeneratedClass, CallingContext);
 	((UStoryGraphBlueprint*)NewBlueprint)->StoryGraph = NewObject<UStoryGraph>(NewBlueprint);
+
 	return NewBlueprint;
 }

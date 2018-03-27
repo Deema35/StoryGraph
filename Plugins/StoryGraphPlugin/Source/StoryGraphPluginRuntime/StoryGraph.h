@@ -127,9 +127,13 @@ public:
 		EStoryGraphState StoryGraphState;
 #endif //WITH_EDITORONLY_DATA
 
+	AActor* OwnedActor = nullptr;
+
 private:
 
 	bool OldSaveFile;
+
+	
 	
 public:
 	
