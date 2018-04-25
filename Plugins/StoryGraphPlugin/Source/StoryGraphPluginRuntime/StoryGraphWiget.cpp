@@ -140,7 +140,7 @@ void URadar_StoryGraphWidget::DrawRadarMark(FPaintContext& InContext, FLinearCol
 	float Distance = GetXYDistance(Target->GetActorLocation(), Character->GetActorLocation());
 	float DistanceMark = Distance > RadarVisionDistance ? RadarVisionDistance : Distance;
 	
-	float Angle = GetXYAngle(Character->GetController()->GetActorForwardVector(),Character->GetActorLocation() - Target->GetActorLocation());
+	float Angle = GetXYAngle(Character->GetController()->GetControlRotation().Vector(),Character->GetActorLocation() - Target->GetActorLocation());
 	
 	FVector MarkVector = FVector(0,0,0);
 	MarkVector.Y = DistanceMark / RadarVisionDistance * (RadarWidgetSize / 2 - 5);

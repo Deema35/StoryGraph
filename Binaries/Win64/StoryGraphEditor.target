@@ -5,14 +5,14 @@
 	"Version": 
 	{
 		"MajorVersion": 4,
-		"MinorVersion": 18,
-		"PatchVersion": 3,
-		"Changelist": 3832480,
-		"CompatibleChangelist": 3709383,
+		"MinorVersion": 19,
+		"PatchVersion": 1,
+		"Changelist": 3989454,
+		"CompatibleChangelist": 3944462,
 		"IsLicenseeVersion": 0,
 		"IsPromotedBuild": 1,
-		"BranchName": "++UE4+Release-4.18",
-		"BuildId": "3709383"
+		"BranchName": "++UE4+Release-4.19",
+		"BuildId": "3944462"
 	},
 	"BuildProducts": [
 		{
@@ -86,6 +86,21 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Blendables/LightPropagationVolume/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-LightPropagationVolumeEditor.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Developer/CLionSourceCodeAccess/Binaries/Win64/UE4Editor-CLionSourceCodeAccess.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Developer/CLionSourceCodeAccess/Binaries/Win64/UE4Editor-CLionSourceCodeAccess.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Developer/CLionSourceCodeAccess/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-CLionSourceCodeAccess.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -195,17 +210,47 @@
 			"IsPrecompiled": true
 		},
 		{
-			"Path": "$(EngineDir)/Plugins/Editor/AudioCapture/Binaries/Win64/UE4Editor-AudioCapture.dll",
+			"Path": "$(EngineDir)/Plugins/Editor/CryptoKeys/Binaries/Win64/UE4Editor-CryptoKeys.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
 		},
 		{
-			"Path": "$(EngineDir)/Plugins/Editor/AudioCapture/Binaries/Win64/UE4Editor-AudioCapture.pdb",
+			"Path": "$(EngineDir)/Plugins/Editor/CryptoKeys/Binaries/Win64/UE4Editor-CryptoKeys.pdb",
 			"Type": "SymbolFile",
 			"IsPrecompiled": true
 		},
 		{
-			"Path": "$(EngineDir)/Plugins/Editor/AudioCapture/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-AudioCapture.lib",
+			"Path": "$(EngineDir)/Plugins/Editor/CryptoKeys/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-CryptoKeys.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Editor/CryptoKeys/Binaries/Win64/UE4Editor-CryptoKeysOpenSSL.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Editor/CryptoKeys/Binaries/Win64/UE4Editor-CryptoKeysOpenSSL.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Editor/CryptoKeys/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-CryptoKeysOpenSSL.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Editor/DataValidation/Binaries/Win64/UE4Editor-DataValidation.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Editor/DataValidation/Binaries/Win64/UE4Editor-DataValidation.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Editor/DataValidation/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-DataValidation.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -296,6 +341,21 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Editor/SpeedTreeImporter/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-SpeedTreeImporter.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Enterprise/DatasmithContent/Binaries/Win64/UE4Editor-DatasmithContent.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Enterprise/DatasmithContent/Binaries/Win64/UE4Editor-DatasmithContent.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Enterprise/DatasmithContent/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-DatasmithContent.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -480,6 +540,21 @@
 			"IsPrecompiled": true
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/Media/LinearTimecode/Binaries/Win64/UE4Editor-LinearTimecode.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Media/LinearTimecode/Binaries/Win64/UE4Editor-LinearTimecode.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Media/LinearTimecode/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-LinearTimecode.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Media/MediaCompositing/Binaries/Win64/UE4Editor-MediaCompositing.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -645,6 +720,36 @@
 			"IsPrecompiled": true
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NetcodeUnitTest/Binaries/Win64/UE4Editor-NetcodeUnitTest.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NetcodeUnitTest/Binaries/Win64/UE4Editor-NetcodeUnitTest.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NetcodeUnitTest/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-NetcodeUnitTest.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NUTUnrealEngine4/Binaries/Win64/UE4Editor-NUTUnrealEngine4.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NUTUnrealEngine4/Binaries/Win64/UE4Editor-NUTUnrealEngine4.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NUTUnrealEngine4/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-NUTUnrealEngine4.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Online/OnlineSubsystem/Binaries/Win64/UE4Editor-OnlineSubsystem.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -750,6 +855,66 @@
 			"IsPrecompiled": true
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponent.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponent.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ProceduralMeshComponent.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponentEditor.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponentEditor.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ProceduralMeshComponentEditor.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Animation/LiveLink/Binaries/Win64/UE4Editor-LiveLink.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Animation/LiveLink/Binaries/Win64/UE4Editor-LiveLink.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Animation/LiveLink/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-LiveLink.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Animation/LiveLink/Binaries/Win64/UE4Editor-LiveLinkEditor.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Animation/LiveLink/Binaries/Win64/UE4Editor-LiveLinkEditor.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Animation/LiveLink/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-LiveLinkEditor.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Runtime/ArchVisCharacter/Binaries/Win64/UE4Editor-ArchVisCharacter.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -761,6 +926,36 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Runtime/ArchVisCharacter/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ArchVisCharacter.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/AudioCapture/Binaries/Win64/UE4Editor-AudioCapture.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/AudioCapture/Binaries/Win64/UE4Editor-AudioCapture.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/AudioCapture/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-AudioCapture.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/AudioCapture/Binaries/Win64/UE4Editor-AudioCaptureEditor.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/AudioCapture/Binaries/Win64/UE4Editor-AudioCaptureEditor.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/AudioCapture/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-AudioCaptureEditor.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -941,36 +1136,6 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Runtime/PhysXVehicles/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-PhysXVehiclesEditor.lib",
-			"Type": "ImportLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponent.dll",
-			"Type": "DynamicLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponent.pdb",
-			"Type": "SymbolFile",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ProceduralMeshComponent.lib",
-			"Type": "ImportLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponentEditor.dll",
-			"Type": "DynamicLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Binaries/Win64/UE4Editor-ProceduralMeshComponentEditor.pdb",
-			"Type": "SymbolFile",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ProceduralMeshComponentEditor.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -2037,6 +2202,21 @@
 			"IsPrecompiled": true
 		},
 		{
+			"Path": "$(EngineDir)/Binaries/Win64/Android/UE4Editor-Android_ETC1aTargetPlatform.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/Android/UE4Editor-Android_ETC1aTargetPlatform.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/Android/UE4Editor-Android_ETC1aTargetPlatform.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
 			"Path": "$(EngineDir)/Binaries/Win64/Android/UE4Editor-Android_ETC2TargetPlatform.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -2352,66 +2532,6 @@
 			"IsPrecompiled": true
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-XmlParser.dll",
-			"Type": "DynamicLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-XmlParser.pdb",
-			"Type": "SymbolFile",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-XmlParser.lib",
-			"Type": "ImportLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-TreeMap.dll",
-			"Type": "DynamicLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-TreeMap.pdb",
-			"Type": "SymbolFile",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-TreeMap.lib",
-			"Type": "ImportLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-SizeMap.dll",
-			"Type": "DynamicLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-SizeMap.pdb",
-			"Type": "SymbolFile",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-SizeMap.lib",
-			"Type": "ImportLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-ReferenceViewer.dll",
-			"Type": "DynamicLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-ReferenceViewer.pdb",
-			"Type": "SymbolFile",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ReferenceViewer.lib",
-			"Type": "ImportLibrary",
-			"IsPrecompiled": true
-		},
-		{
 			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-ContentBrowser.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -2663,6 +2783,21 @@
 		},
 		{
 			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-RawMesh.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-PinnedCommandList.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-PinnedCommandList.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-PinnedCommandList.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -3552,6 +3687,36 @@
 			"IsPrecompiled": true
 		},
 		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-HierarchicalLODOutliner.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-HierarchicalLODOutliner.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-HierarchicalLODOutliner.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-CommonMenuExtensions.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-CommonMenuExtensions.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-CommonMenuExtensions.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
 			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-Persona.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -3578,21 +3743,6 @@
 		},
 		{
 			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-Foliage.lib",
-			"Type": "ImportLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-HierarchicalLODOutliner.dll",
-			"Type": "DynamicLibrary",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-HierarchicalLODOutliner.pdb",
-			"Type": "SymbolFile",
-			"IsPrecompiled": true
-		},
-		{
-			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-HierarchicalLODOutliner.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -4493,6 +4643,21 @@
 		},
 		{
 			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-ProjectSettingsViewer.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-XmlParser.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-XmlParser.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-XmlParser.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -5517,6 +5682,21 @@
 			"IsPrecompiled": true
 		},
 		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-TreeMap.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-TreeMap.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-TreeMap.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
 			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-MediaUtils.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -5543,6 +5723,21 @@
 		},
 		{
 			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-MediaAssets.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-StandaloneRenderer.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-StandaloneRenderer.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-StandaloneRenderer.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
 		},
@@ -5577,6 +5772,36 @@
 			"IsPrecompiled": true
 		},
 		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-LiveLinkInterface.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-LiveLinkInterface.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-LiveLinkInterface.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-LiveLinkMessageBusFramework.dll",
+			"Type": "DynamicLibrary",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-LiveLinkMessageBusFramework.pdb",
+			"Type": "SymbolFile",
+			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-LiveLinkMessageBusFramework.lib",
+			"Type": "ImportLibrary",
+			"IsPrecompiled": true
+		},
+		{
 			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-BuildPatchServices.dll",
 			"Type": "DynamicLibrary",
 			"IsPrecompiled": true
@@ -5590,6 +5815,10 @@
 			"Path": "$(EngineDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-BuildPatchServices.lib",
 			"Type": "ImportLibrary",
 			"IsPrecompiled": true
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor.version",
+			"Type": "BuildResource"
 		},
 		{
 			"Path": "$(ProjectDir)/Plugins/StoryGraphPlugin/Binaries/Win64/UE4Editor.modules",
@@ -5611,6 +5840,10 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Blendables/LightPropagationVolume/LightPropagationVolume.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Developer/CLionSourceCodeAccess/CLionSourceCodeAccess.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -5642,7 +5875,11 @@
 			"Type": "UFS"
 		},
 		{
-			"Path": "$(EngineDir)/Plugins/Editor/AudioCapture/AudioCapture.uplugin",
+			"Path": "$(EngineDir)/Plugins/Editor/CryptoKeys/CryptoKeys.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Editor/DataValidation/DataValidation.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -5663,6 +5900,10 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Editor/SpeedTreeImporter/SpeedTreeImporter.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Enterprise/DatasmithContent/DatasmithContent.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -5687,6 +5928,10 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Media/ImgMedia/ImgMedia.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Media/LinearTimecode/LinearTimecode.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -5722,6 +5967,14 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NetcodeUnitTest/NetcodeUnitTest.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/NetcodeUnitTest/NUTUnrealEngine4/NUTUnrealEngine4.uplugin",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Online/OnlineSubsystem/OnlineSubsystem.uplugin",
 			"Type": "UFS"
 		},
@@ -5746,7 +5999,19 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/ProceduralMeshComponent.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Animation/LiveLink/LiveLink.uplugin",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(EngineDir)/Plugins/Runtime/ArchVisCharacter/ArchVisCharacter.uplugin",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Plugins/Runtime/AudioCapture/AudioCapture.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -5779,10 +6044,6 @@
 		},
 		{
 			"Path": "$(EngineDir)/Plugins/Runtime/PhysXVehicles/PhysXVehicles.uplugin",
-			"Type": "UFS"
-		},
-		{
-			"Path": "$(EngineDir)/Plugins/Runtime/ProceduralMeshComponent/ProceduralMeshComponent.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -6422,14 +6683,6 @@
 			"Type": "UFS"
 		},
 		{
-			"Path": "$(EngineDir)/Content/Slate/Fonts/NanumGothic.tps",
-			"Type": "UFS"
-		},
-		{
-			"Path": "$(EngineDir)/Content/Slate/Fonts/NanumGothic.ttf",
-			"Type": "UFS"
-		},
-		{
 			"Path": "$(EngineDir)/Content/Slate/Fonts/Noto.tps",
 			"Type": "UFS"
 		},
@@ -6438,7 +6691,31 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(EngineDir)/Content/Slate/Fonts/Roboto-Black.ttf",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Fonts/Roboto-BlackItalic.ttf",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(EngineDir)/Content/Slate/Fonts/Roboto-Bold.ttf",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Fonts/Roboto-BoldCondensed.ttf",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Fonts/Roboto-BoldCondensedItalic.ttf",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Fonts/Roboto-BoldItalic.ttf",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Fonts/Roboto-Italic.ttf",
 			"Type": "UFS"
 		},
 		{
@@ -6582,6 +6859,58 @@
 			"Type": "UFS"
 		},
 		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/Edit/icon_Edit_Rename_16x.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_025x_Hovered.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_025x_Normal.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_025x_Pressed.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_05x_Hovered.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_05x_Normal.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_05x_Pressed.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_1x_Hovered.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_1x_Normal.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_1x_Pressed.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_Screen_Rotation_Hovered.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_Screen_Rotation_Normal.png",
+			"Type": "UFS"
+		},
+		{
+			"Path": "$(EngineDir)/Content/Slate/Icons/PIEWindow/WindowButton_Screen_Rotation_Pressed.png",
+			"Type": "UFS"
+		},
+		{
 			"Path": "$(EngineDir)/Content/Slate/MessageLog/Log_Error.png",
 			"Type": "UFS"
 		},
@@ -6683,22 +7012,6 @@
 		},
 		{
 			"Path": "$(EngineDir)/Content/Slate/Testing/Wireframe.png",
-			"Type": "UFS"
-		},
-		{
-			"Path": "$(EngineDir)/Content/Slate/Testing/Fonts/Roboto-BlackItalic.ttf",
-			"Type": "UFS"
-		},
-		{
-			"Path": "$(EngineDir)/Content/Slate/Testing/Fonts/Roboto-BoldItalic.ttf",
-			"Type": "UFS"
-		},
-		{
-			"Path": "$(EngineDir)/Content/Slate/Testing/Fonts/Roboto-Italic.ttf",
-			"Type": "UFS"
-		},
-		{
-			"Path": "$(EngineDir)/Content/Slate/Testing/Fonts/Roboto.tps",
 			"Type": "UFS"
 		},
 		{
@@ -7826,75 +8139,79 @@
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PxFoundationPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Plugins/Experimental/AlembicImporter/Binaries/Win64/hdf5.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PxFoundationPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PxFoundationPROFILE_x64.dll",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PxFoundationPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PxPvdSDKPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PxPvdSDKPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PxPvdSDKPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PxPvdSDKPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3PROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3PROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3PROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3PROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3CookingPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3CookingPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3CookingPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3CookingPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3CommonPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3CommonPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3CommonPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3CommonPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PxFoundationPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PxFoundationPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PxPvdSDKPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PxPvdSDKPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/APEX_ClothingPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_ClothingPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/APEX_ClothingPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_ClothingPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/APEX_LegacyPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_LegacyPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/APEX_LegacyPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/APEX_LegacyPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/ApexFrameworkPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/ApexFrameworkPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/ApexFrameworkPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/ApexFrameworkPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
@@ -7906,11 +8223,11 @@
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/NvClothPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/NvClothPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/NvClothPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/NvClothPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
 		},
 		{
@@ -7934,12 +8251,40 @@
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3CookingPROFILE_x64.dll",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3CookingPROFILE_x64.dll",
 			"Type": "NonUFS"
 		},
 		{
-			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX/Win64/VS2015/PhysX3CookingPROFILE_x64.pdb",
+			"Path": "$(EngineDir)/Binaries/ThirdParty/PhysX3/Win64/VS2015/PhysX3CookingPROFILE_x64.pdb",
 			"Type": "DebugNonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Shaders/StandaloneRenderer/D3D/GammaCorrectionCommon.hlsl",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Shaders/StandaloneRenderer/D3D/SlateDefaultVertexShader.hlsl",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Shaders/StandaloneRenderer/D3D/SlateElementPixelShader.hlsl",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Shaders/StandaloneRenderer/OpenGL/SlateElementPixelShader.glsl",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Shaders/StandaloneRenderer/OpenGL/SlateVertexShader.glsl",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Shaders/StandaloneRenderer/OpenGL/SplashFragmentShader.glsl",
+			"Type": "NonUFS"
+		},
+		{
+			"Path": "$(EngineDir)/Shaders/StandaloneRenderer/OpenGL/SplashVertexShader.glsl",
+			"Type": "NonUFS"
 		}
 	],
 	"AdditionalProperties": [

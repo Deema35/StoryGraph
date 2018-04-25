@@ -283,7 +283,7 @@ void SGraphNode_CustomNodeBase::AddPin(const TSharedRef<SGraphPin>& PinToAdd)
 
 	if (PinToAdd->GetDirection() == EEdGraphPinDirection::EGPD_Input)
 	{
-		if (PinToAdd->GetPinObj()->PinType.PinCategory == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Vertical))
+		if (PinToAdd->GetPinObj()->PinType.PinCategory.ToString() == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Vertical))
 		{
 			TopNodeBox->AddSlot()
 				.HAlign(HAlign_Fill)
@@ -295,7 +295,7 @@ void SGraphNode_CustomNodeBase::AddPin(const TSharedRef<SGraphPin>& PinToAdd)
 				];
 			InputPins.Add(PinToAdd);
 		}
-		else if (PinToAdd->GetPinObj()->PinType.PinCategory == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Horizontal))
+		else if (PinToAdd->GetPinObj()->PinType.PinCategory.ToString() == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Horizontal))
 		{
 			LeftNodeBox->AddSlot()
 				.HAlign(HAlign_Fill)
@@ -312,7 +312,7 @@ void SGraphNode_CustomNodeBase::AddPin(const TSharedRef<SGraphPin>& PinToAdd)
 	
 	else  // Direction == EEdGraphPinDirection::EGPD_Output
 	{
-		if (PinToAdd->GetPinObj()->PinType.PinCategory == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Vertical))
+		if (PinToAdd->GetPinObj()->PinType.PinCategory.ToString() == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Vertical))
 		{
 			BottomNodeBox->AddSlot()
 				.HAlign(HAlign_Fill)
@@ -323,7 +323,7 @@ void SGraphNode_CustomNodeBase::AddPin(const TSharedRef<SGraphPin>& PinToAdd)
 				];
 			OutputPins.Add(PinToAdd);
 		}
-		else if (PinToAdd->GetPinObj()->PinType.PinCategory == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Horizontal))
+		else if (PinToAdd->GetPinObj()->PinType.PinCategory.ToString() == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Horizontal))
 		{
 			RightNodeBox->AddSlot()
 				.HAlign(HAlign_Fill)

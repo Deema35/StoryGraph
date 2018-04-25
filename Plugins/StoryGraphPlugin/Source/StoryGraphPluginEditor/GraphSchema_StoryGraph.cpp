@@ -13,6 +13,7 @@
 #include "StoryGraph.h"
 #include "Graph_StoryGraph.h"
 #include "AssetEditor_StoryGraph.h"
+#include "Framework/MultiBox/MultiBoxBuilder.h"
 
 
 
@@ -256,7 +257,7 @@ const FPinConnectionResponse UEdGraphSchema_StoryGraph::CanCreateConnection(cons
 	UProxyNodeBase* ABase = Cast<UProxyNodeBase>(A->GetOwningNode());
 	UProxyNodeBase* BBase = Cast<UProxyNodeBase>(B->GetOwningNode());
 
-	if (A->PinType.PinCategory == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Horizontal) && (A->LinkedTo.Num() > 0 || B->LinkedTo.Num() > 0))
+	if (A->PinType.PinCategory.ToString() == UCustomNodeBase::GetPinDataTypeEnumAsString(EPinDataTypes::PinType_Horizontal) && (A->LinkedTo.Num() > 0 || B->LinkedTo.Num() > 0))
 	{
 		return FPinConnectionResponse(CONNECT_RESPONSE_DISALLOW, TEXT("Horizontal pins have not more the one connection"));
 	}

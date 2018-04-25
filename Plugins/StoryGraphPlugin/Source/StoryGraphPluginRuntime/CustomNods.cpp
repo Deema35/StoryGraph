@@ -2246,8 +2246,10 @@ UPrintQuestPhaseOnScreenNode::UPrintQuestPhaseOnScreenNode()
 EPerformNodeResult UPrintQuestPhaseOnScreenNode::PerformNode()
 {
 	Super::PerformNode();
+
 	if (pStoryGraph && pStoryGraph->OwnedActor)
 	{
+
 		AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(pStoryGraph->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD());
 		if (HUD)
 		{

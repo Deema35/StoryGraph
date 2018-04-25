@@ -239,7 +239,7 @@ void UStoryGraph::RefreshRadarTargets()
 		}
 
 	}
-	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
 		if (HUD->Radar)
 		{

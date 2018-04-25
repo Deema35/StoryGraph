@@ -11,15 +11,15 @@
 void USaveGameInstance::SaveGame()
 {
 	
-	if (GWorld)
+	if (GetWorld())
 	{
 		
 		TArray<FObjectRecord> ObjectrRecordStoreSave;
 
-		APawn* Pawn = GWorld->GetFirstPlayerController()->GetPawn();
+		APawn* Pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 		ObjectrRecordStoreSave.Add(FObjectRecord(Pawn));
 		
-		for (TActorIterator<AActor> ActorItr(GWorld); ActorItr; ++ActorItr)
+		for (TActorIterator<AActor> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 		{
 			if (ISaveObject_StoryGraph* SaveObject = Cast<ISaveObject_StoryGraph>(*ActorItr))
 			{
@@ -33,7 +33,7 @@ void USaveGameInstance::SaveGame()
 		FSaveAchiveHeader  AchiveHeader;
 
 		AchiveHeader.ObjectrRecordNum = ObjectrRecordStoreSave.Num();
-		FString MapName = GWorld->GetMapName();
+		FString MapName = GetWorld()->GetMapName();
 		int NameStart = MapName.Find("_", ESearchCase::IgnoreCase, ESearchDir::FromEnd);
 
 		AchiveHeader.LevelName = MapName.RightChop(NameStart + 1);
@@ -48,7 +48,7 @@ void USaveGameInstance::SaveGame()
 
 		SaveToFileCompresed(SavePath, Data);
 
-		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GWorld->GetFirstPlayerController()->GetHUD()))
+		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 		{
 			if (HUD->GameScreen)
 			{
@@ -61,7 +61,7 @@ void USaveGameInstance::SaveGame()
 
 void USaveGameInstance::LoadGame()
 {
-	if (GWorld)
+	if (GetWorld())
 	{
 		TArray<uint8> Data;
 		FString SavePath = FPaths::ProjectSavedDir() + FString("SaveGames/") + "quicksave.save";
@@ -75,7 +75,7 @@ void USaveGameInstance::LoadGame()
 
 
 
-		UGameplayStatics::OpenLevel(GWorld, FName(*AchiveHeader.LevelName), true);
+		UGameplayStatics::OpenLevel(GetWorld(), FName(*AchiveHeader.LevelName), true);
 
 		//Read object records
 		
@@ -94,12 +94,12 @@ void USaveGameInstance::LoadGame()
 void USaveGameInstance::LoadGameContinue()
 {
 
-	if (IsLevelLoded && GWorld && ObjectrRecordStore.Num() > 0)
+	if (IsLevelLoded && GetWorld() && ObjectrRecordStore.Num() > 0)
 	{
 
 		int i = 0;
 
-		for (TActorIterator<AActor> ActorItr(GWorld); ActorItr; ++ActorItr)
+		for (TActorIterator<AActor> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 		{
 
 			if (ISaveObject_StoryGraph* SaveObject = Cast<ISaveObject_StoryGraph>(*ActorItr))
@@ -156,16 +156,16 @@ void USaveGameInstance::LoadGameContinue()
 
 void USaveGameInstance::LoadCharacter()
 {
-	if (IsLevelLoded && GWorld && ObjectrRecordStore.Num() > 0)
+	if (IsLevelLoded && GetWorld() && ObjectrRecordStore.Num() > 0)
 	{
-		APawn* Pawn = GWorld->GetFirstPlayerController()->GetPawn();
+		APawn* Pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 		ObjectrRecordStore[0].Load(Pawn);
 
 
 		IsLevelLoded = false;
 		ObjectrRecordStore.Empty();
 
-		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GWorld->GetFirstPlayerController()->GetHUD()))
+		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 		{
 			if (HUD->GameScreen)
 			{

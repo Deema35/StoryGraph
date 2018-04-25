@@ -136,6 +136,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, SaveGame)
 		int32 ObjectState;
 
+
 };
 
 UCLASS(Abstract)

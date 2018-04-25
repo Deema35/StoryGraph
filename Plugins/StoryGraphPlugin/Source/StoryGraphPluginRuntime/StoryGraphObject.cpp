@@ -326,13 +326,16 @@ void UStoryGraphQuest::SetCurentState(int NewState)
 
 		break;
 	}
-	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)GetOuter()->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
+	
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((UStoryGraph*)GetOuter())->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
 		if (HUD->GameScreen)
 		{
 			HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
 		}
 	}
+	
+	
 	((UStoryGraph*)GetOuter())->QuestStateWasChange = true;
 }
 
@@ -345,15 +348,17 @@ void UStoryGraphQuest::AddPhase(UQuestPhase* Phase)
 	}
 	else
 	{
-		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((AActor*)GetOuter()->GetOuter())->GetWorld()->GetFirstPlayerController()->GetHUD()))
-		{
-			FText Mesg = FText::Format(NSLOCTEXT("StoryGraph", "AddQuestPhaseMessage2", "Quest {0} changed"), ObjName);
-
-			if (HUD->GameScreen)
+		
+			if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>((((UStoryGraph*)GetOuter())->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD())))
 			{
-				HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
+				FText Mesg = FText::Format(NSLOCTEXT("StoryGraph", "AddQuestPhaseMessage2", "Quest {0} changed"), ObjName);
+
+				if (HUD->GameScreen)
+				{
+					HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
+				}
 			}
-		}
+		
 	}
 
 	QuestPhase.Add(Phase);
