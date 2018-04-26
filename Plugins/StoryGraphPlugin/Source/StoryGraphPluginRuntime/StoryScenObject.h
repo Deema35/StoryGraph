@@ -21,7 +21,7 @@ public:
 	IStoryScenObject() : IsEnabel(true) {}
 	virtual void RefreshScenObjectActive();
 	virtual void EnabelObjectOnMap(bool Enabel) = 0;
-	virtual void SetStoryGraphObjectState(int NewState);
+	virtual void SetStoryGraphObjectState(int NewState) = 0;
 	virtual void SendMessageToScenObject(FString Message) = 0;
 
 };
@@ -54,7 +54,7 @@ public:
 
 	virtual void SendMessageToScenObject(FString Message) override;
 
-	
+	virtual void SetStoryGraphObjectState(int NewState) override;
 };
 
 
@@ -76,6 +76,8 @@ public:
 	virtual void SendMessageToScenObject(FString Message) override;
 
 	virtual void EnabelObjectOnMap(bool Enabel) override;
+
+	virtual void SetStoryGraphObjectState(int NewState) override;
 };
 
 UCLASS()
@@ -95,8 +97,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = StoryGraph)
 		void Activate();
-
-	
 };
 
 UCLASS()
@@ -121,7 +121,6 @@ class STORYGRAPHPLUGINRUNTIME_API AOtherActor_StoryGraph : public AScenObjectAct
 	GENERATED_BODY()
 public:
 
-
 };
 
 UCLASS()
@@ -131,4 +130,5 @@ class ALevelScriptActor_StoryGraph : public ALevelScriptActor
 public:
 	UFUNCTION(BlueprintImplementableEvent, Category = StoryGraph)
 		void GetMessegeFromStoryGraph(const FString& Message);
+
 };

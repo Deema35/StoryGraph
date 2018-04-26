@@ -22,16 +22,7 @@ void IStoryScenObject::RefreshScenObjectActive()
 	EnabelObjectOnMap(IsActive);
 }
 
-void IStoryScenObject::SetStoryGraphObjectState(int NewState)
-{
-	for (int i = 0; i < OwningStoryGraphObject.Num(); i++)
-	{
-		if (OwningStoryGraphObject[i])
-		{
-			OwningStoryGraphObject[i]->SetCurentState(NewState);
-		}
-	}
-}
+
 
 //ACharecter_StoryGraph........................................................................
 ACharecter_StoryGraph::ACharecter_StoryGraph()
@@ -79,6 +70,26 @@ FText ACharecter_StoryGraph::GetObjectName()
 	return OwningStoryGraphObject.Num() > 0 ? OwningStoryGraphObject[0]->ObjName : FText::FromString("Non");
 }
 
+
+
+void ACharecter_StoryGraph::SetStoryGraphObjectState(int NewState)
+{
+
+	if (GetWorld()->GetFirstPlayerController())
+	{
+		for (int i = 0; i < OwningStoryGraphObject.Num(); i++)
+		{
+			if (OwningStoryGraphObject[i])
+			{
+				OwningStoryGraphObject[i]->SetCurentState(NewState);
+			}
+		}
+	}
+
+}
+
+//AScenObjectActor_StoryGraph....................................................
+
 void AScenObjectActor_StoryGraph::EnabelObjectOnMap(bool Enabel)
 {
 	IsEnabel = Enabel;
@@ -86,8 +97,6 @@ void AScenObjectActor_StoryGraph::EnabelObjectOnMap(bool Enabel)
 	SetActorEnableCollision(Enabel);
 	SetActorTickEnabled(Enabel);
 }
-
-//AScenObjectActor_StoryGraph....................................................
 
 void AScenObjectActor_StoryGraph::SendMessageToScenObject(FString Message)
 {
@@ -97,6 +106,22 @@ void AScenObjectActor_StoryGraph::SendMessageToScenObject(FString Message)
 FText AScenObjectActor_StoryGraph::GetObjectName()
 {
 	return OwningStoryGraphObject.Num() > 0 ? OwningStoryGraphObject[0]->ObjName : FText::FromString("Non");
+}
+
+void AScenObjectActor_StoryGraph::SetStoryGraphObjectState(int NewState)
+{
+
+	if (GetWorld() && GetWorld()->GetFirstPlayerController())
+	{
+		for (int i = 0; i < OwningStoryGraphObject.Num(); i++)
+		{
+			if (OwningStoryGraphObject[i])
+			{
+				OwningStoryGraphObject[i]->SetCurentState(NewState);
+			}
+		}
+	}
+
 }
 
 //APlaceTrigger_StoryGraph......................................................................
@@ -138,16 +163,20 @@ void APlaceTrigger_StoryGraph::Activate()
 	}
 	if (AdvanceInteractiveTriggers.Num() > 0)
 	{
-		AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD());
-
-		if (HUD)
+		if (GetWorld())
 		{
-			HUD->OpenDialogOrOpenPlaceTriggerMessages(AdvanceInteractiveTriggers);
+			AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD());
+			
+			if (HUD)
+			{
+				HUD->OpenDialogOrOpenPlaceTriggerMessages(AdvanceInteractiveTriggers);
+			}
+			else
+			{
+				UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
+			}
 		}
-		else
-		{
-			UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Your HUD should inherit AHUD_StoryGraph class"));
-		}
+		
 		
 	}
 }

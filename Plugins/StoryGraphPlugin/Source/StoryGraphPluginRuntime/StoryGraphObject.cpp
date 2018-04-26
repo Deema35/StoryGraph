@@ -336,6 +336,7 @@ void UStoryGraphQuest::SetCurentState(int NewState)
 	}
 	
 	
+	
 	((UStoryGraph*)GetOuter())->QuestStateWasChange = true;
 }
 
