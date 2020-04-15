@@ -2,6 +2,7 @@
 #pragma once
 
 #include "IDetailCustomization.h"
+#include "SlateEnums.h"
 
 class FStoryGraphObjectDetail : public IDetailCustomization
 {
@@ -20,15 +21,12 @@ public:
 
 protected:
 	class IDetailCategoryBuilder* pMainPanel;
-
-	
-
 };
 
-class FStoryGraphObjectWithScenObjectDetail : public FStoryGraphObjectDetail
+class FStoryGraphObjectWithSceneObjectDetail : public FStoryGraphObjectDetail
 {
 public:
-	//FStoryGraphObjectWithScenObjectDetail() {}
+	//FStoryGraphObjectWithSceneObjectDetail() {}
 
 	/** Makes a new instance of this detail layout class for a specific detail view requesting it */
 	static TSharedRef<IDetailCustomization> MakeInstance();
@@ -39,7 +37,7 @@ protected:
 	class IDetailCategoryBuilder* pScenObjectsPanel;
 };
 
-class FStoryGraphCharecterDetail : public FStoryGraphObjectWithScenObjectDetail
+class FStoryGraphCharacterDetail : public FStoryGraphObjectWithSceneObjectDetail
 {
 public:
 
@@ -52,10 +50,9 @@ public:
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
 
 	void DefaultAnswerCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder);
-	
 };
 
-class FStoryGraphPlaceTriggerDetail : public FStoryGraphObjectWithScenObjectDetail
+class FStoryGraphPlaceTriggerDetail : public FStoryGraphObjectWithSceneObjectDetail
 {
 public:
 
@@ -79,10 +76,9 @@ public:
 
 	/** IDetailCustomization interface */
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
-
 };
 
-class FStoryGraphOthersDetail : public FStoryGraphObjectWithScenObjectDetail
+class FStoryGraphOthersDetail : public FStoryGraphObjectWithSceneObjectDetail
 {
 public:
 
@@ -91,5 +87,4 @@ public:
 
 	/** IDetailCustomization interface */
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
-
 };

@@ -4,7 +4,6 @@
 
 class SGraphPaletteItem_StoryGraph : public SGraphPaletteItem
 {
-
 public:
 	DECLARE_DELEGATE_TwoParams(FOnNameTextCommittedDelegate, const FText&, ETextCommit::Type);
 

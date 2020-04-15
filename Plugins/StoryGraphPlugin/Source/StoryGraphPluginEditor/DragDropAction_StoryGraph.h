@@ -2,6 +2,7 @@
 #pragma once
 
 #include "GraphEditorDragDropAction.h"
+#include "ProxyNodes.h"
 
 /** DragDropAction class for dropping a Variable onto a graph */
 class FDragDropAction_StoryGraph : public FGraphEditorDragDropAction
@@ -13,7 +14,8 @@ public:
 	virtual void HoverTargetChanged() override;
 	virtual FReply DroppedOnPin(FVector2D ScreenPosition, FVector2D GraphPosition) override;
 	virtual FReply DroppedOnNode(FVector2D ScreenPosition, FVector2D GraphPosition) override;
-	virtual FReply DroppedOnPanel(const TSharedRef< class SWidget >& Panel, FVector2D ScreenPosition, FVector2D GraphPosition, UEdGraph& Graph) override;
+	virtual FReply DroppedOnPanel(const TSharedRef<class SWidget>& Panel, FVector2D ScreenPosition,
+	                              FVector2D GraphPosition, UEdGraph& Graph) override;
 	virtual FReply DroppedOnAction(TSharedRef<struct FEdGraphSchemaAction> Action) override;
 	virtual FReply DroppedOnCategory(FText Category) override;
 	// End of FGraphEditorDragDropAction
@@ -27,14 +29,12 @@ public:
 		return Operation;
 	}
 
-	
-
 
 protected:
-	
+
 	UStoryGraphObject* DraggedObject;
 
-	
+
 	struct FNodeConstructionParams
 	{
 		ENodeType NodeType;
@@ -45,5 +45,4 @@ protected:
 
 
 	static void SpawnNode(FNodeConstructionParams InParams);
-	
 };

@@ -3,24 +3,26 @@
 
 #include "SGraphNode.h"
 #include "AssetThumbnail.h"
-#include "CustomNods.h"
+#include "CustomNodes.h"
 #include "SGraphPin.h"
 
 
-
-
+class UProxyNodeBase;
 
 //PineNode....................................................................................
-class  SCustomOutputPin : public SGraphPin
+class SCustomOutputPin : public SGraphPin
 {
 public:
-	SLATE_BEGIN_ARGS(SCustomOutputPin) {}
+SLATE_BEGIN_ARGS(SCustomOutputPin)
+		{
+		}
+
 	SLATE_END_ARGS()
 
-		void Construct(const FArguments& InArgs, UEdGraphPin* InPin, int PinNumber = 0);
+	void Construct(const FArguments& InArgs, UEdGraphPin* InPin, int PinNumber = 0);
 protected:
 	// Begin SGraphPin interface
-	virtual TSharedRef<SWidget>	GetDefaultValueWidget() override;
+	virtual TSharedRef<SWidget> GetDefaultValueWidget() override;
 	// End SGraphPin interface
 
 	/** @return The color that we should use to draw this pin */
@@ -38,10 +40,13 @@ private:
 };
 
 //CustomNodeBase.............................................................................................................
-class  SGraphNode_CustomNodeBase : public SGraphNode
+class SGraphNode_CustomNodeBase : public SGraphNode
 {
 public:
-	SLATE_BEGIN_ARGS(SGraphNode_CustomNodeBase) { }
+SLATE_BEGIN_ARGS(SGraphNode_CustomNodeBase)
+		{
+		}
+
 	SLATE_END_ARGS()
 
 	/** Constructs this widget with InArgs */
@@ -55,29 +60,25 @@ public:
 	// End of SGraphNode interface
 
 protected:
-	class UProxyNodeBase* NodeBace;
+	class UProxyNodeBase* NodeBase;
 	virtual const FSlateBrush* GetNameIcon() const;
 	TSharedPtr<SHorizontalBox> TopNodeBox;
 	TSharedPtr<SHorizontalBox> BottomNodeBox;
-	TSharedPtr<SOverlay> NodeWiget;
+	TSharedPtr<SOverlay> NodeWidget;
 	virtual void AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox);
 private:
-	TSharedPtr<IToolTip> CreateToolTipWiget();
-	
+	TSharedPtr<IToolTip> CreateToolTipWidget();
 };
-
 
 
 //StoryGraphDependetNode....................................................................................................................
 
-class SGraphNode_StoryGraphDependetNode : public SGraphNode_CustomNodeBase
+class SGraphNode_StoryGraphDependedNode : public SGraphNode_CustomNodeBase
 {
 public:
 
 	virtual void AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox) override;
-
 };
-
 
 
 //DialogNodeBase..................................................................................................................
@@ -87,7 +88,7 @@ public:
 
 	virtual void UpdateGraphNode() override;
 	virtual void CreatePinWidgets() override;
-	
+
 
 protected:
 	virtual void AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox) override;
@@ -95,12 +96,11 @@ protected:
 
 //StoryGraphDependetNode....................................................................................................................
 
-class SGraphNode_DialogDependetNode : public SGraphNode_DialogBase
+class SGraphNode_DialogDependedNode : public SGraphNode_DialogBase
 {
 public:
 
 	virtual void AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox) override;
-
 };
 
 //DialogRootNode..................................................................................................................
@@ -108,7 +108,6 @@ class SGraphNode_DialogRoot : public SGraphNode_DialogBase
 {
 protected:
 	virtual void AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox) override;
-
 };
 
 //DialogNode..................................................................................................................
@@ -118,6 +117,4 @@ public:
 	virtual void CreatePinWidgets() override;
 protected:
 	virtual void AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox) override;
-
 };
-

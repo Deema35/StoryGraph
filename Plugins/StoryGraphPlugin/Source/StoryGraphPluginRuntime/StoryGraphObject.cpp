@@ -1,11 +1,11 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "StoryGraphObject.h"
-#include "StoryGraph.h"
-#include "StoryScenObject.h"
+#include "CustomNodes.h"
 #include "HUD_StoryGraph.h"
-#include "CustomNods.h"
-#include "StoryGraphWiget.h"
+#include "StoryGraph.h"
+#include "StoryGraphWidget.h"
+#include "StorySceneObject.h"
 #if WITH_EDITORONLY_DATA
 #include "AssetEditorManager.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
@@ -29,18 +29,15 @@ UStoryGraphObject::UStoryGraphObject()
 	Category = "Default";
 	ObjName = FText::FromString("New Object" + FString::FromInt(OthersNum++));
 	ObjectType = EStoryObjectType::Non;
-
-	
 }
 
 TSubclassOf<UStoryGraphObject> UStoryGraphObject::GetClassFromStoryObjectType(EStoryObjectType EnumValue)
 {
-
 	switch (EnumValue)
 	{
 	case EStoryObjectType::Character:
 
-		return UStoryGraphCharecter::StaticClass();
+		return UStoryGraphCharacter::StaticClass();
 
 	case EStoryObjectType::Quest:
 
@@ -65,7 +62,6 @@ TSubclassOf<UStoryGraphObject> UStoryGraphObject::GetClassFromStoryObjectType(ES
 	default:
 
 		return UStoryGraphObject::StaticClass();
-
 	}
 }
 
@@ -81,29 +77,29 @@ FString UStoryGraphObject::GetObjectToolTip(EStoryObjectType EnumValue)
 {
 	switch (EnumValue)
 	{
-		case EStoryObjectType::Character:
+	case EStoryObjectType::Character:
 
-			return "Character has dialogs.";
+		return "Character has dialogs.";
 
-		case EStoryObjectType::Quest:
+	case EStoryObjectType::Quest:
 
-			return "List of all available quests. After you added quest, will available start quest node.";
+		return "List of all available quests. After you added quest, will available start quest node.";
 
-		case EStoryObjectType::DialogTrigger:
+	case EStoryObjectType::DialogTrigger:
 
-			return "Special facility for interaction dialogue(meesage) graph and main graph.";
+		return "Special facility for interaction dialogue(meesage) graph and main graph.";
 
-		case EStoryObjectType::PlaceTrigger:
+	case EStoryObjectType::PlaceTrigger:
 
-			return "PlaceTrigger - interactive object on map.";
+		return "PlaceTrigger - interactive object on map.";
 
-		case EStoryObjectType::InventoryItem:
+	case EStoryObjectType::InventoryItem:
 
-			return "Story object which can be added to inventory.";
+		return "Story object which can be added to inventory.";
 
-		case EStoryObjectType::Others:
+	case EStoryObjectType::Others:
 
-			return "Objects that do not have states. But can get messages.";
+		return "Objects that do not have states. But can get messages.";
 
 	default:
 
@@ -111,169 +107,165 @@ FString UStoryGraphObject::GetObjectToolTip(EStoryObjectType EnumValue)
 	}
 }
 
-void UStoryGraphObject::SetCurentState(int NewState)
+void UStoryGraphObject::SetCurrentState(int NewState)
 {
-
 	ObjectState = NewState;
 	((UStoryGraph*)GetOuter())->RefreshExecutionTrees();
 }
 
-void UStoryGraphObject::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphObject::GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties)
 {
-	Propertys.clear();
+	Properties.clear();
 
-	Propertys.insert(std::pair<FString, XMLProperty>("ObjName", XMLProperty(ObjName.ToString())));
-	Propertys.insert(std::pair<FString, XMLProperty>("ObjectType", XMLProperty(GetEnumValueAsString<EStoryObjectType>("EStoryObjectType", ObjectType))));
-	Propertys.insert(std::pair<FString, XMLProperty>("Category", XMLProperty( Category)));
-	Propertys.insert(std::pair<FString, XMLProperty>("Comment", XMLProperty(Comment)));
-	
-
+	Properties.insert(std::pair<FString, XMLProperty>("ObjName", XMLProperty(ObjName.ToString())));
+	Properties.insert(std::pair<FString, XMLProperty>("ObjectType",
+	                                                  XMLProperty(
+		                                                  GetEnumValueAsString<EStoryObjectType>(
+			                                                  "EStoryObjectType", ObjectType))));
+	Properties.insert(std::pair<FString, XMLProperty>("Category", XMLProperty(Category)));
+	Properties.insert(std::pair<FString, XMLProperty>("Comment", XMLProperty(Comment)));
 }
 
-void UStoryGraphObject::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphObject::LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties)
 {
-	ObjName = FText::FromString(Propertys["ObjName"].Val);
-	Category = Propertys["Category"].Val;
-	Comment = Propertys["Comment"].Val;
-}
-//UStoryGraphObjectWithScenObject.........................................................
-
-UStoryGraphObjectWithScenObject::UStoryGraphObjectWithScenObject()
-{
-	IsScenObjectActive = true;
-	DependetNodes.Add(ENodeType::GetStoryGraphObjectState);
-	DependetNodes.Add(ENodeType::SetScenObjectActive);
-	DependetNodes.Add(ENodeType::SendMessageCsen);
-	DependetNodes.Add(ENodeType::AddTargetObjectToPhase);
-	
+	ObjName = FText::FromString(Properties["ObjName"].Val);
+	Category = Properties["Category"].Val;
+	Comment = Properties["Comment"].Val;
 }
 
-void UStoryGraphObjectWithScenObject::InitializeObject()
+//UStoryGraphObjectWithSceneObject.........................................................
+
+UStoryGraphObjectWithSceneObject::UStoryGraphObjectWithSceneObject()
 {
-	SetActiveStateOfScenObjects();
-	TArray<IStoryScenObject*> ScenObjects;
-	GetScenObjects(ScenObjects);
-	for (int i = 0; i < ObjectMesssageStack.Num(); i++)
+	IsSceneObjectActive = true;
+	DependedNodes.Add(ENodeType::GetStoryGraphObjectState);
+	DependedNodes.Add(ENodeType::SetSceneObjectActive);
+	DependedNodes.Add(ENodeType::SendMessageScene);
+	DependedNodes.Add(ENodeType::AddTargetObjectToPhase);
+}
+
+void UStoryGraphObjectWithSceneObject::InitializeObject()
+{
+	SetActiveStateOfSceneObjects();
+	TArray<IStorySceneObject*> ScenObjects;
+	GetSceneObjects(ScenObjects);
+	for (int i = 0; i < ObjectMessageStack.Num(); i++)
 	{
-		
 		for (int j = 0; j < ScenObjects.Num(); j++)
 		{
-			ScenObjects[j]->SendMessageToScenObject(ObjectMesssageStack[i]);
+			ScenObjects[j]->SendMessageToSceneObject(ObjectMessageStack[i]);
 		}
 	}
 }
 
-void UStoryGraphObjectWithScenObject::SetActiveStateOfScenObjects()
+void UStoryGraphObjectWithSceneObject::SetActiveStateOfSceneObjects()
 {
-	TArray<IStoryScenObject*> ScenObjects;
+	TArray<IStorySceneObject*> SceneObjects;
 
-	GetScenObjects(ScenObjects);
-	for (int i = 0; i < ScenObjects.Num(); i++)
+	GetSceneObjects(SceneObjects);
+	for (int i = 0; i < SceneObjects.Num(); i++)
 	{
-		ScenObjects[i]->RefreshScenObjectActive();
+		SceneObjects[i]->RefreshSceneObjectsActive();
 	}
 }
 
-void UStoryGraphObjectWithScenObject::SetScenObjectActive(bool Active)
+void UStoryGraphObjectWithSceneObject::SetSceneObjectActive(bool Active)
 {
-	IsScenObjectActive = Active;
-	SetActiveStateOfScenObjects();
+	IsSceneObjectActive = Active;
+	SetActiveStateOfSceneObjects();
 }
 
-void UStoryGraphObjectWithScenObject::SendMessageToScenObject(FString Message)
+void UStoryGraphObjectWithSceneObject::SendMessageToSceneObject(FString Message)
 {
-	TArray<IStoryScenObject*> ScenObjects;
-	GetScenObjects(ScenObjects);
-	for (int i = 0; i < ScenObjects.Num(); i++)
+	TArray<IStorySceneObject*> SceneObjects;
+	GetSceneObjects(SceneObjects);
+	for (int i = 0; i < SceneObjects.Num(); i++)
 	{
-		ScenObjects[i]->SendMessageToScenObject(Message);
+		SceneObjects[i]->SendMessageToSceneObject(Message);
 	}
 
-	ObjectMesssageStack.Add(Message);
+	ObjectMessageStack.Add(Message);
 }
 
-void UStoryGraphObjectWithScenObject::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphObjectWithSceneObject::GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties)
 {
-	Super::GetXMLSavingProperty(Propertys);
-	Propertys.insert(std::pair<FString, XMLProperty>("IsScenObjectActive", XMLProperty(IsScenObjectActive ? "true" : "false" )));
+	Super::GetXMLSavingProperty(Properties);
+	Properties.insert(
+		std::pair<FString, XMLProperty>("IsSceneObjectActive", XMLProperty(IsSceneObjectActive ? "true" : "false")));
 }
 
-void UStoryGraphObjectWithScenObject::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphObjectWithSceneObject::LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties)
 {
-	Super::LoadPropertyFromXML(Propertys);
-	IsScenObjectActive = Propertys["IsScenObjectActive"].Val == "true" ? true : false;
-	
+	Super::LoadPropertyFromXML(Properties);
+	IsSceneObjectActive = Properties["IsSceneObjectActive"].Val == "true" ? true : false;
 }
-//UStoryGraphCharecter.................................................................................
 
-UStoryGraphCharecter::UStoryGraphCharecter()
+//UStoryGraphCharacter.................................................................................
+
+UStoryGraphCharacter::UStoryGraphCharacter()
 {
 	ObjName = FText::FromString("New Character" + FString::FromInt(CharNum++));
 	ObjectType = EStoryObjectType::Character;
-	DependetNodes.Add(ENodeType::AddDialog);
-	
+	DependedNodes.Add(ENodeType::AddDialog);
 }
 
-void UStoryGraphCharecter::GetObjectStateAsString(TArray<FString>& States)
+void UStoryGraphCharacter::GetObjectStateAsString(TArray<FString>& States)
 {
 	int i = 0;
-	while (i < GetNumberEnums("ECharecterStates"))
+	while (i < GetNumberEnums("ECharacterStates"))
 	{
-		States.Add(GetEnumValueAsString<ECharecterStates>("ECharecterStates", (ECharecterStates)i++));
+		States.Add(GetEnumValueAsString<ECharacterStates>("ECharacterStates", (ECharacterStates)i++));
 	}
-	
 }
 
-void UStoryGraphCharecter::GetScenObjects(TArray<IStoryScenObject*>& ScenObjects)
+void UStoryGraphCharacter::GetSceneObjects(TArray<IStorySceneObject*>& SceneObjects)
 {
-	TExstractScenObgects<IStoryScenObject, ACharecter_StoryGraph>(ScenObjects, ScenCharecters, ScenCharecterPointers);
+	TExtractSceneObjects<IStorySceneObject, ACharacter_StoryGraph>(SceneObjects, SceneCharacters,
+	                                                               SceneCharacterPointers);
 }
 
-void UStoryGraphCharecter::GetScenObjects(TArray<AActor*>& ScenObjects)
+void UStoryGraphCharacter::GetSceneObjects(TArray<AActor*>& SceneObjects)
 {
-	TExstractScenObgects<AActor, ACharecter_StoryGraph>(ScenObjects, ScenCharecters, ScenCharecterPointers);
+	TExtractSceneObjects<AActor, ACharacter_StoryGraph>(SceneObjects, SceneCharacters, SceneCharacterPointers);
 }
 
-void UStoryGraphCharecter::SetScenObjectRealPointers()
+void UStoryGraphCharacter::SetSceneObjectRealPointers()
 {
-	ScenCharecterPointers.Empty();
-	for (int i = 0; i < ScenCharecters.Num(); i++)
+	SceneCharacterPointers.Empty();
+	for (int i = 0; i < SceneCharacters.Num(); i++)
 	{
-		ScenCharecterPointers.Add(ScenCharecters[i].Get());
+		SceneCharacterPointers.Add(SceneCharacters[i].Get());
 	}
 
 	RealPointersActive = true;
 }
 
-void UStoryGraphCharecter::ClearScenObjects()
+void UStoryGraphCharacter::ClearSceneObjects()
 {
-	ScenCharecters.Empty();
+	SceneCharacters.Empty();
 }
 
-void UStoryGraphCharecter::GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum)
+void UStoryGraphCharacter::GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum)
 {
-	for (int i = 0; i < GarphNods.Num(); i++)
+	for (int i = 0; i < GraphNodes.Num(); i++)
 	{
-		if (Cast<UDialogStartNode>(GarphNods[i]))
+		if (Cast<UDialogStartNode>(GraphNodes[i]))
 		{
-			Objects.Add(GarphNods[i]);
+			Objects.Add(GraphNodes[i]);
 		}
-
 	}
-
 }
 
-void UStoryGraphCharecter::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphCharacter::GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties)
 {
-	Super::GetXMLSavingProperty(Propertys);
-	Propertys.insert(std::pair<FString, XMLProperty>("DefaultAnswer", XMLProperty(DefaultAnswer.ToString())));
+	Super::GetXMLSavingProperty(Properties);
+	Properties.insert(std::pair<FString, XMLProperty>("DefaultAnswer", XMLProperty(DefaultAnswer.ToString())));
 }
 
-void UStoryGraphCharecter::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphCharacter::LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties)
 {
-	Super::LoadPropertyFromXML(Propertys);
-	DefaultAnswer = FText::FromString(Propertys["DefaultAnswer"].Val);
-
+	Super::LoadPropertyFromXML(Properties);
+	DefaultAnswer = FText::FromString(Properties["DefaultAnswer"].Val);
 }
 
 //UStoryGraphQuest.................................................................................
@@ -283,10 +275,10 @@ UStoryGraphQuest::UStoryGraphQuest()
 	ObjName = FText::FromString("New Quest" + FString::FromInt(QuestNum++));
 	ObjectType = EStoryObjectType::Quest;
 	MainQuest = true;
-	
-	DependetNodes.Add(ENodeType::GetStoryGraphObjectState);
-	DependetNodes.Add(ENodeType::QuestStart);
-	DependetNodes.Add(ENodeType::CancelQuest);
+
+	DependedNodes.Add(ENodeType::GetStoryGraphObjectState);
+	DependedNodes.Add(ENodeType::QuestStart);
+	DependedNodes.Add(ENodeType::CancelQuest);
 }
 
 void UStoryGraphQuest::GetObjectStateAsString(TArray<FString>& States)
@@ -296,13 +288,12 @@ void UStoryGraphQuest::GetObjectStateAsString(TArray<FString>& States)
 	{
 		States.Add(GetEnumValueAsString<EQuestStates>("EQuestStates", (EQuestStates)i++));
 	}
-
 }
 
 
-void UStoryGraphQuest::SetCurentState(int NewState)
+void UStoryGraphQuest::SetCurrentState(int NewState)
 {
-	FText Mesg;
+	FText Message;
 
 	ObjectState = NewState;
 
@@ -310,74 +301,71 @@ void UStoryGraphQuest::SetCurentState(int NewState)
 	{
 	case EQuestStates::Active:
 
-		Mesg = FText::Format(NSLOCTEXT("StoryGraph", "Quest active", "New quest {0}"), ObjName);
+		Message = FText::Format(NSLOCTEXT("StoryGraph", "Quest active", "New quest {0}"), ObjName);
 
 		break;
 
 	case EQuestStates::Canceled:
 
-		Mesg = FText::Format(NSLOCTEXT("StoryGraph", "Quest cancel", "Quest {0} cancel"), ObjName);
+		Message = FText::Format(NSLOCTEXT("StoryGraph", "Quest cancel", "Quest {0} cancel"), ObjName);
 
 		break;
 
-	case EQuestStates::Complite:
+	case EQuestStates::Complete:
 
-		Mesg = FText::Format(NSLOCTEXT("StoryGraph", "Quest complite", "Quest {0} complite"), ObjName);
+		Message = FText::Format(NSLOCTEXT("StoryGraph", "Quest complite", "Quest {0} complite"), ObjName);
 
 		break;
 	}
-	
-	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(((UStoryGraph*)GetOuter())->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD()))
+
+	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(
+		((UStoryGraph*)GetOuter())->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
 		if (HUD->GameScreen)
 		{
-			HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
+			HUD->GameScreen->AddMessageOnScreen(Message, 5);
 		}
 	}
-	
-	
-	
+
+
 	((UStoryGraph*)GetOuter())->QuestStateWasChange = true;
 }
 
 void UStoryGraphQuest::AddPhase(UQuestPhase* Phase)
 {
-	
 	if (QuestPhase.Num() == 0)
 	{
-		SetCurentState((int)EQuestStates::Active);
+		SetCurrentState((int)EQuestStates::Active);
 	}
 	else
 	{
-		
-			if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>((((UStoryGraph*)GetOuter())->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD())))
-			{
-				FText Mesg = FText::Format(NSLOCTEXT("StoryGraph", "AddQuestPhaseMessage2", "Quest {0} changed"), ObjName);
+		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(
+			(((UStoryGraph*)GetOuter())->OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD())))
+		{
+			FText Mesg = FText::Format(NSLOCTEXT("StoryGraph", "AddQuestPhaseMessage2", "Quest {0} changed"), ObjName);
 
-				if (HUD->GameScreen)
-				{
-					HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
-				}
+			if (HUD->GameScreen)
+			{
+				HUD->GameScreen->AddMessageOnScreen(Mesg, 5);
 			}
-		
+		}
 	}
 
 	QuestPhase.Add(Phase);
 }
 
-void UStoryGraphQuest::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphQuest::GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties)
 {
-	Super::GetXMLSavingProperty(Propertys);
+	Super::GetXMLSavingProperty(Properties);
 
-	Propertys.insert(std::pair<FString, XMLProperty>("MainQuest", XMLProperty(MainQuest  ? "true" : "false")));
+	Properties.insert(std::pair<FString, XMLProperty>("MainQuest", XMLProperty(MainQuest ? "true" : "false")));
 }
 
-void UStoryGraphQuest::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphQuest::LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties)
 {
-	Super::LoadPropertyFromXML(Propertys);
+	Super::LoadPropertyFromXML(Properties);
 
-	MainQuest = Propertys["MainQuest"].Val == "true" ? true : false;
-
+	MainQuest = Properties["MainQuest"].Val == "true" ? true : false;
 }
 
 //UStoryGraphPlaceTrigger.................................................................................
@@ -387,8 +375,7 @@ UStoryGraphPlaceTrigger::UStoryGraphPlaceTrigger()
 	ObjName = FText::FromString("Place Trigger" + FString::FromInt(PlaceTriggerNum++));
 	ObjectType = EStoryObjectType::PlaceTrigger;
 	ObjectState = (int)EPlaceTriggerStates::UnActive;
-	DependetNodes.Add(ENodeType::AddMessageBranch);
-	
+	DependedNodes.Add(ENodeType::AddMessageBranch);
 }
 
 void UStoryGraphPlaceTrigger::GetObjectStateAsString(TArray<FString>& States)
@@ -398,22 +385,19 @@ void UStoryGraphPlaceTrigger::GetObjectStateAsString(TArray<FString>& States)
 	{
 		States.Add(GetEnumValueAsString<EPlaceTriggerStates>("EPlaceTriggerStates", (EPlaceTriggerStates)i++));
 	}
-
 }
 
-void UStoryGraphPlaceTrigger::GetScenObjects(TArray<IStoryScenObject*>& ScenObjects)
+void UStoryGraphPlaceTrigger::GetSceneObjects(TArray<IStorySceneObject*>& SceneObjects)
 {
-	TExstractScenObgects<IStoryScenObject, APlaceTrigger_StoryGraph>(ScenObjects, ScenTriggers, PlaceTriggerPointers);
-	
+	TExtractSceneObjects<IStorySceneObject, APlaceTrigger_StoryGraph>(SceneObjects, ScenTriggers, PlaceTriggerPointers);
 }
 
-void UStoryGraphPlaceTrigger::GetScenObjects(TArray<AActor*>& ScenObjects)
+void UStoryGraphPlaceTrigger::GetSceneObjects(TArray<AActor*>& SceneObjects)
 {
-	TExstractScenObgects<AActor, APlaceTrigger_StoryGraph>(ScenObjects, ScenTriggers, PlaceTriggerPointers);
-
+	TExtractSceneObjects<AActor, APlaceTrigger_StoryGraph>(SceneObjects, ScenTriggers, PlaceTriggerPointers);
 }
 
-void UStoryGraphPlaceTrigger::SetScenObjectRealPointers()
+void UStoryGraphPlaceTrigger::SetSceneObjectRealPointers()
 {
 	PlaceTriggerPointers.Empty();
 	for (int i = 0; i < ScenTriggers.Num(); i++)
@@ -424,39 +408,40 @@ void UStoryGraphPlaceTrigger::SetScenObjectRealPointers()
 	RealPointersActive = true;
 }
 
-void UStoryGraphPlaceTrigger::ClearScenObjects()
+void UStoryGraphPlaceTrigger::ClearSceneObjects()
 {
 	ScenTriggers.Empty();
 }
 
 void UStoryGraphPlaceTrigger::GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum)
 {
-	for (int i = 0; i < GarphNods.Num(); i++)
+	for (int i = 0; i < GraphNodes.Num(); i++)
 	{
-		if (Cast<UDialogStartNode>(GarphNods[i]))
+		if (Cast<UDialogStartNode>(GraphNodes[i]))
 		{
-			Objects.Add(GarphNods[i]);
+			Objects.Add(GraphNodes[i]);
 		}
-
 	}
-
 }
 
-void UStoryGraphPlaceTrigger::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphPlaceTrigger::GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties)
 {
-	Super::GetXMLSavingProperty(Propertys);
+	Super::GetXMLSavingProperty(Properties);
 
-	Propertys.insert(std::pair<FString, XMLProperty>("DefaultAnswer", XMLProperty(DefaultAnswer.ToString())));
-	Propertys.insert(std::pair<FString, XMLProperty>("PlaceTriggerType", XMLProperty(GetEnumValueAsString<EPlaceTriggerType>("EPlaceTriggerType", PlaceTriggerType))));
+	Properties.insert(std::pair<FString, XMLProperty>("DefaultAnswer", XMLProperty(DefaultAnswer.ToString())));
+	Properties.insert(std::pair<FString, XMLProperty>("PlaceTriggerType",
+	                                                 XMLProperty(
+		                                                 GetEnumValueAsString<EPlaceTriggerType>(
+			                                                 "EPlaceTriggerType", PlaceTriggerType))));
 }
 
-void UStoryGraphPlaceTrigger::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphPlaceTrigger::LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties)
 {
-	Super::LoadPropertyFromXML(Propertys);
+	Super::LoadPropertyFromXML(Properties);
 
-	DefaultAnswer = FText::FromString(Propertys["DefaultAnswer"].Val);
-	PlaceTriggerType = GetEnumValueFromString<EPlaceTriggerType>("EPlaceTriggerType", Propertys["PlaceTriggerType"].Val);
-
+	DefaultAnswer = FText::FromString(Properties["DefaultAnswer"].Val);
+	PlaceTriggerType = GetEnumValueFromString<EPlaceTriggerType
+	>("EPlaceTriggerType", Properties["PlaceTriggerType"].Val);
 }
 
 //UStoryGraphDialogTrigger.................................................................................
@@ -466,8 +451,8 @@ UStoryGraphDialogTrigger::UStoryGraphDialogTrigger()
 	ObjName = FText::FromString("Dialog Trigger" + FString::FromInt(DialogTriggerNum++));
 	ObjectType = EStoryObjectType::DialogTrigger;
 
-	DependetNodes.Add(ENodeType::GetStoryGraphObjectState);
-	DependetNodes.Add(ENodeType::SetDialogTrigger);
+	DependedNodes.Add(ENodeType::GetStoryGraphObjectState);
+	DependedNodes.Add(ENodeType::SetDialogTrigger);
 }
 
 void UStoryGraphDialogTrigger::GetObjectStateAsString(TArray<FString>& States)
@@ -477,7 +462,6 @@ void UStoryGraphDialogTrigger::GetObjectStateAsString(TArray<FString>& States)
 	{
 		States.Add(GetEnumValueAsString<EDialogTriggerStates>("EDialogTriggerStates", (EDialogTriggerStates)i++));
 	}
-
 }
 
 //UStoryGraphInventoryItem.................................................................................
@@ -486,10 +470,10 @@ UStoryGraphInventoryItem::UStoryGraphInventoryItem()
 {
 	ObjName = FText::FromString("Inventory Item" + FString::FromInt(InventoryItemNum++));
 	ObjectType = EStoryObjectType::InventoryItem;
-	InventoryItemWithoutScenObject = false;
+	InventoryItemWithoutSceneObject = false;
 
-	DependetNodes.Add(ENodeType::SetInventoryItemState);
-	DependetNodes.Add(ENodeType::SetInventoryItemStateFromMessage);
+	DependedNodes.Add(ENodeType::SetInventoryItemState);
+	DependedNodes.Add(ENodeType::SetInventoryItemStateFromMessage);
 }
 
 void UStoryGraphInventoryItem::GetObjectStateAsString(TArray<FString>& States)
@@ -509,54 +493,54 @@ void UStoryGraphInventoryItem::GetObjectStateAsString(TArray<FString>& States)
 	}
 }
 
-void UStoryGraphInventoryItem::GetScenObjects(TArray<IStoryScenObject*>& ScenObjects)
+void UStoryGraphInventoryItem::GetSceneObjects(TArray<IStorySceneObject*>& SceneObjects)
 {
-	TExstractScenObgects<IStoryScenObject, AInventoryItem_StoryGraph>(ScenObjects, ScenInventoryItems, InventoryItemPointers);
+	TExtractSceneObjects<IStorySceneObject, AInventoryItem_StoryGraph>(SceneObjects, SceneInventoryItems,
+	                                                                   InventoryItemPointers);
 }
 
-void UStoryGraphInventoryItem::GetScenObjects(TArray<AActor*>& ScenObjects)
+void UStoryGraphInventoryItem::GetSceneObjects(TArray<AActor*>& SceneObjects)
 {
-	TExstractScenObgects<AActor, AInventoryItem_StoryGraph>(ScenObjects, ScenInventoryItems, InventoryItemPointers);
+	TExtractSceneObjects<AActor, AInventoryItem_StoryGraph>(SceneObjects, SceneInventoryItems, InventoryItemPointers);
 }
 
-void UStoryGraphInventoryItem::SetScenObjectRealPointers()
+void UStoryGraphInventoryItem::SetSceneObjectRealPointers()
 {
 	InventoryItemPointers.Empty();
-	for (int i = 0; i < ScenInventoryItems.Num(); i++)
+	for (int i = 0; i < SceneInventoryItems.Num(); i++)
 	{
-		InventoryItemPointers.Add(ScenInventoryItems[i].Get());
+		InventoryItemPointers.Add(SceneInventoryItems[i].Get());
 	}
 
 	RealPointersActive = true;
 }
 
-void UStoryGraphInventoryItem::ClearScenObjects()
+void UStoryGraphInventoryItem::ClearSceneObjects()
 {
-	ScenInventoryItems.Empty();
+	SceneInventoryItems.Empty();
 }
 
-void UStoryGraphInventoryItem::SetCurentState(int NewState)
+void UStoryGraphInventoryItem::SetCurrentState(int NewState)
 {
 	if (NewState == 0)
 	{
-		SetScenObjectActive(false);
+		SetSceneObjectActive(false);
 	}
 	else if (NewState > 0)
 	{
-		if (!IsScenObjectActive)
+		if (!IsSceneObjectActive)
 		{
-			SetScenObjectActive(false);
+			SetSceneObjectActive(false);
 		}
 	}
 
 	if (NewState == 1)
 	{
-		ObjectState = (int)EInventoryItemeStates::OnLevel;
-		
+		ObjectState = (int)EInventoryItemStates::OnLevel;
 	}
 	else if (NewState > 1)
 	{
-		ObjectState = (int)EInventoryItemeStates::InInventory;
+		ObjectState = (int)EInventoryItemStates::InInventory;
 	}
 
 	if (InventoryItemPhase.Num() > 0 && NewState > 1)
@@ -567,19 +551,19 @@ void UStoryGraphInventoryItem::SetCurentState(int NewState)
 	((UStoryGraph*)GetOuter())->RefreshExecutionTrees();
 }
 
-int UStoryGraphInventoryItem::GetCurentState()
+int UStoryGraphInventoryItem::GetCurrentState()
 {
-	if (!IsScenObjectActive)
+	if (!IsSceneObjectActive)
 	{
 		return 0;
 	}
-	
-	if (ObjectState == (int)EInventoryItemeStates::OnLevel)
+
+	if (ObjectState == (int)EInventoryItemStates::OnLevel)
 	{
 		return 1;
 	}
-	
-	if (ObjectState == (int)EInventoryItemeStates::InInventory)
+
+	if (ObjectState == (int)EInventoryItemStates::InInventory)
 	{
 		if (InventoryItemPhase.Num() > 0)
 		{
@@ -593,32 +577,34 @@ int UStoryGraphInventoryItem::GetCurentState()
 	return 0;
 }
 
-void UStoryGraphInventoryItem::GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphInventoryItem::GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties)
 {
-	Super::GetXMLSavingProperty(Propertys);
+	Super::GetXMLSavingProperty(Properties);
 
-	
 
-	Propertys.insert(std::pair<FString, XMLProperty>("InventoryItemWithoutScenObject", XMLProperty(InventoryItemWithoutScenObject ? "true" : "false")));
-	Propertys.insert(std::pair<FString, XMLProperty>("Arr_InventoryItemPhase", XMLProperty("")));
+	Properties.insert(std::pair<FString, XMLProperty>("InventoryItemWithoutSceneObject",
+	                                                 XMLProperty(InventoryItemWithoutSceneObject ? "true" : "false")));
+	Properties.insert(std::pair<FString, XMLProperty>("Arr_InventoryItemPhase", XMLProperty("")));
 
-	XMLProperty& InventoryItemPhasePointer = Propertys["Arr_InventoryItemPhase"];
+	XMLProperty& InventoryItemPhasePointer = Properties["Arr_InventoryItemPhase"];
 
 	for (int i = 0; i < InventoryItemPhase.Num(); i++)
 	{
-		InventoryItemPhasePointer.Propertys.insert(std::pair<FString, XMLProperty>(FString::FromInt(i), XMLProperty( InventoryItemPhase[i].ToString())));
+		InventoryItemPhasePointer.Properties.insert(
+			std::pair<FString, XMLProperty>(FString::FromInt(i),
+			                                XMLProperty(InventoryItemPhase[i].ToString())));
 	}
 }
 
-void UStoryGraphInventoryItem::LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys)
+void UStoryGraphInventoryItem::LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties)
 {
-	Super::LoadPropertyFromXML(Propertys);
+	Super::LoadPropertyFromXML(Properties);
 
-	InventoryItemWithoutScenObject = Propertys["InventoryItemWithoutScenObject"].Val == "true" ? true : false;
+	InventoryItemWithoutSceneObject = Properties["InventoryItemWithoutSceneObject"].Val == "true" ? true : false;
 
-	for (auto it = Propertys["Arr_InventoryItemPhase"].Propertys.begin(); it != Propertys["Arr_InventoryItemPhase"].Propertys.end(); ++it)
+	for (auto it = Properties["Arr_InventoryItemPhase"].Properties.begin(); it != Properties["Arr_InventoryItemPhase"]
+	                                                                             .Properties.end(); ++it)
 	{
-		
 		InventoryItemPhase.Add(FText::FromString(it->second.Val));
 	}
 }
@@ -630,32 +616,32 @@ UStoryGraphOthers::UStoryGraphOthers()
 	ObjName = FText::FromString("Object" + FString::FromInt(OthersNum++));
 	ObjectType = EStoryObjectType::Others;
 
-	DependetNodes.RemoveSingle(ENodeType::GetStoryGraphObjectState);
+	DependedNodes.RemoveSingle(ENodeType::GetStoryGraphObjectState);
 }
 
 
-void UStoryGraphOthers::GetScenObjects(TArray<IStoryScenObject*>& ScenObjects)
+void UStoryGraphOthers::GetSceneObjects(TArray<IStorySceneObject*>& SceneObjects)
 {
-	TExstractScenObgects<IStoryScenObject, AOtherActor_StoryGraph>(ScenObjects, ScenOtherObjects, OtherPointers);
+	TExtractSceneObjects<IStorySceneObject, AOtherActor_StoryGraph>(SceneObjects, SceneOtherObjects, OtherPointers);
 }
 
-void UStoryGraphOthers::GetScenObjects(TArray<AActor*>& ScenObjects)
+void UStoryGraphOthers::GetSceneObjects(TArray<AActor*>& SceneObjects)
 {
-	TExstractScenObgects<AActor, AOtherActor_StoryGraph>(ScenObjects, ScenOtherObjects, OtherPointers);
+	TExtractSceneObjects<AActor, AOtherActor_StoryGraph>(SceneObjects, SceneOtherObjects, OtherPointers);
 }
 
-void UStoryGraphOthers::SetScenObjectRealPointers()
+void UStoryGraphOthers::SetSceneObjectRealPointers()
 {
 	OtherPointers.Empty();
-	for (int i = 0; i < ScenOtherObjects.Num(); i++)
+	for (int i = 0; i < SceneOtherObjects.Num(); i++)
 	{
-		OtherPointers.Add(ScenOtherObjects[i].Get());
+		OtherPointers.Add(SceneOtherObjects[i].Get());
 	}
 
 	RealPointersActive = true;
 }
 
-void UStoryGraphOthers::ClearScenObjects()
+void UStoryGraphOthers::ClearSceneObjects()
 {
-	ScenOtherObjects.Empty();
+	SceneOtherObjects.Empty();
 }

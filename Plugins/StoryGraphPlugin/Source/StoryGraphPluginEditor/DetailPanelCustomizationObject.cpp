@@ -8,9 +8,12 @@
 #include "Runtime/Engine/Classes/EdGraph/EdGraph.h"
 #include "GraphSchema_StoryGraph.h"
 #include "StoryGraph.h"
-#include "CustomNods.h"
+#include "CustomNodes.h"
 #include "DetailLayoutBuilder.h"
 #include "AssetEditor_StoryGraph.h"
+#include "Widgets/Text/STextBlock.h"
+#include "Widgets/Input/SMultiLineEditableTextBox.h"
+#include "Widgets/Input/SButton.h"
 
 //FStoryGraphObjectDetail...........................................................
 
@@ -48,7 +51,7 @@ UStoryGraphObject* FStoryGraphObjectDetail::GetDetailObject(IDetailLayoutBuilder
 {
 	TArray<TWeakObjectPtr<UObject>> OutObjects;
 	DetailBuilder->GetObjectsBeingCustomized(OutObjects);
-	UStoryGraphObject* Object = NULL;
+	UStoryGraphObject* Object = nullptr;
 	if (OutObjects.Num() > 0)
 	{
 		Object = Cast<UStoryGraphObject>(OutObjects[0].Get());
@@ -64,42 +67,42 @@ void FStoryGraphObjectDetail::CommentCommitted(const FText& NewText, ETextCommit
 }
 
 
-//FStoryGraphObjectWithScenObjectDetail...........................................................
+//FStoryGraphObjectWithSceneObjectDetail...........................................................
 
-TSharedRef<IDetailCustomization> FStoryGraphObjectWithScenObjectDetail::MakeInstance()
+TSharedRef<IDetailCustomization> FStoryGraphObjectWithSceneObjectDetail::MakeInstance()
 {
-	return MakeShareable(new FStoryGraphObjectWithScenObjectDetail);
+	return MakeShareable(new FStoryGraphObjectWithSceneObjectDetail);
 }
 
 
 
-void FStoryGraphObjectWithScenObjectDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+void FStoryGraphObjectWithSceneObjectDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
 	FStoryGraphObjectDetail::CustomizeDetails(DetailBuilder);
 
 	pScenObjectsPanel = &DetailBuilder.EditCategory("Scen objects links", FText::GetEmpty(), ECategoryPriority::Important);
-	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithScenObject, IsScenObjectActive), UStoryGraphObjectWithScenObject::StaticClass());
+	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithSceneObject, IsSceneObjectActive), UStoryGraphObjectWithSceneObject::StaticClass());
 	
 }
 
 
 
-//FStoryGraphCharecterDetail...........................................................
+//FStoryGraphCharacterDetail...........................................................
 
-TSharedRef<IDetailCustomization> FStoryGraphCharecterDetail::MakeInstance()
+TSharedRef<IDetailCustomization> FStoryGraphCharacterDetail::MakeInstance()
 {
-	return MakeShareable(new FStoryGraphCharecterDetail);
+	return MakeShareable(new FStoryGraphCharacterDetail);
 }
 
 
 
-void FStoryGraphCharecterDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+void FStoryGraphCharacterDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphObjectWithScenObjectDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphObjectWithSceneObjectDetail::CustomizeDetails(DetailBuilder);
 
-	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphCharecter, ScenCharecters), UStoryGraphCharecter::StaticClass());
+	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphCharacter, SceneCharacters), UStoryGraphCharacter::StaticClass());
 
-	UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(GetDetailObject(&DetailBuilder));
+	UStoryGraphCharacter* Charecter = Cast<UStoryGraphCharacter>(GetDetailObject(&DetailBuilder));
 
 	IDetailCategoryBuilder& CharecterPanel = DetailBuilder.EditCategory("Charecter property", FText::GetEmpty(), ECategoryPriority::Important);
 
@@ -114,7 +117,7 @@ void FStoryGraphCharecterDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 		[
 			SNew(SMultiLineEditableTextBox)
 			.Text(Charecter->DefaultAnswer)
-			.OnTextCommitted(FOnTextCommitted::CreateSP(this, &FStoryGraphCharecterDetail::DefaultAnswerCommitted, &DetailBuilder))
+			.OnTextCommitted(FOnTextCommitted::CreateSP(this, &FStoryGraphCharacterDetail::DefaultAnswerCommitted, &DetailBuilder))
 			.AutoWrapText(true)
 		];
 	CharecterPanel.AddCustomRow(FText::FromString("Edit Dialog"))
@@ -122,16 +125,16 @@ void FStoryGraphCharecterDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBu
 		[
 			SNew(SButton)
 			.Text(FText::FromString("Edit Dialog"))
-			.OnClicked(FOnClicked::CreateStatic(&FStoryGraphCharecterDetail::EditDialogButtonClick, &DetailBuilder))
+			.OnClicked(FOnClicked::CreateStatic(&FStoryGraphCharacterDetail::EditDialogButtonClick, &DetailBuilder))
 		];
 
 }
 
 
 
-FReply FStoryGraphCharecterDetail::EditDialogButtonClick(IDetailLayoutBuilder* DetailBuilder)
+FReply FStoryGraphCharacterDetail::EditDialogButtonClick(IDetailLayoutBuilder* DetailBuilder)
 {
-	UStoryGraphCharecter* Object = (UStoryGraphCharecter*)GetDetailObject(DetailBuilder);
+	UStoryGraphCharacter* Object = (UStoryGraphCharacter*)GetDetailObject(DetailBuilder);
 	//UE_LOG(StoryGraphEditor, Warning, TEXT("Edit Dialog"));
 	UStoryGraph* StoryGraph = Cast<UStoryGraph>(Object->GetOuter());
 	StoryGraph->pAssetEditor->OpenDialogEditorTab(Object);
@@ -139,9 +142,9 @@ FReply FStoryGraphCharecterDetail::EditDialogButtonClick(IDetailLayoutBuilder* D
 	return FReply::Handled();
 }
 
-void FStoryGraphCharecterDetail::DefaultAnswerCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder)
+void FStoryGraphCharacterDetail::DefaultAnswerCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder)
 {
-	UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(GetDetailObject(DetailBuilder));
+	UStoryGraphCharacter* Charecter = Cast<UStoryGraphCharacter>(GetDetailObject(DetailBuilder));
 
 	Charecter->DefaultAnswer = NewText;
 
@@ -159,7 +162,7 @@ TSharedRef<IDetailCustomization> FStoryGraphPlaceTriggerDetail::MakeInstance()
 
 void FStoryGraphPlaceTriggerDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphObjectWithScenObjectDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphObjectWithSceneObjectDetail::CustomizeDetails(DetailBuilder);
 
 	UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(GetDetailObject(&DetailBuilder));
 
@@ -231,19 +234,19 @@ void FStoryGraphInventoryItemDetail::CustomizeDetails(IDetailLayoutBuilder& Deta
 
 	IDetailCategoryBuilder* ScenObjectsPanel = &DetailBuilder.EditCategory("Scen objects links", FText::GetEmpty(), ECategoryPriority::Important);
 
-	ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, InventoryItemWithoutScenObject), UStoryGraphInventoryItem::StaticClass());
+	ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, InventoryItemWithoutSceneObject), UStoryGraphInventoryItem::StaticClass());
 	
-	IDetailPropertyRow* IsScenObjectActiveProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithScenObject, IsScenObjectActive), UStoryGraphObjectWithScenObject::StaticClass());
-	IDetailPropertyRow* ScenInventoryItemsProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, ScenInventoryItems), UStoryGraphInventoryItem::StaticClass());
-	if (!InventoryItem->InventoryItemWithoutScenObject)
+	IDetailPropertyRow* IsSceneObjectActiveProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithSceneObject, IsSceneObjectActive), UStoryGraphObjectWithSceneObject::StaticClass());
+	IDetailPropertyRow* SceneInventoryItemsProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, SceneInventoryItems), UStoryGraphInventoryItem::StaticClass());
+	if (!InventoryItem->InventoryItemWithoutSceneObject)
 	{
-		IsScenObjectActiveProperty->IsEnabled(true);
-		ScenInventoryItemsProperty->IsEnabled(true);
+		IsSceneObjectActiveProperty->IsEnabled(true);
+		SceneInventoryItemsProperty->IsEnabled(true);
 	}
 	else
 	{
-		IsScenObjectActiveProperty->IsEnabled(false);
-		ScenInventoryItemsProperty->IsEnabled(false);
+		IsSceneObjectActiveProperty->IsEnabled(false);
+		SceneInventoryItemsProperty->IsEnabled(false);
 	}
 	
 
@@ -260,8 +263,8 @@ TSharedRef<IDetailCustomization> FStoryGraphOthersDetail::MakeInstance()
 
 void FStoryGraphOthersDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphObjectWithScenObjectDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphObjectWithSceneObjectDetail::CustomizeDetails(DetailBuilder);
 
-	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphOthers, ScenOtherObjects), UStoryGraphOthers::StaticClass());
+	pScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphOthers, SceneOtherObjects), UStoryGraphOthers::StaticClass());
 
 }

@@ -1,16 +1,17 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "DragDropAction_StoryGraph.h"
-#include "StoryGraphObject.h"
-#include "CustomNods.h"
-#include "GraphSchema_StoryGraph.h"
+#include "CustomNodes.h"
 #include "EdGraph/EdGraph.h"
+#include "EditorStyle.h"
+#include "GraphSchema_StoryGraph.h"
+#include "StoryGraphObject.h"
 
 
 void FDragDropAction_StoryGraph::HoverTargetChanged()
 {
 	UEdGraph* HoveredGraph = GetHoveredGraph();
-	const UEdGraphSchema_Base* HoveredSchema = NULL;
+	const UEdGraphSchema_Base* HoveredSchema = nullptr;
 	bool CanCreateNode = false;
 
 	FSlateColor IconColor = FLinearColor::White;
@@ -19,28 +20,26 @@ void FDragDropAction_StoryGraph::HoverTargetChanged()
 
 	if (HoveredGraph)
 	{
-		
 		HoveredSchema = Cast<UEdGraphSchema_Base>(HoveredGraph->GetSchema());
 
-		
-		for (int i = 0; i < DraggedObject->DependetNodes.Num(); i++)
+
+		for (int i = 0; i < DraggedObject->DependedNodes.Num(); i++)
 		{
-			if (HoveredSchema && UCustomNodeBase::GetIncertNodeType(DraggedObject->DependetNodes[i]) == HoveredSchema->SuitableDependetNodesType)
+			if (HoveredSchema && UCustomNodeBase::GetInsertNodeType(DraggedObject->DependedNodes[i]) == HoveredSchema->
+				SuitableDependedNodesType)
 			{
 				CanCreateNode = true;
 			}
 		}
-		
 	}
 
-	
+
 	if (CanCreateNode)
 	{
 		StatusSymbol = FEditorStyle::GetBrush(TEXT("Graph.ConnectorFeedback.OK"));
 		Message = FText::FromString("Can create node");
 	}
-	
-	
+
 
 	SetSimpleFeedbackMessage(StatusSymbol, IconColor, Message);
 }
@@ -60,11 +59,9 @@ FReply FDragDropAction_StoryGraph::DroppedOnNode(FVector2D ScreenPosition, FVect
 }
 
 
-
-
-FReply FDragDropAction_StoryGraph::DroppedOnPanel( const TSharedRef< SWidget >& Panel, FVector2D ScreenPosition, FVector2D GraphPosition, UEdGraph& Graph)
-{	
-	
+FReply FDragDropAction_StoryGraph::DroppedOnPanel(const TSharedRef<SWidget>& Panel, FVector2D ScreenPosition,
+                                                  FVector2D GraphPosition, UEdGraph& Graph)
+{
 	FNodeConstructionParams NewNodeParams;
 	int MenuEntryCounter = 0;
 
@@ -74,39 +71,36 @@ FReply FDragDropAction_StoryGraph::DroppedOnPanel( const TSharedRef< SWidget >& 
 
 	const UEdGraphSchema_Base* GraphSchema = Cast<UEdGraphSchema_Base>(Graph.GetSchema());
 
-	EIncertNodeType SuitableDependetNodesType = GraphSchema->SuitableDependetNodesType;
-	
+	EInsertNodeType SuitableDependedNodesType = GraphSchema->SuitableDependedNodesType;
 
-	FMenuBuilder MenuBuilder(true, NULL);
+
+	FMenuBuilder MenuBuilder(true, nullptr);
 	const FText VariableNameText = FText::FromString("Dependent nods");
 
-	MenuBuilder.BeginSection("BPVariableDroppedOn", VariableNameText );
-	
-	FText MenuDesc;
-	FText ToolTip;
+	MenuBuilder.BeginSection("BPVariableDroppedOn", VariableNameText);
 
-	for (int i = 0; i < DraggedObject->DependetNodes.Num(); i++)
+	for (int i = 0; i < DraggedObject->DependedNodes.Num(); i++)
 	{
-		if (UCustomNodeBase::GetIncertNodeType(DraggedObject->DependetNodes[i]) == SuitableDependetNodesType)
+		if (UCustomNodeBase::GetInsertNodeType(DraggedObject->DependedNodes[i]) == SuitableDependedNodesType)
 		{
-			NewNodeParams.NodeType = DraggedObject->DependetNodes[i];
+			NewNodeParams.NodeType = DraggedObject->DependedNodes[i];
 
-			MenuDesc = FText::FromString(UCustomNodeBase::GetActionNameFromNodeType(DraggedObject->DependetNodes[i]));
-			ToolTip = FText::FromString(UCustomNodeBase::GetToolTipFromNodeType(DraggedObject->DependetNodes[i]));
+			FText MenuDesc = FText::FromString(UCustomNodeBase::GetActionNameFromNodeType(DraggedObject->DependedNodes[i]));
+			FText ToolTip = FText::FromString(UCustomNodeBase::GetToolTipFromNodeType(DraggedObject->DependedNodes[i]));
 
 			MenuBuilder.AddMenuEntry(
 				MenuDesc,
 				ToolTip,
 				FSlateIcon(),
 				FUIAction(FExecuteAction::CreateStatic(&FDragDropAction_StoryGraph::SpawnNode, NewNodeParams))
-				);
+			);
 			MenuEntryCounter++;
 		}
 	}
-	
+
 	if (MenuEntryCounter > 0)
 	{
-		TSharedRef< SWidget > PanelWidget = Panel;
+		TSharedRef<SWidget> PanelWidget = Panel;
 		// Show dialog to choose getter vs setter
 		FSlateApplication::Get().PushMenu(
 			PanelWidget,
@@ -114,14 +108,13 @@ FReply FDragDropAction_StoryGraph::DroppedOnPanel( const TSharedRef< SWidget >& 
 			MenuBuilder.MakeWidget(),
 			ScreenPosition,
 			FPopupTransitionEffect(FPopupTransitionEffect::ContextMenu)
-			);
+		);
 
 		MenuBuilder.EndSection();
 	}
-	
+
 	return FReply::Handled();
 }
-
 
 
 FReply FDragDropAction_StoryGraph::DroppedOnAction(TSharedRef<FEdGraphSchemaAction> Action)
@@ -135,7 +128,6 @@ FReply FDragDropAction_StoryGraph::DroppedOnCategory(FText Category)
 {
 	//UE_LOG(StoryGraphEditor, Log, TEXT("Dropped on Category"));
 
-	
 
 	return FReply::Handled();
 }
@@ -143,7 +135,6 @@ FReply FDragDropAction_StoryGraph::DroppedOnCategory(FText Category)
 
 void FDragDropAction_StoryGraph::SpawnNode(FNodeConstructionParams InParams)
 {
-	
-	FCustomSchemaAction_NewNode::SpawnNode(InParams.NodeType, InParams.DraggedObject, InParams.Graph, NULL, InParams.GraphPosition);
-	
+	FCustomSchemaAction_NewNode::SpawnNode(InParams.NodeType, InParams.DraggedObject, InParams.Graph, nullptr,
+	                                       InParams.GraphPosition);
 }

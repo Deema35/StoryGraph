@@ -1,15 +1,15 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma once
 
-#include "Object.h"
 #include "Classes/Engine/Blueprint.h"
 #include "GameFramework/Actor.h"
-#include "ObjectrRecord.h"
+#include "Graph_StoryGraph.h"
+#include "Object.h"
+#include "ObjectRecord.h"
 #include "StoryGraph.generated.h"
 
 class UCustomNodeBase;
 class FAssetEditor_StoryGraph;
-
 
 
 UENUM()
@@ -21,18 +21,16 @@ enum class EStoryGraphState : uint8
 };
 
 
-
 UCLASS()
 class STORYGRAPHPLUGINRUNTIME_API UStoryGraphBlueprint : public UBlueprint
 {
-
 	GENERATED_BODY()
 public:
 	UPROPERTY()
-		class UStoryGraph* StoryGraph;
+	class UStoryGraph* StoryGraph;
 
 	UPROPERTY()
-		TArray<UEdGraph_StoryGraph*> Graphs;
+	TArray<UEdGraph_StoryGraph*> Graphs;
 public:
 	UEdGraph_StoryGraph* FindGraph(UObject* GraphOwner);
 
@@ -51,11 +49,12 @@ public:
 	UPROPERTY()
 	class UStoryGraph* StoryGraph;
 
+	UPROPERTY()
 	TArray<AActor*> LinkStorage;
 
 	UPROPERTY(VisibleAnywhere)
-		int32 CompilationCounter;
-	
+	int32 CompilationCounter;
+
 
 public:
 	AStoryGraphActor();
@@ -70,8 +69,9 @@ public:
 	virtual void ClearCrossLevelReferences() override;
 
 	bool CreateStoryGraph();
-	
-	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override; // ISaveObject_StoryGraph interface
+
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;
+	// ISaveObject_StoryGraph interface
 
 private:
 
@@ -87,11 +87,10 @@ public:
 	class UStoryGraphQuest* MainQuest;
 
 	UPROPERTY(SaveGame)
-	TArray<class UStoryVerticalNodeBase*> PredActiveNodesBuffer;
+	TArray<class UStoryVerticalNodeBase*> ActiveNodesBuffer;
 
 public:
 	void Refresh();
-
 };
 
 UCLASS()
@@ -99,19 +98,19 @@ class STORYGRAPHPLUGINRUNTIME_API UStoryGraph : public UObject, public ISaveObje
 {
 	GENERATED_BODY()
 
-	
+
 public:
 	UPROPERTY()
 	int32 CompilationCounter;
 
 	UPROPERTY(SaveGame)
-		int32 LoadedCompilationCounter;
+	int32 LoadedCompilationCounter;
 
 	UPROPERTY()
-	TArray<class UStoryGraphObject*> GarphObjects;
+	TArray<class UStoryGraphObject*> GraphObjects;
 
 	UPROPERTY()
-		TArray<class UCustomNodeBase*> GarphNods;
+	TArray<class UCustomNodeBase*> GraphNodes;
 
 	UPROPERTY()
 	TArray<UExecutionTree*> ExecutionTrees;
@@ -119,25 +118,26 @@ public:
 
 	bool QuestStateWasChange; // If quest state was change during refresh execution tree, tree must be refresh again.
 
-	
+
 #if WITH_EDITORONLY_DATA
 	FAssetEditor_StoryGraph* pAssetEditor;
 
 	UPROPERTY()
-		EStoryGraphState StoryGraphState;
+	EStoryGraphState StoryGraphState;
 #endif //WITH_EDITORONLY_DATA
 
-	AActor* OwnedActor = nullptr;
+	UPROPERTY()
+	AActor* OwnedActor;
 
 private:
 
 	bool OldSaveFile;
 
-	
-	
+
 public:
-	
-	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
+
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;
+	// ISaveObject_StoryGraph interface
 
 	void CreateExecutionTrees();
 
@@ -149,9 +149,6 @@ public:
 
 private:
 	/** Gets all the Graph Objects of a given type */
-	template<class MinRequiredType>
+	template <class MinRequiredType>
 	void GetGraphObjectsOfClass(TArray<MinRequiredType*>& OutObjects) const;
-	
-
 };
-

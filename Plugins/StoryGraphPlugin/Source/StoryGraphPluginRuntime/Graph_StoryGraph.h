@@ -13,7 +13,7 @@ public:
 	class UStoryGraph* StoryGraph;
 
 	UPROPERTY()
-		UObject* GraphOwner;
+	UObject* GraphOwner;
 
 public:
 

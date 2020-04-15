@@ -10,13 +10,13 @@
 #include "GenericCommands.h"
 #include "BlueprintEditorUtils.h"
 #include "EdGraphUtilities.h"
-#include "CustomNods.h"
+#include "CustomNodes.h"
 #include "ScopedTransaction.h"
 #include "SNodePanel.h"
 #include "Commands_StoryGraph.h"
 #include "BlueprintEditorModule.h"
 #include "PropertyEditorModule.h"
-#include "CustomNods.h"
+#include "CustomNodes.h"
 #include "StoryGraph.h"
 #include "GraphEditor.h"
 #include "IDetailsView.h"
@@ -30,10 +30,10 @@
 #include "GraphPaletteItem_StoryGraph.h"
 #include "DragDropAction_StoryGraph.h"
 #include "NotificationManager.h"
-#include "StoryScenObject.h"
+#include "StorySceneObject.h"
 #include "Editor/UnrealEd/Private/Toolkits/AssetEditorCommonCommands.h"
 #include "Graph_StoryGraph.h"
-#include "ProxyNods.h"
+#include "ProxyNodes.h"
 #include "Runtime/XmlParser/Public/XmlParser.h"
 #include "Runtime/XmlParser/Public/XmlNode.h"
 #include "Runtime/XmlParser/Public/XmlFile.h"
@@ -45,18 +45,19 @@
 
 const FName CustomEditorAppName = FName(TEXT("CustomEditorApp"));
 
-FAssetEditor_StoryGraph::FAssetEditor_StoryGraph() : CurrentSelectedObject(NULL), CurrentSelectedActionMenuObject(NULL), AssetObject(NULL), EditedObject(NULL)
+FAssetEditor_StoryGraph::FAssetEditor_StoryGraph() : CurrentSelectedObject(nullptr),
+                                                     CurrentSelectedActionMenuObject(nullptr), AssetObject(nullptr),
+                                                     EditedObject(nullptr)
 {
-	TabForegroundedDelegateHandle = FGlobalTabmanager::Get()->OnTabForegrounded_Subscribe(FOnActiveTabChanged::FDelegate::CreateRaw(this, &FAssetEditor_StoryGraph::OnTabForegrounded));
+	TabForegroundedDelegateHandle = FGlobalTabmanager::Get()->OnTabForegrounded_Subscribe(
+		FOnActiveTabChanged::FDelegate::CreateRaw(this, &FAssetEditor_StoryGraph::OnTabForegrounded));
 }
 
 FAssetEditor_StoryGraph::~FAssetEditor_StoryGraph()
 {
 	FGlobalTabmanager::Get()->OnTabForegrounded_Unsubscribe(TabForegroundedDelegateHandle);
-	EditedObject->pAssetEditor = NULL;
+	EditedObject->pAssetEditor = nullptr;
 }
-
-
 
 
 const FName FCustomEditorTabs::DetailsID(TEXT("Details"));
@@ -66,7 +67,6 @@ const FName FCustomEditorTabs::ActionMenuID(TEXT("ActionMenu"));
 FName FAssetEditor_StoryGraph::GetToolkitFName() const
 {
 	return FName("SyoryGraph Editor");
-	
 }
 
 FText FAssetEditor_StoryGraph::GetBaseToolkitName() const
@@ -86,48 +86,53 @@ FString FAssetEditor_StoryGraph::GetWorldCentricTabPrefix() const
 
 FText FAssetEditor_StoryGraph::GetToolkitName() const
 {
-	check(AssetObject != NULL);
+	check(AssetObject != nullptr);
 
 	return GetLabelForObject(AssetObject);
 }
 
-void FAssetEditor_StoryGraph::OnTabForegrounded(TSharedPtr<SDockTab> ForegroundedTab, TSharedPtr<SDockTab> BackgroundedTab)
+void FAssetEditor_StoryGraph::OnTabForegrounded(TSharedPtr<SDockTab> ForegroundedTab,
+                                                TSharedPtr<SDockTab> BackgroundedTab)
 {
 	//UE_LOG(StoryGraphEditor, Warning, TEXT("TabForegrounded"));
 	TSharedRef<SGraphEditor> GraphEditorLoc = StaticCastSharedRef<SGraphEditor>(ForegroundedTab->GetContent());
-	
-	if (ForegroundedTab->GetTabLabel().ToString() == "Story Graph" || ForegroundedTab->GetTabLabel().ToString().Find("DG_") != -1 || ForegroundedTab->GetTabLabel().ToString().Find("MS_") != -1)
+
+	if (ForegroundedTab->GetTabLabel().ToString() == "Story Graph" || ForegroundedTab
+	                                                                  ->GetTabLabel().ToString().Find("DG_") != -1 ||
+		ForegroundedTab->GetTabLabel().ToString().Find("MS_") != -1)
 	{
 		OnGraphEditorFocused(GraphEditorLoc);
-	}	
+	}
 }
 
-void FAssetEditor_StoryGraph::InitAssetEditor_StoryGraph(const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, UObject* ObjectToEdit)
+void FAssetEditor_StoryGraph::InitAssetEditor_StoryGraph(const EToolkitMode::Type Mode,
+                                                         const TSharedPtr<class IToolkitHost>& InitToolkitHost,
+                                                         UObject* ObjectToEdit)
 {
-	
 	//Create graph editor
 	AssetObject = CastChecked<UStoryGraphBlueprint>(ObjectToEdit);
 	EditedObject = AssetObject->StoryGraph;
-	UEdGraph_StoryGraph* CustGraph = AssetObject->FindGraph(EditedObject);
-	if (!CustGraph)
+	UEdGraph_StoryGraph* CustomGraph = AssetObject->FindGraph(EditedObject);
+	if (!CustomGraph)
 	{
-		CustGraph = NewObject<UEdGraph_StoryGraph>(AssetObject, UEdGraph_StoryGraph::StaticClass(), NAME_None, RF_Transactional);
-		CustGraph->Schema = UEdGraphSchema_StoryGraph::StaticClass();
-		CustGraph->StoryGraph = EditedObject;
-		AssetObject->AddGraph(CustGraph);
-		CustGraph->GraphOwner = EditedObject;
+		CustomGraph = NewObject<UEdGraph_StoryGraph>(AssetObject, UEdGraph_StoryGraph::StaticClass(), NAME_None,
+		                                           RF_Transactional);
+		CustomGraph->Schema = UEdGraphSchema_StoryGraph::StaticClass();
+		CustomGraph->StoryGraph = EditedObject;
+		AssetObject->AddGraph(CustomGraph);
+		CustomGraph->GraphOwner = EditedObject;
 	}
-	
+
 	SAssignNew(FilterBox, SSearchBox)
 		.OnTextChanged(this, &FAssetEditor_StoryGraph::OnFilterTextChanged);
 
-	
-	GraphEditor = CreateGraphEditorWidget(CustGraph,"Story Graph");
+
+	GraphEditor = CreateGraphEditorWidget(CustomGraph, "Story Graph");
 	GraphActionMenu = CreateActionMenuWidget();
 
-	
 
-	const TSharedRef<FTabManager::FLayout> StandaloneDefaultLayout = FTabManager::NewLayout("CustomEditor_Layout_3")//Если добовлять новые панели нужно менять название слоя
+	const TSharedRef<FTabManager::FLayout> StandaloneDefaultLayout = FTabManager::NewLayout("CustomEditor_Layout_3")
+		//Если добовлять новые панели нужно менять название слоя
 		->AddArea
 		(
 			FTabManager::NewPrimaryArea()
@@ -178,23 +183,23 @@ void FAssetEditor_StoryGraph::InitAssetEditor_StoryGraph(const EToolkitMode::Typ
 			);
 
 	BindCommands();
-	
-	InitAssetEditor(Mode, InitToolkitHost, CustomEditorAppName, StandaloneDefaultLayout, /*bCreateDefaultStandaloneMenu=*/ true, /*bCreateDefaultToolbar=*/ true, EditedObject);
-	OnGraphEditorFocused(GraphEditor.ToSharedRef());
 
-	
+	InitAssetEditor(Mode, InitToolkitHost, CustomEditorAppName, StandaloneDefaultLayout,
+	                /*bCreateDefaultStandaloneMenu=*/ true, /*bCreateDefaultToolbar=*/ true, EditedObject);
+	OnGraphEditorFocused(GraphEditor.ToSharedRef());
 }
-	
-	
+
 
 void FAssetEditor_StoryGraph::BindCommands()
 {
 	ToolkitCommands = MakeShareable(new FUICommandList);
 
-	ToolkitCommands->MapAction(FGenericCommands::Get().Delete, FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::DeleteStoryGraphObject));
+	ToolkitCommands->MapAction(FGenericCommands::Get().Delete,
+	                           FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::DeleteStoryGraphObject));
 	ToolkitCommands->MapAction(FGenericCommands::Get().Rename,
-		FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::OnMyRequestRenameOnActionNode),
-		FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanRequestRenameOnActionNode));
+	                           FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::OnMyRequestRenameOnActionNode),
+	                           FCanExecuteAction::
+	                           CreateSP(this, &FAssetEditor_StoryGraph::CanRequestRenameOnActionNode));
 
 	ToolbarExtender = MakeShareable(new FExtender);
 
@@ -202,74 +207,90 @@ void FAssetEditor_StoryGraph::BindCommands()
 		FCommands_StoryGraph::Get().SaveAsset,
 		FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::SaveAsset_Execute),
 		FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanSaveAsset));
-	
+
 	ToolkitCommands->MapAction(
 		FCommands_StoryGraph::Get().FindInContentBrowser,
 		FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::FindInContentBrowser_Execute));
 
-	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().CheckObjects, FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CompilStoryObjects));
+	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().CheckObjects,
+	                           FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CompileStoryObjects));
 
-	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().ExportInXML, FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::ExportInXMLFile));
+	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().ExportInXML,
+	                           FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::ExportInXMLFile));
 
-	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().ImportFromXML, FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::ImportFromXMLFile));
+	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().ImportFromXML,
+	                           FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::ImportFromXMLFile));
 
-	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().UnlinkAllObjects, FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::UnlinkAllStoryGraphObjects));
+	ToolkitCommands->MapAction(FCommands_StoryGraph::Get().UnlinkAllObjects,
+	                           FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::UnlinkAllStoryGraphObjects));
 
-	ToolbarExtender->AddToolBarExtension("Asset", EExtensionHook::Before, ToolkitCommands, FToolBarExtensionDelegate::CreateRaw(this, &FAssetEditor_StoryGraph::AddToolbarExtension));
+	ToolbarExtender->AddToolBarExtension("Asset", EExtensionHook::Before, ToolkitCommands,
+	                                     FToolBarExtensionDelegate::CreateRaw(
+		                                     this, &FAssetEditor_StoryGraph::AddToolbarExtension));
 	AddToolbarExtender(ToolbarExtender);
 }
 
 
-
-void FAssetEditor_StoryGraph::AddToolbarExtension(FToolBarBuilder &builder)
+void FAssetEditor_StoryGraph::AddToolbarExtension(FToolBarBuilder& builder)
 {
-	
-	FSlateIcon IconBrushSaveAsset = FSlateIcon(FEditorStyle::GetStyleSetName(), "AssetEditor.SaveAsset", "AssetEditor.SaveAsset.Small");
-	FSlateIcon IconBrushFindInContentBrowser = FSlateIcon(FEditorStyle::GetStyleSetName(), "SystemWideCommands.FindInContentBrowser", "SystemWideCommands.FindInContentBrowser.Small");
-	FSlateIcon IconBrushCheckObjects = FSlateIcon(FEditorStyle::GetStyleSetName(), "Kismet.CompileBlueprint", "Kismet.CompileBlueprint");
-	FSlateIcon IconBrushExportInXML = FSlateIcon(FEditorStyle::GetStyleSetName(), "FontEditor.ExportAllPages", "FontEditor.ExportAllPages.Small");
-	FSlateIcon IconBrushImportFromXML = FSlateIcon(FEditorStyle::GetStyleSetName(), "AssetEditor.ReimportAsset", "AssetEditor.ReimportAsset.Small");
-	FSlateIcon IconBrushUnlinkAllObjects = FSlateIcon(FEditorStyle::GetStyleSetName(), "Cascade.DeleteLOD", "Cascade.DeleteLOD.Small");
-	
+	FSlateIcon IconBrushSaveAsset = FSlateIcon(FEditorStyle::GetStyleSetName(), "AssetEditor.SaveAsset",
+	                                           "AssetEditor.SaveAsset.Small");
+	FSlateIcon IconBrushFindInContentBrowser = FSlateIcon(FEditorStyle::GetStyleSetName(),
+	                                                      "SystemWideCommands.FindInContentBrowser",
+	                                                      "SystemWideCommands.FindInContentBrowser.Small");
+	FSlateIcon IconBrushCheckObjects = FSlateIcon(FEditorStyle::GetStyleSetName(), "Kismet.CompileBlueprint",
+	                                              "Kismet.CompileBlueprint");
+	FSlateIcon IconBrushExportInXML = FSlateIcon(FEditorStyle::GetStyleSetName(), "FontEditor.ExportAllPages",
+	                                             "FontEditor.ExportAllPages.Small");
+	FSlateIcon IconBrushImportFromXML = FSlateIcon(FEditorStyle::GetStyleSetName(), "AssetEditor.ReimportAsset",
+	                                               "AssetEditor.ReimportAsset.Small");
+	FSlateIcon IconBrushUnlinkAllObjects = FSlateIcon(FEditorStyle::GetStyleSetName(), "Cascade.DeleteLOD",
+	                                                  "Cascade.DeleteLOD.Small");
+
 	builder.AddToolBarButton(FCommands_StoryGraph::Get().CheckObjects, NAME_None,
-		FText::FromString("Compile"),
-		FText::FromString("Compile story graph"),
-		TAttribute<FSlateIcon>(this, &FAssetEditor_StoryGraph::GetStatusImage)
-		, NAME_None);
-	builder.AddToolBarButton(FCommands_StoryGraph::Get().SaveAsset, NAME_None, FText::FromString("Save Asset"), FText::FromString("Save Asset"), IconBrushSaveAsset, NAME_None);
-	builder.AddToolBarButton(FCommands_StoryGraph::Get().FindInContentBrowser, NAME_None, FText::FromString("Find in CB"), FText::FromString("Find in Content Browser..."), IconBrushFindInContentBrowser, NAME_None);
-	builder.AddToolBarButton(FCommands_StoryGraph::Get().ExportInXML, NAME_None, FText::FromString("Export in XML"), FText::FromString("Export in XML file"), IconBrushExportInXML, NAME_None);
-	builder.AddToolBarButton(FCommands_StoryGraph::Get().ImportFromXML, NAME_None, FText::FromString("Import from XML"), FText::FromString("Import from XML file"), IconBrushImportFromXML, NAME_None);
-	builder.AddToolBarButton(FCommands_StoryGraph::Get().UnlinkAllObjects, NAME_None, FText::FromString("Unlink objects"), FText::FromString("Unlink all StoryGraph objects"), IconBrushUnlinkAllObjects, NAME_None);
-	
-	
+	                         FText::FromString("Compile"),
+	                         FText::FromString("Compile story graph"),
+	                         TAttribute<FSlateIcon>(this, &FAssetEditor_StoryGraph::GetStatusImage)
+	                         , NAME_None);
+	builder.AddToolBarButton(FCommands_StoryGraph::Get().SaveAsset, NAME_None, FText::FromString("Save Asset"),
+	                         FText::FromString("Save Asset"), IconBrushSaveAsset, NAME_None);
+	builder.AddToolBarButton(FCommands_StoryGraph::Get().FindInContentBrowser, NAME_None,
+	                         FText::FromString("Find in CB"), FText::FromString("Find in Content Browser..."),
+	                         IconBrushFindInContentBrowser, NAME_None);
+	builder.AddToolBarButton(FCommands_StoryGraph::Get().ExportInXML, NAME_None, FText::FromString("Export in XML"),
+	                         FText::FromString("Export in XML file"), IconBrushExportInXML, NAME_None);
+	builder.AddToolBarButton(FCommands_StoryGraph::Get().ImportFromXML, NAME_None, FText::FromString("Import from XML"),
+	                         FText::FromString("Import from XML file"), IconBrushImportFromXML, NAME_None);
+	builder.AddToolBarButton(FCommands_StoryGraph::Get().UnlinkAllObjects, NAME_None,
+	                         FText::FromString("Unlink objects"), FText::FromString("Unlink all StoryGraph objects"),
+	                         IconBrushUnlinkAllObjects, NAME_None);
 }
 
 
 void FAssetEditor_StoryGraph::RegisterTabSpawners(const TSharedRef<class FTabManager>& TabManager)
 {
-	
 	WorkspaceMenuCategory = TabManager->AddLocalWorkspaceMenuCategory(FText::FromString("Custom Editor"));
 	auto WorkspaceMenuCategoryRef = WorkspaceMenuCategory.ToSharedRef();
 
 	FAssetEditorToolkit::RegisterTabSpawners(TabManager);
 
-	TabManager->RegisterTabSpawner(FCustomEditorTabs::ActionMenuID, FOnSpawnTab::CreateSP(this, &FAssetEditor_StoryGraph::SpawnTab_ActionMenu))
-		.SetDisplayName(FText::FromName(FCustomEditorTabs::ActionMenuID))
-		.SetGroup(WorkspaceMenuCategoryRef)
-		.SetIcon(FSlateIcon(FEditorStyle::GetStyleSetName(), "LevelEditor.Tabs.Viewports"));
+	TabManager->RegisterTabSpawner(FCustomEditorTabs::ActionMenuID,
+	                               FOnSpawnTab::CreateSP(this, &FAssetEditor_StoryGraph::SpawnTab_ActionMenu))
+	          .SetDisplayName(FText::FromName(FCustomEditorTabs::ActionMenuID))
+	          .SetGroup(WorkspaceMenuCategoryRef)
+	          .SetIcon(FSlateIcon(FEditorStyle::GetStyleSetName(), "LevelEditor.Tabs.Viewports"));
 
-	TabManager->RegisterTabSpawner(FCustomEditorTabs::ViewportID, FOnSpawnTab::CreateSP(this, &FAssetEditor_StoryGraph::SpawnTab_Viewport))
-		.SetDisplayName(FText::FromName(FCustomEditorTabs::ViewportID))
-		.SetGroup(WorkspaceMenuCategoryRef)
-		.SetIcon(FSlateIcon(FEditorStyle::GetStyleSetName(), "LevelEditor.Tabs.Viewports"));
+	TabManager->RegisterTabSpawner(FCustomEditorTabs::ViewportID,
+	                               FOnSpawnTab::CreateSP(this, &FAssetEditor_StoryGraph::SpawnTab_Viewport))
+	          .SetDisplayName(FText::FromName(FCustomEditorTabs::ViewportID))
+	          .SetGroup(WorkspaceMenuCategoryRef)
+	          .SetIcon(FSlateIcon(FEditorStyle::GetStyleSetName(), "LevelEditor.Tabs.Viewports"));
 
-	TabManager->RegisterTabSpawner(FCustomEditorTabs::DetailsID, FOnSpawnTab::CreateSP(this, &FAssetEditor_StoryGraph::SpawnTab_Details))
-		.SetDisplayName(FText::FromName(FCustomEditorTabs::DetailsID))
-		.SetGroup(WorkspaceMenuCategoryRef)
-		.SetIcon(FSlateIcon(FEditorStyle::GetStyleSetName(), "LevelEditor.Tabs.Details"));
-
-	
+	TabManager->RegisterTabSpawner(FCustomEditorTabs::DetailsID,
+	                               FOnSpawnTab::CreateSP(this, &FAssetEditor_StoryGraph::SpawnTab_Details))
+	          .SetDisplayName(FText::FromName(FCustomEditorTabs::DetailsID))
+	          .SetGroup(WorkspaceMenuCategoryRef)
+	          .SetIcon(FSlateIcon(FEditorStyle::GetStyleSetName(), "LevelEditor.Tabs.Details"));
 }
 
 void FAssetEditor_StoryGraph::UnregisterTabSpawners(const TSharedRef<class FTabManager>& TabManager)
@@ -314,20 +335,20 @@ TSharedRef<SDockTab> FAssetEditor_StoryGraph::SpawnTab_Viewport(const FSpawnTabA
 	return SNew(SDockTab)
 		.Label(FText::FromString("Story Graph"))
 		.TabColorScale(GetTabColorScale())
-		[
-			GraphEditor.ToSharedRef()
-		];
-
+	[
+		GraphEditor.ToSharedRef()
+	];
 }
 
 TSharedRef<SDockTab> FAssetEditor_StoryGraph::SpawnTab_Details(const FSpawnTabArgs& Args)
 {
-	FPropertyEditorModule& PropertyEditorModule = FModuleManager::GetModuleChecked<FPropertyEditorModule>("PropertyEditor");
+	FPropertyEditorModule& PropertyEditorModule = FModuleManager::GetModuleChecked<FPropertyEditorModule>(
+		"PropertyEditor");
 	const FDetailsViewArgs DetailsViewArgs(false, false, true, FDetailsViewArgs::HideNameArea, true, this);
 	TSharedRef<IDetailsView> PropertyEditorRef = PropertyEditorModule.CreateDetailView(DetailsViewArgs);
 	PropertyEditor = PropertyEditorRef;
 	PropertyEditor->OnFinishedChangingProperties().AddSP(this, &FAssetEditor_StoryGraph::OnPropertiesChanging);
-	
+
 	// Spawn the tab
 	return SNew(SDockTab)
 		.Label(FText::FromString("Details"))
@@ -343,12 +364,10 @@ void FAssetEditor_StoryGraph::GetSaveableObjects(TArray<UObject*>& OutObjects) c
 }
 
 
-
 void FAssetEditor_StoryGraph::OnPropertiesChanging(const FPropertyChangedEvent& e)
 {
+	FName PropertyName = (e.Property != nullptr) ? e.Property->GetFName() : NAME_None;
 
-	FName PropertyName = (e.Property != NULL) ? e.Property->GetFName() : NAME_None;
-	
 	TArray<TWeakObjectPtr<UObject>> EditObjects;
 
 	if (PropertyName == GET_MEMBER_NAME_CHECKED(UStoryGraphObject, Category))
@@ -357,9 +376,7 @@ void FAssetEditor_StoryGraph::OnPropertiesChanging(const FPropertyChangedEvent& 
 	}
 	else if (PropertyName == GET_MEMBER_NAME_CHECKED(UStoryGraphObject, ObjName))
 	{
-		
 		ObjectNameChanged(CurrentSelectedActionMenuObject);
-
 	}
 	else if (PropertyName == GET_MEMBER_NAME_CHECKED(UStoryGraphQuest, MainQuest))
 	{
@@ -368,27 +385,25 @@ void FAssetEditor_StoryGraph::OnPropertiesChanging(const FPropertyChangedEvent& 
 
 		if (ProxyNode)
 		{
-			ProxyNode->CustomNode->RefreshCollor();
+			ProxyNode->CustomNode->RefreshColor();
 			((UQuestStartNode*)ProxyNode->CustomNode)->RefreshQuestOwner();
 			ProxyNode->CustomNode->UpdateGraphNode();
 		}
 		else if (Quest)
 		{
-			UEdGraph_StoryGraph* CustGraph = AssetObject->FindGraph(EditedObject);
-			for (int i = 0; i < CustGraph->Nodes.Num(); i++)
+			UEdGraph_StoryGraph* CustomGraph = AssetObject->FindGraph(EditedObject);
+			for (int i = 0; i < CustomGraph->Nodes.Num(); i++)
 			{
-				ProxyNode = Cast<UProxyNodeBase>(CustGraph->Nodes[i]);
+				ProxyNode = Cast<UProxyNodeBase>(CustomGraph->Nodes[i]);
 				UQuestStartNode* QuestStartNode = Cast<UQuestStartNode>(ProxyNode->CustomNode);
 				if (QuestStartNode)
 				{
 					if (QuestStartNode->pGraphObject == Quest)
 					{
-
-						QuestStartNode->RefreshCollor();
+						QuestStartNode->RefreshColor();
 						QuestStartNode->RefreshQuestOwner();
 						QuestStartNode->UpdateGraphNode();
 						break;
-
 					}
 				}
 			}
@@ -400,9 +415,8 @@ void FAssetEditor_StoryGraph::OnPropertiesChanging(const FPropertyChangedEvent& 
 
 		if (ProxyNode)
 		{
-			ProxyNode->CustomNode->RefreshCollor();
+			ProxyNode->CustomNode->RefreshColor();
 		}
-		
 	}
 	else if (PropertyName == GET_MEMBER_NAME_CHECKED(UAddQuestPhaseNode, IsEmpty))
 	{
@@ -412,29 +426,28 @@ void FAssetEditor_StoryGraph::OnPropertiesChanging(const FPropertyChangedEvent& 
 		{
 			if (((UAddQuestPhaseNode*)ProxyNode->CustomNode)->IsEmpty)
 			{
-				((UAddQuestPhaseNode*)ProxyNode->CustomNode)->QuestPhaseToAdd->Decription = FText::GetEmpty();
+				((UAddQuestPhaseNode*)ProxyNode->CustomNode)->QuestPhaseToAdd->Description = FText::GetEmpty();
 			}
 			else
 			{
-				((UAddQuestPhaseNode*)ProxyNode->CustomNode)->QuestPhaseToAdd->Decription = FText::FromString("Enter text");
+				((UAddQuestPhaseNode*)ProxyNode->CustomNode)->QuestPhaseToAdd->Description = FText::FromString(
+					"Enter text");
 			}
 			ProxyNode->CustomNode->NodeUpdateDelegate.ExecuteIfBound();
-			ProxyNode->CustomNode->ProprtyUpdateDelegate.ExecuteIfBound();
+			ProxyNode->CustomNode->PropertyUpdateDelegate.ExecuteIfBound();
 		}
-
 	}
 	else if (PropertyName == GET_MEMBER_NAME_CHECKED(UAddDialogNode, Activate))
 	{
 		UProxyNodeBase* ProxyNode = Cast<UProxyNodeBase>(CurrentSelectedObject);
-	
+
 		if (ProxyNode)
 		{
-			ProxyNode->CustomNode->RefreshCollor();
+			ProxyNode->CustomNode->RefreshColor();
 			ProxyNode->CustomNode->UpdateGraphNode();
 		}
-
 	}
-	else if (PropertyName == GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, InventoryItemWithoutScenObject))
+	else if (PropertyName == GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, InventoryItemWithoutSceneObject))
 	{
 		RefreshDetailPanel();
 	}
@@ -444,16 +457,14 @@ void FAssetEditor_StoryGraph::OnPropertiesChanging(const FPropertyChangedEvent& 
 
 void FAssetEditor_StoryGraph::ObjectNameChanged(UStoryGraphObject* ChangObject)
 {
-	
 	TArray<UEdGraphNode*> NodesToRefresh;
-	
-	FindDependetNodsInGraph(NodesToRefresh, ChangObject);
+
+	FindDependedNodesInGraph(NodesToRefresh, ChangObject);
 	for (int i = 0; i < NodesToRefresh.Num(); i++)
 	{
 		((UProxyNodeBase*)NodesToRefresh[i])->CustomNode->NodeUpdateDelegate.ExecuteIfBound(); //Refresh node UI
 	}
 	GraphActionMenu->RefreshAllActions(true); //Refresh action panel
-	
 }
 
 TSharedRef<SGraphEditor> FAssetEditor_StoryGraph::CreateGraphEditorWidget(UEdGraph* InGraph, FString CornerText)
@@ -461,64 +472,62 @@ TSharedRef<SGraphEditor> FAssetEditor_StoryGraph::CreateGraphEditorWidget(UEdGra
 	// Create the appearance info
 	FGraphAppearanceInfo AppearanceInfo;
 	AppearanceInfo.CornerText = FText::FromString(CornerText);
-	
+
 	if (!GraphEditorCommands.IsValid())
 	{
 		GraphEditorCommands = MakeShareable(new FUICommandList);
 		{
 			GraphEditorCommands->MapAction(FGenericCommands::Get().SelectAll,
-				FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::SelectAllNodes),
-				FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanSelectAllNodes)
-				);
+			                               FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::SelectAllNodes),
+			                               FCanExecuteAction::CreateSP(
+				                               this, &FAssetEditor_StoryGraph::CanSelectAllNodes)
+			);
 
 			GraphEditorCommands->MapAction(FGenericCommands::Get().Delete,
-				FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::DeleteSelectedNodes),
-				FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanDeleteNodes)
-				);
+			                               FExecuteAction::
+			                               CreateSP(this, &FAssetEditor_StoryGraph::DeleteSelectedNodes),
+			                               FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanDeleteNodes)
+			);
 
 			GraphEditorCommands->MapAction(FGenericCommands::Get().Copy,
-				FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CopySelectedNodes),
-				FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanCopyNodes)
-				);
+			                               FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CopySelectedNodes),
+			                               FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanCopyNodes)
+			);
 
 			GraphEditorCommands->MapAction(FGenericCommands::Get().Paste,
-				FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::PasteNodes),
-				FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanPasteNodes)
-				);
+			                               FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::PasteNodes),
+			                               FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanPasteNodes)
+			);
 
 			GraphEditorCommands->MapAction(FGenericCommands::Get().Cut,
-				FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CutSelectedNodes),
-				FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanCutNodes)
-				);
+			                               FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CutSelectedNodes),
+			                               FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanCutNodes)
+			);
 
 			GraphEditorCommands->MapAction(FGenericCommands::Get().Duplicate,
-				FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::DuplicateNodes),
-				FCanExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::CanDuplicateNodes)
-				);
-
-
+			                               FExecuteAction::CreateSP(this, &FAssetEditor_StoryGraph::DuplicateNodes),
+			                               FCanExecuteAction::CreateSP(
+				                               this, &FAssetEditor_StoryGraph::CanDuplicateNodes)
+			);
 		}
 	}
-	
+
 
 	SGraphEditor::FGraphEditorEvents InEvents;
-	InEvents.OnSelectionChanged = SGraphEditor::FOnSelectionChanged::CreateSP(this, &FAssetEditor_StoryGraph::OnSelectedNodesChanged);
+	InEvents.OnSelectionChanged = SGraphEditor::FOnSelectionChanged::CreateSP(
+		this, &FAssetEditor_StoryGraph::OnSelectedNodesChanged);
 	//InEvents.OnNodeDoubleClicked = FSingleNodeEvent::CreateSP(this, &FAssetEditor_StoryGraph::OnNodeDoubleClicked);
 
-	
 
 	TSharedRef<SGraphEditor> _GraphEditor = SNew(SGraphEditor)
 		.AdditionalCommands(GraphEditorCommands)
 		.Appearance(AppearanceInfo)
 		.GraphToEdit(InGraph)
-		.GraphEvents(InEvents)
-		;
+		.GraphEvents(InEvents);
 
-	
+
 	return _GraphEditor;
 }
-
-
 
 
 // Editor Actions......................................................................................................
@@ -529,7 +538,6 @@ void FAssetEditor_StoryGraph::OnSelectedNodesChanged(const TSet<class UObject*>&
 	for (UObject* Object : NewSelection)
 	{
 		SelectedObjects.Add(Object);
-		
 	}
 	if (SelectedObjects.Num() > 0)
 	{
@@ -540,13 +548,11 @@ void FAssetEditor_StoryGraph::OnSelectedNodesChanged(const TSet<class UObject*>&
 		}
 	}
 	GraphActionMenu->RefreshAllActions(true, false);
-
-	
 }
 
 //void FAssetEditor_StoryGraph::OnNodeDoubleClicked(class UEdGraphNode* Node)
 //{
-//	((UCustomNodeBase*)Node)->DoubleClicke();
+//	((UCustomNodeBase*)Node)->DoubleClicked();
 //	
 //}
 
@@ -557,7 +563,6 @@ void FAssetEditor_StoryGraph::SelectAllNodes()
 	{
 		FocusedGraphEd->SelectAllNodes();
 	}
-
 }
 
 void FAssetEditor_StoryGraph::ClearSelection()
@@ -593,7 +598,6 @@ void FAssetEditor_StoryGraph::DeleteSelectedNodes()
 }
 
 
-
 bool FAssetEditor_StoryGraph::CanDeleteNodes() const
 {
 	TSharedPtr<SGraphEditor> FocusedGraphEd = FocusedGraphEdPtr.Pin();
@@ -605,7 +609,7 @@ bool FAssetEditor_StoryGraph::CanDeleteNodes() const
 		for (FGraphPanelSelectionSet::TConstIterator SelectedIter(SelectedNodes); SelectedIter; ++SelectedIter)
 		{
 			UEdGraphNode* Node = Cast<UEdGraphNode>(*SelectedIter);
-			if ((Node != NULL) && Node->CanUserDeleteNode())
+			if ((Node != nullptr) && Node->CanUserDeleteNode())
 			{
 				return true;
 			}
@@ -630,37 +634,32 @@ void FAssetEditor_StoryGraph::DeleteNodes(const TArray<class UEdGraphNode*>& Nod
 			{
 				for (int j = 0; j < ProxyNode->CustomNode->NodePins[i].Links.Num(); j++)
 				{
-					ProxyNode->CustomNode->NodePins[i].Links[j]->DelitLinkToNode(ProxyNode->CustomNode);
+					ProxyNode->CustomNode->NodePins[i].Links[j]->DeleteLinkToNode(ProxyNode->CustomNode);
 				}
 			}
 
 			/// Remove proxy node links
 			NodesToDelete[Index]->BreakAllNodeLinks();
 
-			FBlueprintEditorUtils::RemoveNode(NULL, NodesToDelete[Index], true);
+			FBlueprintEditorUtils::RemoveNode(nullptr, NodesToDelete[Index], true);
 			EditedObject->StoryGraphState = EStoryGraphState::ST_Modify;
 			// TODO: Process deletion in the data model
 		}
 	}
-	
 }
-
 
 
 void FAssetEditor_StoryGraph::CopySelectedNodes()
 {
-
 	TSharedPtr<SGraphEditor> FocusedGraphEd = FocusedGraphEdPtr.Pin();
 
 	if (FocusedGraphEd.IsValid())
 	{
-
 		// Export the selected nodes and place the text on the clipboard
 		const FGraphPanelSelectionSet SelectedNodes = FocusedGraphEd->GetSelectedNodes();
-		
+
 		for (FGraphPanelSelectionSet::TConstIterator SelectedIter(SelectedNodes); SelectedIter; ++SelectedIter)
 		{
-			
 			if (UEdGraphNode* Node = Cast<UEdGraphNode>(*SelectedIter))
 			{
 				if (!Node->CanDuplicateNode())
@@ -678,12 +677,10 @@ void FAssetEditor_StoryGraph::CopySelectedNodes()
 	}
 	// Make sure the owner remains the same for the copied node
 	// TODO: Check MaterialEditor.cpp for reference
-
 }
 
 bool FAssetEditor_StoryGraph::CanCopyNodes() const
 {
-	
 	TSharedPtr<SGraphEditor> FocusedGraphEd = FocusedGraphEdPtr.Pin();
 
 	if (FocusedGraphEd.IsValid())
@@ -693,19 +690,17 @@ bool FAssetEditor_StoryGraph::CanCopyNodes() const
 		for (FGraphPanelSelectionSet::TConstIterator SelectedIter(SelectedNodes); SelectedIter; ++SelectedIter)
 		{
 			UEdGraphNode* Node = Cast<UEdGraphNode>(*SelectedIter);
-			if ((Node != NULL) && Node->CanDuplicateNode())
+			if ((Node != nullptr) && Node->CanDuplicateNode())
 			{
 				return true;
 			}
 		}
 	}
 	return false;
-
 }
 
 void FAssetEditor_StoryGraph::PasteNodes()
 {
-	
 	TSharedPtr<SGraphEditor> FocusedGraphEd = FocusedGraphEdPtr.Pin();
 
 	if (FocusedGraphEd.IsValid())
@@ -716,7 +711,6 @@ void FAssetEditor_StoryGraph::PasteNodes()
 
 void FAssetEditor_StoryGraph::PasteNodesHere(const FVector2D& Location)
 {
-	
 	TSharedPtr<SGraphEditor> FocusedGraphEd = FocusedGraphEdPtr.Pin();
 
 	if (FocusedGraphEd.IsValid())
@@ -756,21 +750,22 @@ void FAssetEditor_StoryGraph::PasteNodesHere(const FVector2D& Location)
 
 		//Check nodes fron other graph and not user define
 
-		const UEdGraphSchema_Base* GraphSchema = Cast<UEdGraphSchema_Base>(FocusedGraphEd->GetCurrentGraph()->GetSchema());
-		
-		
+		const UEdGraphSchema_Base* GraphSchema = Cast<UEdGraphSchema_Base>(
+			FocusedGraphEd->GetCurrentGraph()->GetSchema());
+
+
 		for (TSet<UEdGraphNode*>::TIterator It(PastedNodes); It; ++It)
 		{
 			UProxyNodeBase* Node = (UProxyNodeBase*)*It;
-			
-			if (!Node->CanDuplicateNode() || (GraphSchema->SuitableDependetNodesType != UCustomNodeBase::GetIncertNodeType(Node->CustomNode->NodeType) && GraphSchema->SuitableStandaloneNodesType != UCustomNodeBase::GetIncertNodeType(Node->CustomNode->NodeType)))
+
+			if (!Node->CanDuplicateNode() || (GraphSchema->SuitableDependedNodesType != UCustomNodeBase::
+				GetInsertNodeType(Node->CustomNode->NodeType) && GraphSchema->SuitableStandaloneNodesType !=
+				UCustomNodeBase::GetInsertNodeType(Node->CustomNode->NodeType)))
 			{
-				
 				FocusedGraphEd->GetCurrentGraph()->RemoveNode(Node);
 				continue;
 			}
-			
-			
+
 
 			Node->NodePosX = (Node->NodePosX - AvgNodePosition.X) + Location.X;
 			Node->NodePosY = (Node->NodePosY - AvgNodePosition.Y) + Location.Y;
@@ -781,26 +776,29 @@ void FAssetEditor_StoryGraph::PasteNodesHere(const FVector2D& Location)
 			Node->CreateNewGuid();
 
 			// Duplicate custom node
-			UCustomNodeBase* NewCustomNode = DuplicateObject<UCustomNodeBase>(Node->CustomNode, Node->CustomNode->GetOuter());
-			
+			UCustomNodeBase* NewCustomNode = DuplicateObject<UCustomNodeBase>(
+				Node->CustomNode, Node->CustomNode->GetOuter());
+
 			if (UStoryGraph* StoryGraph = Cast<UStoryGraph>(((UEdGraph_StoryGraph*)Node->GetGraph())->GraphOwner))
 			{
-				StoryGraph->GarphNods.Add(NewCustomNode);
+				StoryGraph->GraphNodes.Add(NewCustomNode);
 			}
-			else if (UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(((UEdGraph_StoryGraph*)Node->GetGraph())->GraphOwner))
+			else if (UStoryGraphCharacter* Charecter = Cast<UStoryGraphCharacter>(
+				((UEdGraph_StoryGraph*)Node->GetGraph())->GraphOwner))
 			{
-				Charecter->GarphNods.Add(NewCustomNode);
+				Charecter->GraphNodes.Add(NewCustomNode);
 			}
-			else if (UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(((UEdGraph_StoryGraph*)Node->GetGraph())->GraphOwner))
+			else if (UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(
+				((UEdGraph_StoryGraph*)Node->GetGraph())->GraphOwner))
 			{
-				PlaceTrigger->GarphNods.Add(NewCustomNode);
+				PlaceTrigger->GraphNodes.Add(NewCustomNode);
 			}
 			Node->CustomNode = NewCustomNode;
 
 			// Select the newly pasted stuff
 			FocusedGraphEd->SetNodeSelection(Node, true);
 		}
-		
+
 		for (TSet<UEdGraphNode*>::TIterator It(PastedNodes); It; ++It)
 		{
 			UProxyNodeBase* Node = (UProxyNodeBase*)*It;
@@ -831,7 +829,7 @@ void FAssetEditor_StoryGraph::PasteNodesHere(const FVector2D& Location)
 	}
 }
 
-bool  FAssetEditor_StoryGraph::CanPasteNodes() const
+bool FAssetEditor_StoryGraph::CanPasteNodes() const
 {
 	FString ClipboardContent;
 	FPlatformApplicationMisc::ClipboardPaste(ClipboardContent);
@@ -863,7 +861,7 @@ bool FAssetEditor_StoryGraph::CanDuplicateNodes() const
 	return CanCopyNodes();
 }
 
-void  FAssetEditor_StoryGraph::DeleteSelectedDuplicatableNodes()
+void FAssetEditor_StoryGraph::DeleteSelectedDuplicatableNodes()
 {
 	TArray<UEdGraphNode*> NodesToDelete;
 	TSharedPtr<SGraphEditor> FocusedGraphEd = FocusedGraphEdPtr.Pin();
@@ -880,7 +878,7 @@ void  FAssetEditor_StoryGraph::DeleteSelectedDuplicatableNodes()
 		for (FGraphPanelSelectionSet::TConstIterator SelectedIter(OldSelectedNodes); SelectedIter; ++SelectedIter)
 		{
 			UEdGraphNode* Node = Cast<UEdGraphNode>(*SelectedIter);
-			if ((Node != NULL) && Node->CanDuplicateNode())
+			if ((Node != nullptr) && Node->CanDuplicateNode())
 			{
 				FocusedGraphEd->SetNodeSelection(Node, true);
 			}
@@ -909,8 +907,6 @@ void  FAssetEditor_StoryGraph::DeleteSelectedDuplicatableNodes()
 
 TSharedRef<SGraphActionMenu> FAssetEditor_StoryGraph::CreateActionMenuWidget()
 {
-
-
 	// create the main action list piece of this widget
 	TSharedRef<SGraphActionMenu> _GraphActionMenu = SNew(SGraphActionMenu, false)
 		.OnGetFilterText(this, &FAssetEditor_StoryGraph::GetFilterText)
@@ -929,8 +925,8 @@ TSharedRef<SGraphActionMenu> FAssetEditor_StoryGraph::CreateActionMenuWidget()
 		.OnGetSectionWidget(this, &FAssetEditor_StoryGraph::OnGetSectionWidget)
 		.AlphaSortItems(false)
 		.UseSectionStyling(true);
-	
-	
+
+
 	return _GraphActionMenu;
 }
 
@@ -948,10 +944,9 @@ void FAssetEditor_StoryGraph::OnFilterTextChanged(const FText& InFilterText)
 
 TSharedRef<SWidget> FAssetEditor_StoryGraph::OnCreateWidgetForAction(FCreateWidgetForActionData* const InCreateData)
 {
-	
-	TSharedRef<SGraphPaletteItem_StoryGraph> ActionWiget = SNew(SGraphPaletteItem_StoryGraph, InCreateData);
-	ActionWiget->OnNameTextCommittedDelegate.BindSP(this, &FAssetEditor_StoryGraph::ActionNameCommitted);
-	return  ActionWiget;
+	TSharedRef<SGraphPaletteItem_StoryGraph> ActionWidget = SNew(SGraphPaletteItem_StoryGraph, InCreateData);
+	ActionWidget->OnNameTextCommittedDelegate.BindSP(this, &FAssetEditor_StoryGraph::ActionNameCommitted);
+	return ActionWidget;
 }
 
 void FAssetEditor_StoryGraph::ActionNameCommitted(const FText& NewText, ETextCommit::Type InTextCommit)
@@ -962,15 +957,15 @@ void FAssetEditor_StoryGraph::ActionNameCommitted(const FText& NewText, ETextCom
 
 void FAssetEditor_StoryGraph::CollectAllActions(FGraphActionListBuilderBase& OutAllActions)
 {
-	for (int i = 0; i < EditedObject->GarphObjects.Num(); i++)
+	for (int i = 0; i < EditedObject->GraphObjects.Num(); i++)
 	{
-		
-		TSharedPtr<FEdGraphSchemaAction_StoryGraph> NewVarAction = MakeShareable(new FEdGraphSchemaAction_StoryGraph(FText::FromString(EditedObject->GarphObjects[i]->Category),
-			EditedObject->GarphObjects[i]->ObjName,
+		TSharedPtr<FEdGraphSchemaAction_StoryGraph> NewVarAction = MakeShareable(new FEdGraphSchemaAction_StoryGraph(
+			FText::FromString(EditedObject->GraphObjects[i]->Category),
+			EditedObject->GraphObjects[i]->ObjName,
 			FText::FromString("PropertyTooltip"),
 			0,
-			(int)EditedObject->GarphObjects[i]->ObjectType));
-		
+			(int)EditedObject->GraphObjects[i]->ObjectType));
+
 		NewVarAction->StoryGraphObjectNum = i;
 		OutAllActions.AddAction(NewVarAction);
 	}
@@ -978,8 +973,7 @@ void FAssetEditor_StoryGraph::CollectAllActions(FGraphActionListBuilderBase& Out
 
 void FAssetEditor_StoryGraph::CollectStaticSections(TArray<int32>& StaticSectionIDs)
 {
-
-	int i = 1;//Disabel EStoryObjectType::Non
+	int i = 1; //Disable EStoryObjectType::Non
 
 	while (i < GetNumberEnums("EStoryObjectType"))
 	{
@@ -987,7 +981,8 @@ void FAssetEditor_StoryGraph::CollectStaticSections(TArray<int32>& StaticSection
 	}
 }
 
-FReply FAssetEditor_StoryGraph::OnActionDragged(const TArray< TSharedPtr<FEdGraphSchemaAction> >& InActions, const FPointerEvent& MouseEvent)
+FReply FAssetEditor_StoryGraph::OnActionDragged(const TArray<TSharedPtr<FEdGraphSchemaAction>>& InActions,
+                                                const FPointerEvent& MouseEvent)
 {
 	if (!GraphEditor.IsValid())
 	{
@@ -995,11 +990,12 @@ FReply FAssetEditor_StoryGraph::OnActionDragged(const TArray< TSharedPtr<FEdGrap
 	}
 	if (InActions.Num() == 1)
 	{
-		TSharedRef<FDragDropAction_StoryGraph> DragOperation = FDragDropAction_StoryGraph::New(EditedObject->GarphObjects[((FEdGraphSchemaAction_StoryGraph*)InActions[0].Get())->StoryGraphObjectNum]);
+		TSharedRef<FDragDropAction_StoryGraph> DragOperation = FDragDropAction_StoryGraph::New(
+			EditedObject->GraphObjects[((FEdGraphSchemaAction_StoryGraph*)InActions[0].Get())->StoryGraphObjectNum]);
 
 		return FReply::Handled().BeginDragDrop(DragOperation);
 	}
-	
+
 	return FReply::Unhandled();
 }
 
@@ -1011,30 +1007,32 @@ FReply FAssetEditor_StoryGraph::OnActionDragged(const TArray< TSharedPtr<FEdGrap
 //	//return FReply::Unhandled();
 //}
 
-void FAssetEditor_StoryGraph::OnActionSelected(const TArray< TSharedPtr<FEdGraphSchemaAction> >& InActions, ESelectInfo::Type InSelectionType)
+void FAssetEditor_StoryGraph::OnActionSelected(const TArray<TSharedPtr<FEdGraphSchemaAction>>& InActions,
+                                               ESelectInfo::Type InSelectionType)
 {
-	if (InSelectionType == ESelectInfo::OnMouseClick || InSelectionType == ESelectInfo::OnKeyPress || InSelectionType == ESelectInfo::OnNavigation || InActions.Num() == 0)
+	if (InSelectionType == ESelectInfo::OnMouseClick || InSelectionType == ESelectInfo::OnKeyPress || InSelectionType ==
+		ESelectInfo::OnNavigation || InActions.Num() == 0)
 	{
 		if (InActions.Num() != 0)
 		{
 			int Num = ((FEdGraphSchemaAction_StoryGraph*)InActions[0].Get())->StoryGraphObjectNum;
-			CurrentSelectedActionMenuObject = EditedObject->GarphObjects[Num];
-			CurrentSelectedObject = EditedObject->GarphObjects[Num];
-			PropertyEditor->SetObject(EditedObject->GarphObjects[Num]);
+			CurrentSelectedActionMenuObject = EditedObject->GraphObjects[Num];
+			CurrentSelectedObject = EditedObject->GraphObjects[Num];
+			PropertyEditor->SetObject(EditedObject->GraphObjects[Num]);
 		}
 	}
 }
 
-void FAssetEditor_StoryGraph::OnActionDoubleClicked(const TArray< TSharedPtr<FEdGraphSchemaAction> >& InActions)
+void FAssetEditor_StoryGraph::OnActionDoubleClicked(const TArray<TSharedPtr<FEdGraphSchemaAction>>& InActions)
 {
 	if (!GraphEditor.IsValid())
 	{
 		return;
 	}
 	int Num = ((FEdGraphSchemaAction_StoryGraph*)InActions[0].Get())->StoryGraphObjectNum;
-	EditedObject->GarphObjects[Num]->DoubleClick();
-	
-	//UE_LOG(StoryGraphEditor, Warning, TEXT("Action DoubelClicked"));
+	EditedObject->GraphObjects[Num]->DoubleClick();
+
+	//UE_LOG(StoryGraphEditor, Warning, TEXT("Action DoubleClicked"));
 }
 
 
@@ -1044,12 +1042,12 @@ TSharedPtr<SWidget> FAssetEditor_StoryGraph::OnContextMenuOpening()
 	{
 		return TSharedPtr<SWidget>();
 	}
-	
+
 	FMenuBuilder MenuBuilder(true, GetToolkitCommands());
 	MenuBuilder.AddMenuEntry(FGenericCommands::Get().Delete);
 	MenuBuilder.AddMenuEntry(FGenericCommands::Get().Rename);
-	
-	
+
+
 	return MenuBuilder.MakeWidget();
 }
 
@@ -1059,11 +1057,10 @@ TSharedPtr<SWidget> FAssetEditor_StoryGraph::OnContextMenuOpening()
 //}
 
 
-
 FText FAssetEditor_StoryGraph::OnGetSectionTitle(int32 InSectionID)
 {
-	
-	return FText::FromString(UStoryGraphObject::GetObjectTypeEnumAsString((EStoryObjectType)InSectionID) + (FString("s")));
+	return FText::FromString(
+		UStoryGraphObject::GetObjectTypeEnumAsString((EStoryObjectType)InSectionID) + (FString("s")));
 }
 
 TSharedPtr<IToolTip> FAssetEditor_StoryGraph::OnGetSectionToolTip(int32 InSectionID)
@@ -1071,7 +1068,6 @@ TSharedPtr<IToolTip> FAssetEditor_StoryGraph::OnGetSectionToolTip(int32 InSectio
 	return SNew(SToolTip)
 		.BorderImage(FCoreStyle::Get().GetBrush("ToolTip.BrightBackground"))
 		.Text(FText::FromString(UStoryGraphObject::GetObjectToolTip((EStoryObjectType)InSectionID)));
-	
 }
 
 TSharedRef<SWidget> FAssetEditor_StoryGraph::OnGetSectionWidget(TSharedRef<SWidget> RowWidget, int32 InSectionID)
@@ -1079,12 +1075,15 @@ TSharedRef<SWidget> FAssetEditor_StoryGraph::OnGetSectionWidget(TSharedRef<SWidg
 	TWeakPtr<SWidget> WeakRowWidget = RowWidget;
 
 	FText AddNewText = FText::FromString(UStoryGraphObject::GetObjectTypeEnumAsString((EStoryObjectType)InSectionID));
-	FName MetaDataTag = FName(*(FString("Add New ") + UStoryGraphObject::GetObjectTypeEnumAsString((EStoryObjectType)InSectionID)));
+	FName MetaDataTag = FName(
+		*(FString("Add New ") + UStoryGraphObject::GetObjectTypeEnumAsString((EStoryObjectType)InSectionID)));
 
 	return CreateAddToSectionButton(InSectionID, WeakRowWidget, AddNewText, MetaDataTag);
 }
 
-TSharedRef<SWidget> FAssetEditor_StoryGraph::CreateAddToSectionButton(int32 InSectionID, TWeakPtr<SWidget> WeakRowWidget, FText AddNewText, FName MetaDataTag)
+TSharedRef<SWidget> FAssetEditor_StoryGraph::CreateAddToSectionButton(int32 InSectionID,
+                                                                      TWeakPtr<SWidget> WeakRowWidget, FText AddNewText,
+                                                                      FName MetaDataTag)
 {
 	return SNew(SButton)
 		.ButtonStyle(FEditorStyle::Get(), "RoundButton")
@@ -1122,7 +1121,6 @@ TSharedRef<SWidget> FAssetEditor_StoryGraph::CreateAddToSectionButton(int32 InSe
 
 FReply FAssetEditor_StoryGraph::OnAddButtonClickedOnSection(int32 InSectionID)
 {
-
 	AddStoryGraphObject(UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)InSectionID));
 	return FReply::Handled();
 }
@@ -1131,34 +1129,35 @@ void FAssetEditor_StoryGraph::AddStoryGraphObject(TSubclassOf<UStoryGraphObject>
 {
 	UStoryGraphObject* StoryGraphObject = NewObject<UStoryGraphObject>(EditedObject, Class);
 
-	EditedObject->GarphObjects.Add(StoryGraphObject);
+	EditedObject->GraphObjects.Add(StoryGraphObject);
 	GraphActionMenu->RefreshAllActions(true);
-	
+
 	EditedObject->Modify(); //Set graph modify
 	EditedObject->StoryGraphState = EStoryGraphState::ST_Modify;
 }
 
 void FAssetEditor_StoryGraph::DeleteStoryGraphObject()
 {
-
 	TArray<UEdGraphNode*> NodesToDelete;
-	
-	if (FMessageDialog::Open(EAppMsgType::OkCancel, FText::FromString("Delet object " + CurrentSelectedActionMenuObject->ObjName.ToString() + "?")) == EAppReturnType::Ok)
-	{
 
-		FindDependetNodsInGraph(NodesToDelete, CurrentSelectedActionMenuObject);
-		
+	if (FMessageDialog::Open(EAppMsgType::OkCancel,
+	                         FText::FromString(
+		                         "Delete object " + CurrentSelectedActionMenuObject->ObjName.ToString() + "?")) ==
+		EAppReturnType::Ok)
+	{
+		FindDependedNodesInGraph(NodesToDelete, CurrentSelectedActionMenuObject);
+
 		DeleteNodes(NodesToDelete);
 
-		UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(CurrentSelectedActionMenuObject);
+		UStoryGraphCharacter* Character = Cast<UStoryGraphCharacter>(CurrentSelectedActionMenuObject);
 		UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(CurrentSelectedActionMenuObject);
 
-		if (Charecter)
+		if (Character)
 		{
-			UEdGraph_StoryGraph* GraphToDelet = AssetObject->FindGraph(Charecter);
-			if (GraphToDelet)
+			UEdGraph_StoryGraph* GraphToDelete = AssetObject->FindGraph(Character);
+			if (GraphToDelete)
 			{
-				AssetObject->RemoveGraph(GraphToDelet);
+				AssetObject->RemoveGraph(GraphToDelete);
 			}
 		}
 		else if (PlaceTrigger)
@@ -1169,8 +1168,8 @@ void FAssetEditor_StoryGraph::DeleteStoryGraphObject()
 				AssetObject->RemoveGraph(GraphToDelet);
 			}
 		}
-		
-		EditedObject->GarphObjects.RemoveSingle(CurrentSelectedActionMenuObject); //Delet object
+
+		EditedObject->GraphObjects.RemoveSingle(CurrentSelectedActionMenuObject); //Delet object
 
 		GraphActionMenu->RefreshAllActions(true);
 
@@ -1179,7 +1178,7 @@ void FAssetEditor_StoryGraph::DeleteStoryGraphObject()
 	}
 }
 
-void FAssetEditor_StoryGraph::FindDependetNodsInGraph(TArray<UEdGraphNode*>& Nodes, UStoryGraphObject* OwningObject)
+void FAssetEditor_StoryGraph::FindDependedNodesInGraph(TArray<UEdGraphNode*>& Nodes, UStoryGraphObject* OwningObject)
 {
 	Nodes.Empty();
 
@@ -1187,12 +1186,14 @@ void FAssetEditor_StoryGraph::FindDependetNodsInGraph(TArray<UEdGraphNode*>& Nod
 	{
 		for (int i = 0; i < AssetObject->Graphs[j]->Nodes.Num(); i++)
 		{
-
 			if (UProxyNodeBase* CurrentNode = Cast<UProxyNodeBase>(AssetObject->Graphs[j]->Nodes[i]))
 			{
-				if (UCustomNodeBase::GetIncertNodeType(CurrentNode->CustomNode->NodeType) == EIncertNodeType::StoryGraphDependent ||
-					UCustomNodeBase::GetIncertNodeType(CurrentNode->CustomNode->NodeType) == EIncertNodeType::MessageGraphDependent ||
-					UCustomNodeBase::GetIncertNodeType(CurrentNode->CustomNode->NodeType) == EIncertNodeType::DialogGraphDependent)
+				if (UCustomNodeBase::GetInsertNodeType(CurrentNode->CustomNode->NodeType) == EInsertNodeType::
+					StoryGraphDependent ||
+					UCustomNodeBase::GetInsertNodeType(CurrentNode->CustomNode->NodeType) == EInsertNodeType::
+					MessageGraphDependent ||
+					UCustomNodeBase::GetInsertNodeType(CurrentNode->CustomNode->NodeType) == EInsertNodeType::
+					DialogGraphDependent)
 				{
 					if (CurrentNode->CustomNode->pGraphObject == OwningObject)
 					{
@@ -1200,36 +1201,33 @@ void FAssetEditor_StoryGraph::FindDependetNodsInGraph(TArray<UEdGraphNode*>& Nod
 					}
 				}
 			}
-
 		}
 	}
-
 }
 
-void FAssetEditor_StoryGraph::CompilStoryObjects()
+void FAssetEditor_StoryGraph::CompileStoryObjects()
 {
-	
 	bool CheckResult = true;
 
-	for (int j = 0; j < EditedObject->GarphObjects.Num(); j++)
+	for (int j = 0; j < EditedObject->GraphObjects.Num(); j++)
 	{
-		if (UStoryGraphObjectWithScenObject* GraphObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(EditedObject->GarphObjects[j]))
+		if (UStoryGraphObjectWithSceneObject* GraphObjectWithSceneObject = Cast<UStoryGraphObjectWithSceneObject>(
+			EditedObject->GraphObjects[j]))
 		{
-			if (GraphObjectWithScenObject->GetScenObjectsNum() == 0)
+			if (GraphObjectWithSceneObject->GetSceneObjectsNum() == 0)
 			{
-				UStoryGraphInventoryItem* InventoryItem = Cast<UStoryGraphInventoryItem>(GraphObjectWithScenObject);
-				
-				if (InventoryItem && InventoryItem->InventoryItemWithoutScenObject)
+				UStoryGraphInventoryItem* InventoryItem = Cast<UStoryGraphInventoryItem>(GraphObjectWithSceneObject);
+
+				if (InventoryItem && InventoryItem->InventoryItemWithoutSceneObject)
 				{
 					continue;
 				}
 				CheckResult = false;
-				UE_LOG(LogCategoryStoryGraphPluginEditor, Warning, TEXT("%s %s dont have any reference"), *UStoryGraphObject::GetObjectTypeEnumAsString(EditedObject->GarphObjects[j]->ObjectType),
-					*EditedObject->GarphObjects[j]->ObjName.ToString());
-				
+				UE_LOG(LogCategoryStoryGraphPluginEditor, Warning, TEXT("%s %s dont have any reference"),
+				       *UStoryGraphObject::GetObjectTypeEnumAsString(EditedObject->GraphObjects[j]->ObjectType),
+				       *EditedObject->GraphObjects[j]->ObjName.ToString());
 			}
 		}
-		
 	}
 	if (CheckResult)
 	{
@@ -1250,17 +1248,20 @@ void FAssetEditor_StoryGraph::CompilStoryObjects()
 			break;
 		}
 	}
-	
 }
 
 void FAssetEditor_StoryGraph::ExportInXMLFile()
 {
 	TSharedPtr<SWindow> ParentWindow = FSlateApplication::Get().GetActiveTopLevelWindow();
-	const void* ParentWindowHandle = (ParentWindow.IsValid() && ParentWindow->GetNativeWindow().IsValid()) ? ParentWindow->GetNativeWindow()->GetOSWindowHandle() : nullptr;
+	const void* ParentWindowHandle = (ParentWindow.IsValid() && ParentWindow->GetNativeWindow().IsValid())
+		                                 ? ParentWindow->GetNativeWindow()->GetOSWindowHandle()
+		                                 : nullptr;
 	if (!ParentWindowHandle) return;
 
 	TArray<FString> OutputFile;
-	if (FDesktopPlatformModule::Get()->SaveFileDialog(ParentWindowHandle, FString("Save XML File"), FPaths::ProjectDir(), FString("XMLFile.xml"), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
+	if (FDesktopPlatformModule::Get()->SaveFileDialog(ParentWindowHandle, FString("Save XML File"),
+	                                                  FPaths::ProjectDir(), FString("XMLFile.xml"),
+	                                                  FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
 	{
 		const FString FileTemplate = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>\n<root>\n</root>";
 		FXmlFile File(FileTemplate, EConstructMethod::ConstructFromBuffer);
@@ -1269,46 +1270,47 @@ void FAssetEditor_StoryGraph::ExportInXMLFile()
 
 		RootNode->AppendChildNode("GraphObjects", "");
 		FXmlNode* GraphObjectsNode = RootNode->FindChildNode("GraphObjects");
-		
+
 		SerializedStoryGraphObjectsToXMLNode(GraphObjectsNode);
 
 
 		RootNode->AppendChildNode("DialogGraphs", "");
 		FXmlNode* DiaogGraphsNode = RootNode->FindChildNode("DialogGraphs");
 
-		for (int i = 0; i < EditedObject->GarphObjects.Num(); i++)
+		for (int i = 0; i < EditedObject->GraphObjects.Num(); i++)
 		{
-			if (UStoryGraphCharecter* pStoryGraphCharecter = Cast<UStoryGraphCharecter>(EditedObject->GarphObjects[i]))
+			if (UStoryGraphCharacter* pStoryGraphCharacter = Cast<UStoryGraphCharacter>(EditedObject->GraphObjects[i]))
 			{
-				for (int j = 0; j < pStoryGraphCharecter->GarphNods.Num(); j++)
+				for (int j = 0; j < pStoryGraphCharacter->GraphNodes.Num(); j++)
 				{
-					pStoryGraphCharecter->GarphNods[j]->XMLID = EditedObject->GarphObjects[i]->XMLID + "_" + FString::FromInt(j);
+					pStoryGraphCharacter->GraphNodes[j]->XMLID = EditedObject->GraphObjects[i]->XMLID + "_" + FString::
+						FromInt(j);
 				}
 
-				DiaogGraphsNode->AppendChildNode(EditedObject->GarphObjects[i]->XMLID, "");
-				FXmlNode* NewDialogNode = DiaogGraphsNode->FindChildNode(EditedObject->GarphObjects[i]->XMLID);
+				DiaogGraphsNode->AppendChildNode(EditedObject->GraphObjects[i]->XMLID, "");
+				FXmlNode* NewDialogNode = DiaogGraphsNode->FindChildNode(EditedObject->GraphObjects[i]->XMLID);
 
-				SerializedGraphNodesToXMLNode(NewDialogNode, EditedObject->GarphObjects[i]);
-				
+				SerializedGraphNodesToXMLNode(NewDialogNode, EditedObject->GraphObjects[i]);
 			}
-			else if (UStoryGraphPlaceTrigger* pStoryGraphPlaceTrigger = Cast<UStoryGraphPlaceTrigger>(EditedObject->GarphObjects[i]))
+			else if (UStoryGraphPlaceTrigger* pStoryGraphPlaceTrigger = Cast<UStoryGraphPlaceTrigger>(
+				EditedObject->GraphObjects[i]))
 			{
-				for (int j = 0; j < pStoryGraphPlaceTrigger->GarphNods.Num(); j++)
+				for (int j = 0; j < pStoryGraphPlaceTrigger->GraphNodes.Num(); j++)
 				{
-					pStoryGraphPlaceTrigger->GarphNods[j]->XMLID = EditedObject->GarphObjects[i]->XMLID + "_" + FString::FromInt(j);;
+					pStoryGraphPlaceTrigger->GraphNodes[j]->XMLID = EditedObject->GraphObjects[i]->XMLID + "_" + FString
+						::FromInt(j);;
 				}
 
-				DiaogGraphsNode->AppendChildNode(EditedObject->GarphObjects[i]->XMLID, "");
-				FXmlNode* NewDialogNode = DiaogGraphsNode->FindChildNode(EditedObject->GarphObjects[i]->XMLID);
+				DiaogGraphsNode->AppendChildNode(EditedObject->GraphObjects[i]->XMLID, "");
+				FXmlNode* NewDialogNode = DiaogGraphsNode->FindChildNode(EditedObject->GraphObjects[i]->XMLID);
 
-				SerializedGraphNodesToXMLNode(NewDialogNode, EditedObject->GarphObjects[i]);
-
+				SerializedGraphNodesToXMLNode(NewDialogNode, EditedObject->GraphObjects[i]);
 			}
 		}
 
-		for (int i = 0; i < EditedObject->GarphNods.Num(); i++)
+		for (int i = 0; i < EditedObject->GraphNodes.Num(); i++)
 		{
-			EditedObject->GarphNods[i]->XMLID = "M_" + FString::FromInt(i);
+			EditedObject->GraphNodes[i]->XMLID = "M_" + FString::FromInt(i);
 		}
 
 		RootNode->AppendChildNode("MainGraph", "");
@@ -1318,34 +1320,30 @@ void FAssetEditor_StoryGraph::ExportInXMLFile()
 
 		File.Save(OutputFile[0]);
 	}
-	
 }
 
 void FAssetEditor_StoryGraph::SerializedStoryGraphObjectsToXMLNode(FXmlNode* XMLNode)
 {
-	for (int i = 0; i < EditedObject->GarphObjects.Num(); i++)
+	for (int i = 0; i < EditedObject->GraphObjects.Num(); i++)
 	{
+		EditedObject->GraphObjects[i]->XMLID = FString::FromInt(i);
+		XMLNode->AppendChildNode(EditedObject->GraphObjects[i]->XMLID, "");
+		FXmlNode* ObjectNode = XMLNode->FindChildNode(EditedObject->GraphObjects[i]->XMLID);
 
-		EditedObject->GarphObjects[i]->XMLID = FString::FromInt(i);
-		XMLNode->AppendChildNode(EditedObject->GarphObjects[i]->XMLID, "");
-		FXmlNode* ObjectNode = XMLNode->FindChildNode(EditedObject->GarphObjects[i]->XMLID);
+		std::map<FString, XMLProperty> Properties;
+		EditedObject->GraphObjects[i]->GetXMLSavingProperty(Properties);
 
-		std::map<FString, XMLProperty> Propertys;
-		EditedObject->GarphObjects[i]->GetXMLSavingProperty(Propertys);
-
-		for (auto it = Propertys.begin(); it != Propertys.end(); ++it)
+		for (auto it = Properties.begin(); it != Properties.end(); ++it)
 		{
-			if (it->second.Propertys.size() != 0)
+			if (it->second.Properties.size() != 0)
 			{
 				CreateXMLArray(it->second, it->first, ObjectNode);
-
 			}
 			else
 			{
 				ObjectNode->AppendChildNode(it->first, it->second.Val);
 			}
 		}
-
 	}
 }
 
@@ -1367,15 +1365,14 @@ void FAssetEditor_StoryGraph::SerializedGraphNodesToXMLNode(FXmlNode* XMLNode, U
 		NewGraphNode->AppendChildNode("X", FString::FromInt(GraphNods[i]->NodePosX));
 		NewGraphNode->AppendChildNode("Y", FString::FromInt(GraphNods[i]->NodePosY));
 
-		std::map<FString, XMLProperty> Propertys;
-		GraphNods[i]->CustomNode->GetXMLSavingProperty(Propertys);
+		std::map<FString, XMLProperty> Properties;
+		GraphNods[i]->CustomNode->GetXMLSavingProperty(Properties);
 
-		for (auto it = Propertys.begin(); it != Propertys.end(); ++it)
+		for (auto it = Properties.begin(); it != Properties.end(); ++it)
 		{
-			if (it->second.Propertys.size() != 0)
+			if (it->second.Properties.size() != 0)
 			{
 				CreateXMLArray(it->second, it->first, NewGraphNode);
-
 			}
 			else
 			{
@@ -1386,17 +1383,14 @@ void FAssetEditor_StoryGraph::SerializedGraphNodesToXMLNode(FXmlNode* XMLNode, U
 }
 
 
-
 void FAssetEditor_StoryGraph::CreateXMLArray(XMLProperty& Property, FString Name, FXmlNode* RootNode)
 {
-	
 	RootNode->AppendChildNode(Name, Property.Val);
 	FXmlNode* ArrayRootNode = RootNode->FindChildNode(Name);
 
-	for (auto it = Property.Propertys.begin(); it != Property.Propertys.end(); ++it)
+	for (auto it = Property.Properties.begin(); it != Property.Properties.end(); ++it)
 	{
-		
-		if (it->second.Propertys.size() != 0)
+		if (it->second.Properties.size() != 0)
 		{
 			CreateXMLArray(it->second, it->first, ArrayRootNode);
 		}
@@ -1405,20 +1399,23 @@ void FAssetEditor_StoryGraph::CreateXMLArray(XMLProperty& Property, FString Name
 			ArrayRootNode->AppendChildNode(it->first, it->second.Val);
 		}
 	}
-
 }
 
 
 void FAssetEditor_StoryGraph::ImportFromXMLFile()
 {
 	TSharedPtr<SWindow> ParentWindow = FSlateApplication::Get().GetActiveTopLevelWindow();
-	const void* ParentWindowHandle = (ParentWindow.IsValid() && ParentWindow->GetNativeWindow().IsValid()) ? ParentWindow->GetNativeWindow()->GetOSWindowHandle() : nullptr;
+	const void* ParentWindowHandle = (ParentWindow.IsValid() && ParentWindow->GetNativeWindow().IsValid())
+		                                 ? ParentWindow->GetNativeWindow()->GetOSWindowHandle()
+		                                 : nullptr;
 	if (!ParentWindowHandle) return;
 
 	TArray<FString> OutputFile;
-	if (FDesktopPlatformModule::Get()->OpenFileDialog(ParentWindowHandle, FString("Open XML File"), FPaths::ProjectDir(), FString(""), FString("XML|*.xml"), EFileDialogFlags::Multiple, OutputFile))
+	if (FDesktopPlatformModule::Get()->OpenFileDialog(ParentWindowHandle, FString("Open XML File"),
+	                                                  FPaths::ProjectDir(), FString(""), FString("XML|*.xml"),
+	                                                  EFileDialogFlags::Multiple, OutputFile))
 	{
-		EraseStroyGraph(); 
+		EraseStoryGraph();
 
 		FXmlFile File(OutputFile[0], EConstructMethod::ConstructFromFile);
 		FXmlNode* RootNode = File.GetRootNode();
@@ -1437,22 +1434,21 @@ void FAssetEditor_StoryGraph::ImportFromXMLFile()
 
 		for (int i = 0; i < CurrentDialogGraph.Num(); i++)
 		{
-			UEdGraph_StoryGraph* NewDialogGraph = CreateDialogGraph(EditedObject->GarphObjects[FCString::Atoi(*CurrentDialogGraph[i]->GetTag())]);
+			UEdGraph_StoryGraph* NewDialogGraph = CreateDialogGraph(
+				EditedObject->GraphObjects[FCString::Atoi(*CurrentDialogGraph[i]->GetTag())]);
 
-			SpawnGraphNodsFromXMLNode(CurrentDialogGraph[i], EditedObject->GarphObjects[FCString::Atoi(*CurrentDialogGraph[i]->GetTag())]);
-
+			SpawnGraphNodsFromXMLNode(CurrentDialogGraph[i],
+			                          EditedObject->GraphObjects[FCString::Atoi(*CurrentDialogGraph[i]->GetTag())]);
 		}
-		
+
 		FXmlNode* MainGraph = RootNode->FindChildNode("MainGraph");
 		SpawnGraphNodsFromXMLNode(MainGraph, EditedObject);
-		
+
 
 		GraphActionMenu->RefreshAllActions(true);
 		EditedObject->Modify(); //Set graph modify
 		EditedObject->StoryGraphState = EStoryGraphState::ST_Modify;
 	}
-	
-	
 }
 
 void FAssetEditor_StoryGraph::SpawnStoryGraphObjectsFromXMLNode(FXmlNode* GraphObjectsNode)
@@ -1460,17 +1456,18 @@ void FAssetEditor_StoryGraph::SpawnStoryGraphObjectsFromXMLNode(FXmlNode* GraphO
 	TArray<FXmlNode*> CurrentObjectNode = GraphObjectsNode->GetChildrenNodes();
 	for (int i = 0; i < CurrentObjectNode.Num(); i++)
 	{
-
-		EStoryObjectType ObjectType = GetEnumValueFromString<EStoryObjectType>("EStoryObjectType", CurrentObjectNode[i]->FindChildNode("ObjectType")->GetContent());
+		EStoryObjectType ObjectType = GetEnumValueFromString<EStoryObjectType>(
+			"EStoryObjectType", CurrentObjectNode[i]->FindChildNode("ObjectType")->GetContent());
 
 		if (ObjectType != EStoryObjectType::Non)
 		{
-			UStoryGraphObject* StoryGraphObject = NewObject<UStoryGraphObject>(EditedObject, UStoryGraphObject::GetClassFromStoryObjectType(ObjectType));
-			EditedObject->GarphObjects.Add(StoryGraphObject);
+			UStoryGraphObject* StoryGraphObject = NewObject<UStoryGraphObject>(
+				EditedObject, UStoryGraphObject::GetClassFromStoryObjectType(ObjectType));
+			EditedObject->GraphObjects.Add(StoryGraphObject);
 
-			std::map<FString, XMLProperty> Propertys;
-			FillPropertyMapFromXMLNode(Propertys, CurrentObjectNode[i]);
-			StoryGraphObject->LoadPropertyFromXML(Propertys);
+			std::map<FString, XMLProperty> Properties;
+			FillPropertyMapFromXMLNode(Properties, CurrentObjectNode[i]);
+			StoryGraphObject->LoadPropertyFromXML(Properties);
 		}
 	}
 }
@@ -1484,23 +1481,28 @@ void FAssetEditor_StoryGraph::SpawnGraphNodsFromXMLNode(FXmlNode* XMLNode, UObje
 
 	for (int i = 0; i < XMLGraphNods.Num(); i++)
 	{
-		ENodeType NodeType = GetEnumValueFromString<ENodeType>("ENodeType", XMLGraphNods[i]->FindChildNode("NodeType")->GetContent());
+		ENodeType NodeType = GetEnumValueFromString<ENodeType>("ENodeType",
+		                                                       XMLGraphNods[i]
+		                                                       ->FindChildNode("NodeType")->GetContent());
 
-		UStoryGraphObject* OwnedObject = NULL;
+		UStoryGraphObject* OwnedObject = nullptr;
 		if (XMLGraphNods[i]->FindChildNode("GraphOject")->GetContent() != "Non")
 		{
-			OwnedObject = EditedObject->GarphObjects[FCString::Atoi(*XMLGraphNods[i]->FindChildNode("GraphOject")->GetContent())];
+			OwnedObject = EditedObject->GraphObjects[FCString::Atoi(
+				*XMLGraphNods[i]->FindChildNode("GraphOject")->GetContent())];
 		}
 
-		FVector2D NodeLocation(FCString::Atoi(*XMLGraphNods[i]->FindChildNode("X")->GetContent()), FCString::Atoi(*XMLGraphNods[i]->FindChildNode("Y")->GetContent()));
+		FVector2D NodeLocation(FCString::Atoi(*XMLGraphNods[i]->FindChildNode("X")->GetContent()),
+		                       FCString::Atoi(*XMLGraphNods[i]->FindChildNode("Y")->GetContent()));
 
-		UProxyNodeBase* NewNode = (UProxyNodeBase*)FCustomSchemaAction_NewNode::SpawnNode(NodeType, OwnedObject, ParentGraph, NULL, NodeLocation, false);
-		std::map<FString, XMLProperty> Propertys;
-		FillPropertyMapFromXMLNode(Propertys, XMLGraphNods[i]);
-		NewNode->CustomNode->LoadPropertyFromXML(Propertys);
+		UProxyNodeBase* NewNode = (UProxyNodeBase*)FCustomSchemaAction_NewNode::SpawnNode(
+			NodeType, OwnedObject, ParentGraph, nullptr, NodeLocation, false);
+		std::map<FString, XMLProperty> Properties;
+		FillPropertyMapFromXMLNode(Properties, XMLGraphNods[i]);
+		NewNode->CustomNode->LoadPropertyFromXML(Properties);
 	}
 
-	
+
 	TArray<UProxyNodeBase*> GraphNods;
 	ParentGraph->GetNodesOfClass<UProxyNodeBase>(GraphNods);
 
@@ -1513,33 +1515,37 @@ void FAssetEditor_StoryGraph::SpawnGraphNodsFromXMLNode(FXmlNode* XMLNode, UObje
 			for (int k = 0; k < XMLLinks.Num(); k++)
 			{
 				int32 SignNum = XMLLinks[k]->GetContent().Find("_");
-					
-				ParentGraph->GetSchema()->TryCreateConnection(GraphNods[i]->Pins[j], GraphNods[FCString::Atoi(*XMLLinks[k]->GetContent().RightChop(SignNum+1))]->Pins[0]);
+
+				ParentGraph->GetSchema()->TryCreateConnection(GraphNods[i]->Pins[j],
+				                                              GraphNods[FCString::Atoi(
+					                                              *XMLLinks[k]->GetContent().RightChop(SignNum + 1))]->
+				                                              Pins[0]);
 			}
-				
 		}
 	}
-	
 }
 
-void FAssetEditor_StoryGraph::FillPropertyMapFromXMLNode(std::map<FString, XMLProperty>& Propertys, FXmlNode* CurrentObjectNode)
+void FAssetEditor_StoryGraph::FillPropertyMapFromXMLNode(std::map<FString, XMLProperty>& Properties,
+                                                         FXmlNode* CurrentObjectNode)
 {
 	TArray<FXmlNode*> PropertyNodes = CurrentObjectNode->GetChildrenNodes();
 
 	for (int j = 0; j < PropertyNodes.Num(); j++)
 	{
-
-
 		if (PropertyNodes[j]->GetTag().Find("Arr") != -1)
 		{
 			int32 SignPoz = PropertyNodes[j]->GetTag().Find("_");
-			Propertys.insert(std::pair<FString, XMLProperty>(PropertyNodes[j]->GetTag(), XMLProperty(PropertyNodes[j]->GetContent())));
+			Properties.insert(
+				std::pair<FString, XMLProperty>(PropertyNodes[j]->GetTag(),
+				                                XMLProperty(PropertyNodes[j]->GetContent())));
 
-			CreatePropertyArray(Propertys[PropertyNodes[j]->GetTag()], PropertyNodes[j]);
+			CreatePropertyArray(Properties[PropertyNodes[j]->GetTag()], PropertyNodes[j]);
 		}
 		else
 		{
-			Propertys.insert(std::pair<FString, XMLProperty>(PropertyNodes[j]->GetTag(), XMLProperty(PropertyNodes[j]->GetContent())));
+			Properties.insert(
+				std::pair<FString, XMLProperty>(PropertyNodes[j]->GetTag(),
+				                                XMLProperty(PropertyNodes[j]->GetContent())));
 		}
 	}
 }
@@ -1552,26 +1558,33 @@ void FAssetEditor_StoryGraph::CreatePropertyArray(XMLProperty& Property, FXmlNod
 	{
 		if (ArrayNodes[i]->GetTag().Find("Arr") != -1)
 		{
-			Property.Propertys.insert(std::pair<FString, XMLProperty>(ArrayNodes[i]->GetTag(), XMLProperty(ArrayNodes[i]->GetContent())));
-			CreatePropertyArray(Property.Propertys[ArrayNodes[i]->GetTag()], ArrayNodes[i]);
+			Property.Properties.insert(
+				std::pair<FString, XMLProperty>(ArrayNodes[i]->GetTag(),
+				                                XMLProperty(ArrayNodes[i]->GetContent())));
+			CreatePropertyArray(Property.Properties[ArrayNodes[i]->GetTag()], ArrayNodes[i]);
 		}
 		else
 		{
-			Property.Propertys.insert(std::pair<FString, XMLProperty>(ArrayNodes[i]->GetTag(), XMLProperty(ArrayNodes[i]->GetContent())));
+			Property.Properties.insert(
+				std::pair<FString, XMLProperty>(ArrayNodes[i]->GetTag(),
+				                                XMLProperty(ArrayNodes[i]->GetContent())));
 		}
 	}
 }
 
 void FAssetEditor_StoryGraph::UnlinkAllStoryGraphObjects()
 {
-	if (FMessageDialog::Open(EAppMsgType::OkCancel, FText::FromString("Remove all links to scen object from all StoryGraph objects?")) == EAppReturnType::Ok)
+	if (FMessageDialog::Open(EAppMsgType::OkCancel,
+	                         FText::FromString("Remove all links to scene object from all StoryGraph objects?")) ==
+		EAppReturnType::Ok)
 	{
-		for (int i = 0; i < EditedObject->GarphObjects.Num(); i++)
+		for (int i = 0; i < EditedObject->GraphObjects.Num(); i++)
 		{
-			UStoryGraphObjectWithScenObject* StoryGraphObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(EditedObject->GarphObjects[i]);
-			if (StoryGraphObjectWithScenObject)
+			UStoryGraphObjectWithSceneObject* StoryGraphObjectWithSceneObject = Cast<UStoryGraphObjectWithSceneObject>(
+				EditedObject->GraphObjects[i]);
+			if (StoryGraphObjectWithSceneObject)
 			{
-				StoryGraphObjectWithScenObject->ClearScenObjects();
+				StoryGraphObjectWithSceneObject->ClearSceneObjects();
 			}
 		}
 	}
@@ -1585,7 +1598,7 @@ void FAssetEditor_StoryGraph::OnMyRequestRenameOnActionNode()
 
 bool FAssetEditor_StoryGraph::CanRequestRenameOnActionNode() const
 {
-	TArray<TSharedPtr<FEdGraphSchemaAction> > SelectedActions;
+	TArray<TSharedPtr<FEdGraphSchemaAction>> SelectedActions;
 	GraphActionMenu->GetSelectedActions(SelectedActions);
 
 	// If there is anything selected in the GraphActionMenu, check the item for if it can be renamed.
@@ -1604,9 +1617,9 @@ bool FAssetEditor_StoryGraph::CanRequestRenameOnActionNode(TWeakPtr<struct FGrap
 
 void FAssetEditor_StoryGraph::OpenDialogEditorTab(UStoryGraphObject* pStoryGraphObject)
 {
-	UStoryGraphCharecter* pStoryGraphCharecter = Cast<UStoryGraphCharecter>(pStoryGraphObject);
+	UStoryGraphCharacter* pStoryGraphCharacter = Cast<UStoryGraphCharacter>(pStoryGraphObject);
 	UStoryGraphPlaceTrigger* pStoryGraphPlaceTrigger = Cast<UStoryGraphPlaceTrigger>(pStoryGraphObject);
-	
+
 	UEdGraph_StoryGraph* DialogGraph = CreateDialogGraph(pStoryGraphObject);
 
 	int TabNum = -1;
@@ -1621,11 +1634,11 @@ void FAssetEditor_StoryGraph::OpenDialogEditorTab(UStoryGraphObject* pStoryGraph
 		}
 	}
 
-	TSharedPtr<SDockTab>DialogTabLoc;
+	TSharedPtr<SDockTab> DialogTabLoc;
 
 	if (TabNum == -1)
 	{
-		if (pStoryGraphCharecter)
+		if (pStoryGraphCharacter)
 		{
 			TSharedPtr<SGraphEditor> DialogEditor = CreateGraphEditorWidget(DialogGraph, "Dialog Graph");
 			DialogTabLoc = CreateDialogTab(DialogEditor, "DG_" + pStoryGraphObject->ObjName.ToString());
@@ -1635,7 +1648,7 @@ void FAssetEditor_StoryGraph::OpenDialogEditorTab(UStoryGraphObject* pStoryGraph
 			TSharedPtr<SGraphEditor> DialogEditor = CreateGraphEditorWidget(DialogGraph, "Message Graph");
 			DialogTabLoc = CreateDialogTab(DialogEditor, "MS_" + pStoryGraphObject->ObjName.ToString());
 		}
-		
+
 		DialogTabs.Add(DialogTabLoc);
 	}
 	else
@@ -1644,21 +1657,22 @@ void FAssetEditor_StoryGraph::OpenDialogEditorTab(UStoryGraphObject* pStoryGraph
 		DialogTabLoc->RequestCloseTab();
 	}
 
-	TabManager->InsertNewDocumentTab(FCustomEditorTabs::ViewportID, FTabManager::ESearchPreference::RequireClosedTab, DialogTabLoc.ToSharedRef());
+	TabManager->InsertNewDocumentTab(FCustomEditorTabs::ViewportID, FTabManager::ESearchPreference::RequireClosedTab,
+	                                 DialogTabLoc.ToSharedRef());
 	TabManager->DrawAttention(DialogTabLoc.ToSharedRef());
-	
 }
 
 UEdGraph_StoryGraph* FAssetEditor_StoryGraph::CreateDialogGraph(UStoryGraphObject* pStoryGraphObject)
 {
-	UStoryGraphCharecter* pStoryGraphCharecter = Cast<UStoryGraphCharecter>(pStoryGraphObject);
+	UStoryGraphCharacter* pStoryGraphCharecter = Cast<UStoryGraphCharacter>(pStoryGraphObject);
 	UStoryGraphPlaceTrigger* pStoryGraphPlaceTrigger = Cast<UStoryGraphPlaceTrigger>(pStoryGraphObject);
 
 	UEdGraph_StoryGraph* DialogGraph = AssetObject->FindGraph(pStoryGraphObject);
 
 	if (!DialogGraph)
 	{
-		DialogGraph = NewObject<UEdGraph_StoryGraph>(AssetObject, UEdGraph_StoryGraph::StaticClass(), NAME_None, RF_Transactional);
+		DialogGraph = NewObject<UEdGraph_StoryGraph>(AssetObject, UEdGraph_StoryGraph::StaticClass(), NAME_None,
+		                                             RF_Transactional);
 		AssetObject->Graphs.Add(DialogGraph);
 		if (pStoryGraphCharecter)
 		{
@@ -1675,16 +1689,16 @@ UEdGraph_StoryGraph* FAssetEditor_StoryGraph::CreateDialogGraph(UStoryGraphObjec
 	return DialogGraph;
 }
 
-TSharedRef<SDockTab> FAssetEditor_StoryGraph::CreateDialogTab(const TSharedPtr<SGraphEditor> DialogEditor,  FString TabName)
+TSharedRef<SDockTab> FAssetEditor_StoryGraph::CreateDialogTab(const TSharedPtr<SGraphEditor> DialogEditor,
+                                                              FString TabName)
 {
 	return SNew(SDockTab)
 		.Label(FText::FromString(TabName))
 		.TabRole(ETabRole::DocumentTab)
 		.TabColorScale(GetTabColorScale())
-		[
-			DialogEditor.ToSharedRef()
-		];
-
+	[
+		DialogEditor.ToSharedRef()
+	];
 }
 
 
@@ -1694,18 +1708,12 @@ void FAssetEditor_StoryGraph::OnGraphEditorFocused(const TSharedRef<SGraphEditor
 	FocusedGraphEdPtr = InGraphEditor;
 
 
-	
-
 	// During undo, garbage graphs can be temporarily brought into focus, ensure that before a refresh of the MyBlueprint window that the graph is owned by a Blueprint
 	if (FocusedGraphEdPtr.IsValid())
 	{
-		
 		// The focused graph can be garbage as well
-		TWeakObjectPtr< UEdGraph > FocusedGraphPtr = FocusedGraphEdPtr.Pin()->GetCurrentGraph();
+		TWeakObjectPtr<UEdGraph> FocusedGraphPtr = FocusedGraphEdPtr.Pin()->GetCurrentGraph();
 		UEdGraph* FocusedGraph = FocusedGraphPtr.Get();
-		
-		
-
 	}
 }
 
@@ -1726,7 +1734,6 @@ void FAssetEditor_StoryGraph::ShowNotification(FString Text, SNotificationItem::
 
 FSlateIcon FAssetEditor_StoryGraph::GetStatusImage() const
 {
-	
 	switch (EditedObject->StoryGraphState)
 	{
 	case EStoryGraphState::ST_Compile:
@@ -1768,7 +1775,7 @@ void FAssetEditor_StoryGraph::RefreshDetailPanel()
 	}
 }
 
-void FAssetEditor_StoryGraph::EraseStroyGraph()
+void FAssetEditor_StoryGraph::EraseStoryGraph()
 {
 	//Erase main graph
 
@@ -1781,9 +1788,10 @@ void FAssetEditor_StoryGraph::EraseStroyGraph()
 
 	//Erase dialog graphs
 
-	for (int i = 0; i < EditedObject->GarphObjects.Num(); i++)
+	for (int i = 0; i < EditedObject->GraphObjects.Num(); i++)
 	{
-		if (EditedObject->GarphObjects[i]->ObjectType == EStoryObjectType::Character || EditedObject->GarphObjects[i]->ObjectType == EStoryObjectType::PlaceTrigger)
+		if (EditedObject->GraphObjects[i]->ObjectType == EStoryObjectType::Character || EditedObject->GraphObjects[i]->
+			ObjectType == EStoryObjectType::PlaceTrigger)
 		{
 			UEdGraph_StoryGraph* DialogGraph = AssetObject->FindGraph(EditedObject);
 			TArray<UEdGraphNode*> DialogNodesToDelete;
@@ -1792,7 +1800,7 @@ void FAssetEditor_StoryGraph::EraseStroyGraph()
 		}
 	}
 
-	EditedObject->GarphObjects.Empty();
+	EditedObject->GraphObjects.Empty();
 
 	EditedObject->Modify(); //Set graph modify
 	EditedObject->StoryGraphState = EStoryGraphState::ST_Modify;

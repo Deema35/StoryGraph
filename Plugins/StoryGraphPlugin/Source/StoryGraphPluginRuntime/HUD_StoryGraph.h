@@ -28,24 +28,24 @@ private:
 public:
 	/*Event perform when perform quest phase marked as "End game"*/
 	UFUNCTION(BlueprintImplementableEvent, Category = StoryGraph)
-		void EndGame(const FText& Decription);
+	void EndGame(const FText& Description);
 	/*Event perform when perform quest phase marked as "Print on string"*/
 	UFUNCTION(BlueprintImplementableEvent, Category = StoryGraph)
-		void PrintQuestPhaseOnScreen(const FText& QuestPhaseDecription);
+	void PrintQuestPhaseOnScreen(const FText& QuestPhaseDecription);
 	/*Event perform when you engage in dialogue with a character or close dialog*/
 	UFUNCTION(BlueprintImplementableEvent, Category = StoryGraph)
-		void OpenDialogEvent(const bool IsOpen);
+	void OpenDialogEvent(const bool IsOpen);
 	/*Event perform when you use PlaceTrigger*/
 	UFUNCTION(BlueprintImplementableEvent, Category = StoryGraph)
-		void OpenPlaceTriggerMessagesEvent(const bool IsOpen);
+	void OpenPlaceTriggerMessagesEvent(const bool IsOpen);
 	/* en - English ru - Russian ...*/
 	UFUNCTION(BlueprintCallable, Category = StoryGraph)
-		static void ChangeLocalization(FString target);
+	static void ChangeLocalization(FString target);
 
 	UFUNCTION(BlueprintCallable, Category = StoryGraph)
-		static FString  GetCurrentLocalization();
-	
-	void OpenDialogOrOpenPlaceTriggerMessages(TArray<class UStoryGraphObjectWithScenObject*>& OwningObjects);
+	static FString GetCurrentLocalization();
+
+	void OpenDialogOrOpenPlaceTriggerMessages(TArray<class UStoryGraphObjectWithSceneObject*>& OwningObjects);
 
 	void GetRootDialogs(TArray<UDialogObject*>& Dialogs);
 
@@ -57,5 +57,4 @@ public:
 	virtual void BeginPlay() override;
 
 	void GetStoryGraphs(TArray<class UStoryGraph*>& StoryGraphs_);
-
 };

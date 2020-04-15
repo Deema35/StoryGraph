@@ -30,8 +30,8 @@ public:
 
 private:
 
-	void AddToScen(class UStoryGraphBlueprint* PropData);
+	void AddToScene(class UStoryGraphBlueprint* PropData);
 
-	void RemoveFromScen(UStoryGraphBlueprint* PropData);
+	void RemoveFromScene(UStoryGraphBlueprint* PropData);
 
 };

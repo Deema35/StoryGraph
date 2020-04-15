@@ -10,7 +10,7 @@
 #include "AssetThumbnail.h"
 #include "AssetRegistryModule.h"
 #include "SNumericEntryBox.h"
-#include "ProxyNods.h"
+#include "ProxyNodes.h"
 #include "NodeStyle.h"
 
 //PinNode..........................................................................
@@ -24,7 +24,7 @@ void SCustomOutputPin::Construct(const FArguments& InArgs, UEdGraphPin* InPin, i
 	IsEditable = true;
 
 	GraphPinObj = InPin;
-	check(GraphPinObj != NULL);
+	check(GraphPinObj != nullptr);
 
 	TSharedPtr<SOverlay> PinContent = SNew(SOverlay);
 
@@ -94,16 +94,16 @@ FMargin SCustomOutputPin::GetPadding() const
 void  SGraphNode_CustomNodeBase::Construct(const FArguments& InArgs, UProxyNodeBase* InNode)
 {
 	GraphNode = InNode;
-	NodeBace = InNode;
+	NodeBase = InNode;
 	this->SetCursor(EMouseCursor::CardinalCross);
 	this->UpdateGraphNode();
 	
 	
 		
-	SWidget::SetToolTip(CreateToolTipWiget());
+	SWidget::SetToolTip(CreateToolTipWidget());
 }
 
-TSharedPtr<IToolTip> SGraphNode_CustomNodeBase::CreateToolTipWiget()
+TSharedPtr<IToolTip> SGraphNode_CustomNodeBase::CreateToolTipWidget()
 {
 	return SNew(SToolTip)
 		.BorderImage(FCoreStyle::Get().GetBrush("ToolTip.BrightBackground"))
@@ -131,7 +131,7 @@ void SGraphNode_CustomNodeBase::UpdateGraphNode()
 			SNew(SBorder)
 			.BorderImage(FEditorStyle::GetBrush("Graph.StateNode.Body"))
 			.Padding(0.0f)
-			.BorderBackgroundColor(NodeBace->CustomNode->NodeColor)
+			.BorderBackgroundColor(NodeBase->CustomNode->NodeColor)
 			[
 				SNew(SOverlay)
 
@@ -176,7 +176,7 @@ void SGraphNode_CustomNodeBase::UpdateGraphNode()
 				.VAlign(VAlign_Center)
 				.Padding(10.0f)
 				[
-					SAssignNew(NodeWiget, SOverlay)
+					SAssignNew(NodeWidget, SOverlay)
 				]
 				
 			]
@@ -192,7 +192,7 @@ void SGraphNode_CustomNodeBase::CreateNodeWidget()
 	TSharedPtr<SNodeTitle> NodeTitle = SNew(SNodeTitle, GraphNode);
 	TSharedPtr<SVerticalBox> NodeBox;
 
-	NodeWiget->AddSlot()
+	NodeWidget->AddSlot()
 	[
 		SNew(SBorder)
 		.BorderImage(FEditorStyle::GetBrush("Graph.StateNode.ColorSpill"))
@@ -213,7 +213,7 @@ void SGraphNode_CustomNodeBase::CreateNodeWidget()
 void SGraphNode_CustomNodeBase::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 {
 	const FSlateBrush* NodeTypeIcon = GetNameIcon();
-	if (UCustomNodeBase::GetIconNameFromNodeType(NodeBace->CustomNode->NodeType) == FName("Non"))
+	if (UCustomNodeBase::GetIconNameFromNodeType(NodeBase->CustomNode->NodeType) == FName("Non"))
 	{
 		NodeBox->AddSlot()
 			.AutoHeight()
@@ -231,7 +231,7 @@ void SGraphNode_CustomNodeBase::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 			.Padding(FMargin(4.0f, 0.0f, 4.0f, 0.0f))
 			[
 				SNew(STextBlock)
-				.Text(NodeBace->GetNodeTitle(ENodeTitleType::FullTitle))
+				.Text(NodeBase->GetNodeTitle(ENodeTitleType::FullTitle))
 			.Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Bold.ttf"), 16))
 			]
 			];
@@ -243,7 +243,7 @@ void SGraphNode_CustomNodeBase::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 			.AutoHeight()
 			[
 				SNew(SImage)
-				.Image(FNodeStyle::Get().GetBrush(UCustomNodeBase::GetIconNameFromNodeType(NodeBace->CustomNode->NodeType)))
+				.Image(FNodeStyle::Get().GetBrush(UCustomNodeBase::GetIconNameFromNodeType(NodeBase->CustomNode->NodeType)))
 			];
 	}
 	
@@ -252,13 +252,13 @@ void SGraphNode_CustomNodeBase::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 void SGraphNode_CustomNodeBase::CreatePinWidgets()
 {
 	
-	for (int i = 0; i < NodeBace->Pins.Num(); i++)
+	for (int i = 0; i < NodeBase->Pins.Num(); i++)
 	{
-		TSharedPtr<SGraphPin> NewPin = SNew(SCustomOutputPin, NodeBace->Pins[i]);
+		TSharedPtr<SGraphPin> NewPin = SNew(SCustomOutputPin, NodeBase->Pins[i]);
 		NewPin->SetIsEditable(IsEditable);
 		AddPin(NewPin.ToSharedRef());
 
-		if (NodeBace->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
+		if (NodeBase->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
 		{
 			InputPins.Add(NewPin.ToSharedRef());
 		}
@@ -347,9 +347,9 @@ const FSlateBrush* SGraphNode_CustomNodeBase::GetNameIcon() const
 
 //StoryGraphDependetNode.......................................................................................................
 
-void SGraphNode_StoryGraphDependetNode::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
+void SGraphNode_StoryGraphDependedNode::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 {
-	if (NodeBace->CustomNode->pGraphObject)
+	if (NodeBase->CustomNode->pGraphObject)
 	{
 		NodeBox->AddSlot()
 			//.VAlign(VAlign_Center)
@@ -357,7 +357,7 @@ void SGraphNode_StoryGraphDependetNode::AddNodeStrings(TSharedPtr<SVerticalBox> 
 			.AutoHeight()
 			[
 				SNew(STextBlock)
-				.Text(NodeBace->CustomNode->pGraphObject->ObjName)
+				.Text(NodeBase->CustomNode->pGraphObject->ObjName)
 				.Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Bold.ttf"), 12))
 			];
 
@@ -390,7 +390,7 @@ void SGraphNode_DialogBase::UpdateGraphNode()
 			SNew(SBorder)
 			.BorderImage(FEditorStyle::GetBrush("Graph.StateNode.Body"))
 			.Padding(0.0f)
-			.BorderBackgroundColor(NodeBace->CustomNode->NodeColor)
+			.BorderBackgroundColor(NodeBase->CustomNode->NodeColor)
 			[
 				SNew(SOverlay)
 
@@ -435,7 +435,7 @@ void SGraphNode_DialogBase::UpdateGraphNode()
 				.VAlign(VAlign_Center)
 				.Padding(17.0f,0.0f)
 				[
-					SAssignNew(NodeWiget, SOverlay)
+					SAssignNew(NodeWidget, SOverlay)
 				]
 				
 			]
@@ -449,13 +449,13 @@ void SGraphNode_DialogBase::UpdateGraphNode()
 void SGraphNode_DialogBase::CreatePinWidgets()
 {
 
-	for (int i = 0; i < NodeBace->Pins.Num(); i++)
+	for (int i = 0; i < NodeBase->Pins.Num(); i++)
 	{
-		TSharedPtr<SGraphPin> NewPin = SNew(SGraphPin, NodeBace->Pins[i]);
+		TSharedPtr<SGraphPin> NewPin = SNew(SGraphPin, NodeBase->Pins[i]);
 		NewPin->SetIsEditable(IsEditable);
 		AddPin(NewPin.ToSharedRef());
 
-		if (NodeBace->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
+		if (NodeBase->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
 		{
 			InputPins.Add(NewPin.ToSharedRef());
 		}
@@ -487,7 +487,7 @@ void SGraphNode_DialogBase::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 			.Padding(FMargin(4.0f, 0.0f, 4.0f, 0.0f))
 			[
 				SNew(STextBlock)
-				.Text(NodeBace->GetNodeTitle(ENodeTitleType::FullTitle))
+				.Text(NodeBase->GetNodeTitle(ENodeTitleType::FullTitle))
 				.Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Bold.ttf"), 16))
 			]
 		];
@@ -497,9 +497,9 @@ void SGraphNode_DialogBase::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 
 //DialogDependetNode.......................................................................................................
 
-void SGraphNode_DialogDependetNode::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
+void SGraphNode_DialogDependedNode::AddNodeStrings(TSharedPtr<SVerticalBox> NodeBox)
 {
-	if (NodeBace->CustomNode->pGraphObject)
+	if (NodeBase->CustomNode->pGraphObject)
 	{
 		NodeBox->AddSlot()
 			.AutoHeight()
@@ -507,7 +507,7 @@ void SGraphNode_DialogDependetNode::AddNodeStrings(TSharedPtr<SVerticalBox> Node
 			.Padding(0, 5)
 			[
 				SNew(STextBlock)
-				.Text(NodeBace->CustomNode->pGraphObject->ObjName)
+				.Text(NodeBase->CustomNode->pGraphObject->ObjName)
 				.Font(FSlateFontInfo(FPaths::EngineContentDir() / TEXT("Slate/Fonts/Roboto-Bold.ttf"), 12))
 			];
 
@@ -520,7 +520,7 @@ void SGraphNode_DialogDependetNode::AddNodeStrings(TSharedPtr<SVerticalBox> Node
 
 void SGraphNode_DialogRoot::AddNodeStrings(TSharedPtr <SVerticalBox> VerticalBox)
 {
-	UDialogStartNode* DialogStartNode = Cast<UDialogStartNode>(NodeBace->CustomNode);
+	UDialogStartNode* DialogStartNode = Cast<UDialogStartNode>(NodeBase->CustomNode);
 
 	VerticalBox->AddSlot()
 		.AutoHeight()
@@ -537,7 +537,7 @@ void SGraphNode_DialogRoot::AddNodeStrings(TSharedPtr <SVerticalBox> VerticalBox
 
 void SGraphNode_Dialog::AddNodeStrings(TSharedPtr <SVerticalBox> VerticalBox)
 {
-	UDialogNode* DialogNode = Cast<UDialogNode>(NodeBace->CustomNode);
+	UDialogNode* DialogNode = Cast<UDialogNode>(NodeBase->CustomNode);
 
 	VerticalBox->AddSlot()
 		.AutoHeight()
@@ -568,17 +568,17 @@ void SGraphNode_Dialog::AddNodeStrings(TSharedPtr <SVerticalBox> VerticalBox)
 
 void SGraphNode_Dialog::CreatePinWidgets()
 {
-	UDialogNode* DialogNode = Cast<UDialogNode>(NodeBace->CustomNode);
+	UDialogNode* DialogNode = Cast<UDialogNode>(NodeBase->CustomNode);
 
 	if (DialogNode->DialogOwner != ECharDialogOwner::NPC)
 	{
-		for (int i = 0; i < NodeBace->Pins.Num(); i++)
+		for (int i = 0; i < NodeBase->Pins.Num(); i++)
 		{
-			TSharedPtr<SGraphPin> NewPin = SNew(SGraphPin, NodeBace->Pins[i]);
+			TSharedPtr<SGraphPin> NewPin = SNew(SGraphPin, NodeBase->Pins[i]);
 			NewPin->SetIsEditable(IsEditable);
 			AddPin(NewPin.ToSharedRef());
 
-			if (NodeBace->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
+			if (NodeBase->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
 			{
 				InputPins.Add(NewPin.ToSharedRef());
 			}
@@ -592,11 +592,11 @@ void SGraphNode_Dialog::CreatePinWidgets()
 	{
 		for (int i = 0; i < 2; i++)
 		{
-			TSharedPtr<SGraphPin> NewPin = SNew(SGraphPin, NodeBace->Pins[i]);
+			TSharedPtr<SGraphPin> NewPin = SNew(SGraphPin, NodeBase->Pins[i]);
 			NewPin->SetIsEditable(IsEditable);
 			AddPin(NewPin.ToSharedRef());
 			
-			if (NodeBace->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
+			if (NodeBase->Pins[i]->Direction == EEdGraphPinDirection::EGPD_Input)
 			{
 				InputPins.Add(NewPin.ToSharedRef());
 			}

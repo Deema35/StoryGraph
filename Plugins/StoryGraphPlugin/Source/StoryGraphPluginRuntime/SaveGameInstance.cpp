@@ -2,51 +2,48 @@
 
 
 #include "SaveGameInstance.h"
-#include "HUD_StoryGraph.h"
-#include "LogCategoryRutime.h"
 #include "Engine/Engine.h"
 #include "EngineUtils.h"
-#include "StoryGraphWiget.h"
+#include "HUD_StoryGraph.h"
+#include "LogCategoryRutime.h"
+#include "StoryGraphWidget.h"
 
 void USaveGameInstance::SaveGame()
 {
-	
 	if (GetWorld())
 	{
-		
-		TArray<FObjectRecord> ObjectrRecordStoreSave;
+		TArray<FObjectRecord> ObjectRecordStoreSave;
 
 		APawn* Pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-		ObjectrRecordStoreSave.Add(FObjectRecord(Pawn));
-		
+		ObjectRecordStoreSave.Add(FObjectRecord(Pawn));
+
 		for (TActorIterator<AActor> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 		{
 			if (ISaveObject_StoryGraph* SaveObject = Cast<ISaveObject_StoryGraph>(*ActorItr))
 			{
-
-				ObjectrRecordStoreSave.Add(FObjectRecord(*ActorItr));
+				ObjectRecordStoreSave.Add(FObjectRecord(*ActorItr));
 			}
 		}
 
 		TArray<uint8> Data;
 		FMemoryWriter MemoryWriter(Data, true);
-		FSaveAchiveHeader  AchiveHeader;
+		FSaveArchiveHeader ArchiveHeader;
 
-		AchiveHeader.ObjectrRecordNum = ObjectrRecordStoreSave.Num();
+		ArchiveHeader.ObjectRecordNum = ObjectRecordStoreSave.Num();
 		FString MapName = GetWorld()->GetMapName();
 		int NameStart = MapName.Find("_", ESearchCase::IgnoreCase, ESearchDir::FromEnd);
 
-		AchiveHeader.LevelName = MapName.RightChop(NameStart + 1);
-		MemoryWriter << AchiveHeader;
+		ArchiveHeader.LevelName = MapName.RightChop(NameStart + 1);
+		MemoryWriter << ArchiveHeader;
 
-		for (int i = 0; i < ObjectrRecordStoreSave.Num(); i++)
+		for (int i = 0; i < ObjectRecordStoreSave.Num(); i++)
 		{
-			MemoryWriter << ObjectrRecordStoreSave[i];
+			MemoryWriter << ObjectRecordStoreSave[i];
 		}
 
 		FString SavePath = FPaths::ProjectSavedDir() + FString("SaveGames/") + "quicksave.save";
 
-		SaveToFileCompresed(SavePath, Data);
+		SaveToFileCompressed(SavePath, Data);
 
 		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 		{
@@ -56,7 +53,6 @@ void USaveGameInstance::SaveGame()
 			}
 		}
 	}
-
 }
 
 void USaveGameInstance::LoadGame()
@@ -65,66 +61,57 @@ void USaveGameInstance::LoadGame()
 	{
 		TArray<uint8> Data;
 		FString SavePath = FPaths::ProjectSavedDir() + FString("SaveGames/") + "quicksave.save";
-		IsLevelLoded = true;
+		IsLevelLoaded = true;
 
-		LoadToFileCompresed(SavePath, Data);
+		LoadToFileCompressed(SavePath, Data);
 		FMemoryReader MemoryReader(Data, true);
 
-		FSaveAchiveHeader  AchiveHeader;
-		MemoryReader << AchiveHeader;
+		FSaveArchiveHeader ArchiveHeader;
+		MemoryReader << ArchiveHeader;
 
 
-
-		UGameplayStatics::OpenLevel(GetWorld(), FName(*AchiveHeader.LevelName), true);
+		UGameplayStatics::OpenLevel(GetWorld(), FName(*ArchiveHeader.LevelName), true);
 
 		//Read object records
-		
-		for (int i = 0; i < AchiveHeader.ObjectrRecordNum; i++)
+
+		for (int i = 0; i < ArchiveHeader.ObjectRecordNum; i++)
 		{
-			FObjectRecord ObjectrRecord;
-			MemoryReader << ObjectrRecord;
-			ObjectrRecordStore.Add(ObjectrRecord);
+			FObjectRecord ObjectRecord;
+			MemoryReader << ObjectRecord;
+			ObjectRecordStore.Add(ObjectRecord);
 		}
-
-		
 	}
-
 }
 
 void USaveGameInstance::LoadGameContinue()
 {
-
-	if (IsLevelLoded && GetWorld() && ObjectrRecordStore.Num() > 0)
+	if (IsLevelLoaded && GetWorld() && ObjectRecordStore.Num() > 0)
 	{
-
 		int i = 0;
 
 		for (TActorIterator<AActor> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 		{
-
 			if (ISaveObject_StoryGraph* SaveObject = Cast<ISaveObject_StoryGraph>(*ActorItr))
 			{
-				
-				if (ObjectrRecordStore.Num() > i)
+				if (ObjectRecordStore.Num() > i)
 				{
 					bool ObjectFind = false;
 
-					if (ObjectrRecordStore[i].ObjectName == ActorItr->GetName())
+					if (ObjectRecordStore[i].ObjectName == ActorItr->GetName())
 					{
-						ObjectrRecordStore[i].Load(*ActorItr);
+						ObjectRecordStore[i].Load(*ActorItr);
 						ObjectFind = true;
 					}
 					else
 					{
-						for (int j = 0; j < ObjectrRecordStore.Num(); j++)
+						for (int j = 0; j < ObjectRecordStore.Num(); j++)
 						{
-							if (ObjectrRecordStore[j].ObjectName == ActorItr->GetName())
+							if (ObjectRecordStore[j].ObjectName == ActorItr->GetName())
 							{
-								ObjectrRecordStore[j].Load(*ActorItr);
+								ObjectRecordStore[j].Load(*ActorItr);
 								ObjectFind = true;
 							}
 						}
-						
 					}
 
 					if (ObjectFind)
@@ -133,37 +120,34 @@ void USaveGameInstance::LoadGameContinue()
 					}
 					else
 					{
-						UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Was find objec witch has not record in save file %s"), *ActorItr->GetName());
+						UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning,
+						       TEXT("Was find objec witch has not record in save file %s"), *ActorItr->GetName());
 					}
 				}
 				else
 				{
-					UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning, TEXT("Object records in save file less then objects on map"));
+					UE_LOG(LogCategoryStoryGraphPluginRuntime, Warning,
+					       TEXT("Object records in save file less then objects on map"));
 					return;
 				}
-
 			}
 		}
 
-		
-		// Load data from object records to objects
 
-		
+		// Load data from object records to objects
 	}
-	
-	
 }
 
 void USaveGameInstance::LoadCharacter()
 {
-	if (IsLevelLoded && GetWorld() && ObjectrRecordStore.Num() > 0)
+	if (IsLevelLoaded && GetWorld() && ObjectRecordStore.Num() > 0)
 	{
 		APawn* Pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-		ObjectrRecordStore[0].Load(Pawn);
+		ObjectRecordStore[0].Load(Pawn);
 
 
-		IsLevelLoded = false;
-		ObjectrRecordStore.Empty();
+		IsLevelLoaded = false;
+		ObjectRecordStore.Empty();
 
 		if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(GetWorld()->GetFirstPlayerController()->GetHUD()))
 		{
@@ -176,12 +160,11 @@ void USaveGameInstance::LoadCharacter()
 }
 
 
-bool USaveGameInstance::SaveToFileCompresed(FString SavePath, TArray<uint8>& Data)
+bool USaveGameInstance::SaveToFileCompressed(FString SavePath, TArray<uint8>& Data)
 {
-
 	TArray<uint8> CompressedData;
 	FArchiveSaveCompressedProxy Compressor(CompressedData, ECompressionFlags::COMPRESS_ZLIB);
-	// Compresed
+	// Compressed
 	Compressor << Data;
 	//send archive serialized data to binary array
 	Compressor.Flush();
@@ -193,7 +176,6 @@ bool USaveGameInstance::SaveToFileCompresed(FString SavePath, TArray<uint8>& Dat
 		Compressor.FlushCache();
 		CompressedData.Empty();
 		return false;
-
 	}
 
 	Compressor.FlushCache();
@@ -201,7 +183,7 @@ bool USaveGameInstance::SaveToFileCompresed(FString SavePath, TArray<uint8>& Dat
 	return true;
 }
 
-bool USaveGameInstance::LoadToFileCompresed(FString SavePath, TArray<uint8>& Data)
+bool USaveGameInstance::LoadToFileCompressed(FString SavePath, TArray<uint8>& Data)
 {
 	TArray<uint8> CompressedData;
 
@@ -223,7 +205,6 @@ bool USaveGameInstance::LoadToFileCompresed(FString SavePath, TArray<uint8>& Dat
 		Decompressor.FlushCache();
 		CompressedData.Empty();
 		return false;
-
 	}
 
 	//Decompress
@@ -237,12 +218,10 @@ bool USaveGameInstance::LoadToFileCompresed(FString SavePath, TArray<uint8>& Dat
 
 bool USaveGameInstance::SaveToFile(FString SavePath, TArray<uint8>& Data)
 {
-
 	if (!FFileHelper::SaveArrayToFile(Data, *SavePath))
 	{
 		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Cann't save file"));
 		return false;
-
 	}
 
 	return true;
@@ -250,8 +229,6 @@ bool USaveGameInstance::SaveToFile(FString SavePath, TArray<uint8>& Data)
 
 bool USaveGameInstance::LoadToFile(FString SavePath, TArray<uint8>& Data)
 {
-
-
 	if (!FFileHelper::LoadFileToArray(Data, *SavePath))
 	{
 		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Cann't open file"));

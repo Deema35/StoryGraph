@@ -13,7 +13,7 @@ public class StoryGraphPluginRuntime : ModuleRules
             "CoreUObject",
             "Engine",
             "InputCore",
-             "UMG",
+            "UMG",
             "Slate",
             "SlateCore"
         });

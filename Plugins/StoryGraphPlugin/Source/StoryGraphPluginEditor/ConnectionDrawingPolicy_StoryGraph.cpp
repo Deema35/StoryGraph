@@ -5,28 +5,33 @@
 #include "SGraphNode.h"
 #include "DrawElements.h"
 
-FConnectionDrawingPolicy_StoryGraph::FConnectionDrawingPolicy_StoryGraph(int32 InBackLayerID, int32 InFrontLayerID, float ZoomFactor, const FSlateRect& InClippingRect, FSlateWindowElementList& InDrawElements)
-: FConnectionDrawingPolicy(InBackLayerID, InFrontLayerID, ZoomFactor, InClippingRect, InDrawElements)
+FConnectionDrawingPolicy_StoryGraph::FConnectionDrawingPolicy_StoryGraph(
+	int32 InBackLayerID, int32 InFrontLayerID, float ZoomFactor, const FSlateRect& InClippingRect,
+	FSlateWindowElementList& InDrawElements)
+	: FConnectionDrawingPolicy(InBackLayerID, InFrontLayerID, ZoomFactor, InClippingRect, InDrawElements)
 {
 }
 
 static const FLinearColor DefaultColor(1.0f, 1.0f, 1.0f);
-void FConnectionDrawingPolicy_StoryGraph::DetermineWiringStyle(UEdGraphPin* OutputPin, UEdGraphPin* InputPin, /*inout*/ FConnectionParams& Params)
+
+void FConnectionDrawingPolicy_StoryGraph::DetermineWiringStyle(UEdGraphPin* OutputPin, UEdGraphPin* InputPin, /*inout*/
+                                                               FConnectionParams& Params)
 {
 	Params.WireThickness = 1.5f;
 	Params.WireColor = DefaultColor;
-	Params.bUserFlag1 = false;	// bidirectional
+	Params.bUserFlag1 = false; // bidirectional
 
 	const bool bDeemphasizeUnhoveredPins = HoveredPins.Num() > 0;
 	if (bDeemphasizeUnhoveredPins)
 	{
-		ApplyHoverDeemphasis(OutputPin, InputPin,  Params.WireThickness, Params.WireColor);
+		ApplyHoverDeemphasis(OutputPin, InputPin, Params.WireThickness, Params.WireColor);
 	}
 }
 
 
-
-void FConnectionDrawingPolicy_StoryGraph::DrawPreviewConnector(const FGeometry& PinGeometry, const FVector2D& StartPoint, const FVector2D& EndPoint, UEdGraphPin* Pin)
+void FConnectionDrawingPolicy_StoryGraph::DrawPreviewConnector(const FGeometry& PinGeometry,
+                                                               const FVector2D& StartPoint, const FVector2D& EndPoint,
+                                                               UEdGraphPin* Pin)
 {
 	bool bBiDirectional = false;
 	FConnectionParams Params;
@@ -34,7 +39,7 @@ void FConnectionDrawingPolicy_StoryGraph::DrawPreviewConnector(const FGeometry& 
 	Params.WireColor = FLinearColor::White;
 	Params.bDrawBubbles = false;
 	Params.bUserFlag1 = bBiDirectional;
-	DetermineWiringStyle(Pin, NULL, /*inout*/ Params);
+	DetermineWiringStyle(Pin, nullptr, /*inout*/ Params);
 
 	if (Pin->Direction == EEdGraphPinDirection::EGPD_Output)
 	{
@@ -44,11 +49,12 @@ void FConnectionDrawingPolicy_StoryGraph::DrawPreviewConnector(const FGeometry& 
 	{
 		DrawSplineWithArrow(FGeometryHelper::FindClosestPointOnGeom(PinGeometry, StartPoint), StartPoint, Params);
 	}
-
 }
 
 
-void FConnectionDrawingPolicy_StoryGraph::DrawSplineWithArrow(const FVector2D& StartAnchorPoint, const FVector2D& EndAnchorPoint, const FConnectionParams& Params)
+void FConnectionDrawingPolicy_StoryGraph::DrawSplineWithArrow(const FVector2D& StartAnchorPoint,
+                                                              const FVector2D& EndAnchorPoint,
+                                                              const FConnectionParams& Params)
 {
 	// hacky: use bBidirectional flag to reverse direction of connection (used by debugger)
 	bool Bidirectional = Params.bUserFlag1;
@@ -58,7 +64,9 @@ void FConnectionDrawingPolicy_StoryGraph::DrawSplineWithArrow(const FVector2D& S
 	Internal_DrawLineWithArrow(P0, P1, Params);
 }
 
-void FConnectionDrawingPolicy_StoryGraph::Internal_DrawLineWithArrow(const FVector2D& StartAnchorPoint, const FVector2D& EndAnchorPoint, const FConnectionParams& Params)
+void FConnectionDrawingPolicy_StoryGraph::Internal_DrawLineWithArrow(const FVector2D& StartAnchorPoint,
+                                                                     const FVector2D& EndAnchorPoint,
+                                                                     const FConnectionParams& Params)
 {
 	//@TODO: Should this be scaled by zoom factor?
 	const float LineSeparationAmount = 4.5f;
@@ -90,10 +98,11 @@ void FConnectionDrawingPolicy_StoryGraph::Internal_DrawLineWithArrow(const FVect
 		TOptional<FVector2D>(),
 		FSlateDrawElement::RelativeToElement,
 		Params.WireColor
-		);
+	);
 }
 
-void FConnectionDrawingPolicy_StoryGraph::DrawSplineWithArrow(const FGeometry& StartGeom, const FGeometry& EndGeom, const FConnectionParams& Params)
+void FConnectionDrawingPolicy_StoryGraph::DrawSplineWithArrow(const FGeometry& StartGeom, const FGeometry& EndGeom,
+                                                              const FConnectionParams& Params)
 {
 	// Get a reasonable seed point (halfway between the boxes)
 	const FVector2D StartCenter = FGeometryHelper::CenterOf(StartGeom);
@@ -107,7 +116,8 @@ void FConnectionDrawingPolicy_StoryGraph::DrawSplineWithArrow(const FGeometry& S
 	DrawSplineWithArrow(StartAnchorPoint, EndAnchorPoint, Params);
 }
 
-void FConnectionDrawingPolicy_StoryGraph::DrawConnection(int32 LayerId, const FVector2D& Start, const FVector2D& End, const FConnectionParams& Params)
+void FConnectionDrawingPolicy_StoryGraph::DrawConnection(int32 LayerId, const FVector2D& Start, const FVector2D& End,
+                                                         const FConnectionParams& Params)
 {
 	const FVector2D& P0 = Start;
 	const FVector2D& P1 = End;
@@ -128,13 +138,13 @@ void FConnectionDrawingPolicy_StoryGraph::DrawConnection(int32 LayerId, const FV
 		Params.WireThickness,
 		ESlateDrawEffect::None,
 		Params.WireColor
-		);
+	);
 
 	if (Params.bDrawBubbles)
 	{
 		// This table maps distance along curve to alpha
-		FInterpCurve<float> SplineReparamTable;
-		float SplineLength = MakeSplineReparamTable(P0, P0Tangent, P1, P1Tangent, SplineReparamTable);
+		FInterpCurve<float> SplineParamTable;
+		float SplineLength = MakeSplineReparamTable(P0, P0Tangent, P1, P1Tangent, SplineParamTable);
 
 		// Draw bubbles on the spline
 		const float BubbleSpacing = 64.f * ZoomFactor;
@@ -149,7 +159,7 @@ void FConnectionDrawingPolicy_StoryGraph::DrawConnection(int32 LayerId, const FV
 			const float Distance = ((float)i * BubbleSpacing) + BubbleOffset;
 			if (Distance < SplineLength)
 			{
-				const float Alpha = SplineReparamTable.Eval(Distance, 0.f);
+				const float Alpha = SplineParamTable.Eval(Distance, 0.f);
 				FVector2D BubblePos = FMath::CubicInterp(P0, P0Tangent, P1, P1Tangent, Alpha);
 				BubblePos -= (BubbleSize * 0.5f);
 
@@ -161,9 +171,8 @@ void FConnectionDrawingPolicy_StoryGraph::DrawConnection(int32 LayerId, const FV
 					ClippingRect,
 					ESlateDrawEffect::None,
 					Params.WireColor
-					);
+				);
 			}
 		}
 	}
 }
-

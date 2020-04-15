@@ -1,14 +1,14 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "StoryGraph.h"
-#include "CustomNods.h"
+#include "CustomNodes.h"
 #include "EdGraph/EdGraph.h"
-#include "StoryGraphObject.h"
-#include "StoryScenObject.h"
 #include "HUD_StoryGraph.h"
-#include "StoryGraphWiget.h"
-#include "SaveGameInstance.h"
 #include "LogCategoryRutime.h"
+#include "SaveGameInstance.h"
+#include "StoryGraphObject.h"
+#include "StoryGraphWidget.h"
+#include "StorySceneObject.h"
 
 //UStoryGraphBlueprint...............................................
 
@@ -22,10 +22,8 @@ UEdGraph_StoryGraph* UStoryGraphBlueprint::FindGraph(UObject* GraphOwner)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
-
-
 
 
 //UExecutionTree...................................................................
@@ -34,64 +32,51 @@ void UExecutionTree::Refresh()
 	TArray<UCustomNodeBase*> ChildNodes;
 
 	TArray<UStoryVerticalNodeBase*> NodsForAdd;
-	bool AllNodsPerfomed;
 
-	if (MainQuest->GetCurentState() == (int)EQuestStates::Active ||
-		MainQuest->GetCurentState() == (int)EQuestStates::UnActive)
+	if (MainQuest->GetCurrentState() == (int)EQuestStates::Active ||
+		MainQuest->GetCurrentState() == (int)EQuestStates::UnActive)
 	{
+		bool bAllNodesPerformed = false;
 
-		AllNodsPerfomed = false;
-
-		while (!AllNodsPerfomed)
+		while (!bAllNodesPerformed)
 		{
+			bAllNodesPerformed = true;
 
-			AllNodsPerfomed = true;
-
-			for (int j = 0; j < PredActiveNodesBuffer.Num(); j++)
+			for (int j = 0; j < ActiveNodesBuffer.Num(); j++)
 			{
-				if (UStoryVerticalNodeBase* VerticalNode = Cast<UStoryVerticalNodeBase>(PredActiveNodesBuffer[j]))
+				if (UStoryVerticalNodeBase* VerticalNode = Cast<UStoryVerticalNodeBase>(ActiveNodesBuffer[j]))
 				{
 					EPerformNodeResult PerformResult = VerticalNode->PerformNode();
 
-					if (PerformResult == EPerformNodeResult::Sucssed)
+					if (PerformResult == EPerformNodeResult::Successed)
 					{
-
-						VerticalNode->ResetUnPerformBrunch(); //if we have already perform node, we must reset others ways for this node
+						VerticalNode->ResetUnPerformBrunch();
+						//if we have already perform node, we must reset others ways for this node
 						VerticalNode->GetChildNodes(ChildNodes, EPinDataTypes::PinType_Vertical);
 						if (ChildNodes.Num() == 0)
 						{
-
-							MainQuest->SetCurentState((int)EQuestStates::Complite); //We find end of tree an quest complite
+							MainQuest->SetCurrentState((int)EQuestStates::Complete);
+							//We find end of tree an quest complete
 							break;
 						}
 						for (int i = 0; i < ChildNodes.Num(); i++)
 						{
 							NodsForAdd.Add((UStoryVerticalNodeBase*)ChildNodes[i]);
 						}
-						AllNodsPerfomed = false;
-
-
+						bAllNodesPerformed = false;
 					}
 					else if (PerformResult == EPerformNodeResult::Fail)
 					{
-						NodsForAdd.Add(PredActiveNodesBuffer[j]);
-
+						NodsForAdd.Add(ActiveNodesBuffer[j]);
 					}
 				}
-				
-
 			}
 
-			PredActiveNodesBuffer.Empty();
-			PredActiveNodesBuffer.Append(NodsForAdd);
+			ActiveNodesBuffer.Empty();
+			ActiveNodesBuffer.Append(NodsForAdd);
 			NodsForAdd.Empty();
-
 		}
-
-
 	}
-	
-	
 }
 
 //UStoryGraph...........................................................................
@@ -100,19 +85,19 @@ void UStoryGraph::GetInternallySaveObjects(TArray<UObject*>& Objects, int Wanted
 {
 	if (CompilationCounter != LoadedCompilationCounter)
 	{
-		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Use old save file"));//If Compilercounters mismatch this mean we use old save file
+		UE_LOG(LogCategoryStoryGraphPluginRuntime, Error, TEXT("Use old save file"));
+		//If Compilercounters mismatch this mean we use old save file
 		OldSaveFile = true;
 	}
 
-	Objects.Append(GarphObjects);
+	Objects.Append(GraphObjects);
 
-	for (int i = 0; i < GarphNods.Num(); i++)
+	for (int i = 0; i < GraphNodes.Num(); i++)
 	{
-		if (Cast<UStoryVerticalNodeBase>(GarphNods[i]))
+		if (Cast<UStoryVerticalNodeBase>(GraphNodes[i]))
 		{
-			Objects.Add(GarphNods[i]);
+			Objects.Add(GraphNodes[i]);
 		}
-
 	}
 
 	if (WantedObjectsNum == 0) //Save object
@@ -122,14 +107,14 @@ void UStoryGraph::GetInternallySaveObjects(TArray<UObject*>& Objects, int Wanted
 	else //Load object
 	{
 		int NodeNum = 0;
-		for (int i = 0; i < GarphNods.Num(); i++)
+		for (int i = 0; i < GraphNodes.Num(); i++)
 		{
-			if (Cast<UStoryVerticalNodeBase>(GarphNods[i]))
+			if (Cast<UStoryVerticalNodeBase>(GraphNodes[i]))
 			{
 				NodeNum++;
 			}
 		}
-		int ExecutionTreeNum = WantedObjectsNum - GarphObjects.Num() - NodeNum;
+		int ExecutionTreeNum = WantedObjectsNum - GraphObjects.Num() - NodeNum;
 		for (int i = 0; i < ExecutionTreeNum; i++)
 		{
 			UExecutionTree* NewExecutionTree = NewObject<UExecutionTree>(this);
@@ -144,24 +129,22 @@ void UStoryGraph::CreateExecutionTrees()
 {
 	TArray<UQuestStartNode*> QuestStartNodes;
 	ExecutionTrees.Empty();
-	
-	for (int i = 0; i < GarphNods.Num(); i++)
+
+	for (int i = 0; i < GraphNodes.Num(); i++)
 	{
-		if (UQuestStartNode* QuestStartNode = Cast<UQuestStartNode>(GarphNods[i]))
+		if (UQuestStartNode* QuestStartNode = Cast<UQuestStartNode>(GraphNodes[i]))
 		{
-			
 			QuestStartNodes.Add(QuestStartNode);
 		}
 	}
-	
+
 	for (int i = 0; i < QuestStartNodes.Num(); i++)
 	{
 		UExecutionTree* NewExecutionTree = NewObject<UExecutionTree>(this);
 		ExecutionTrees.Add(NewExecutionTree);
 		NewExecutionTree->MainQuest = (UStoryGraphQuest*)QuestStartNodes[i]->pGraphObject;
-		NewExecutionTree->PredActiveNodesBuffer.Add(QuestStartNodes[i]);
+		NewExecutionTree->ActiveNodesBuffer.Add(QuestStartNodes[i]);
 	}
-
 }
 
 void UStoryGraph::RefreshExecutionTrees(bool NeedRefreshQuestsPhase)
@@ -175,7 +158,7 @@ void UStoryGraph::RefreshExecutionTrees(bool NeedRefreshQuestsPhase)
 	{
 		ExecutionTrees[i]->Refresh();
 	}
-	
+
 	if (QuestStateWasChange)
 	{
 		QuestStateWasChange = false;
@@ -187,15 +170,14 @@ void UStoryGraph::RefreshExecutionTrees(bool NeedRefreshQuestsPhase)
 		RefreshQuestsPhase();
 		RefreshRadarTargets();
 	}
-	
 }
 
 void UStoryGraph::RefreshQuestsPhase()
 {
-	for (int i = 0; i < GarphObjects.Num(); i++)
+	for (int i = 0; i < GraphObjects.Num(); i++)
 	{
-		UStoryGraphQuest* Quest = Cast<UStoryGraphQuest>(GarphObjects[i]);
-		if (Quest && Quest->GetCurentState() == (int)EQuestStates::Active)
+		UStoryGraphQuest* Quest = Cast<UStoryGraphQuest>(GraphObjects[i]);
+		if (Quest && Quest->GetCurrentState() == (int)EQuestStates::Active)
 		{
 			for (int j = 0; j < Quest->QuestPhase.Num(); j++)
 			{
@@ -206,9 +188,10 @@ void UStoryGraph::RefreshQuestsPhase()
 
 	for (int i = 0; i < ExecutionTrees.Num(); i++)
 	{
-		for (int j = 0; j <  ExecutionTrees[i]->PredActiveNodesBuffer.Num(); j++)
+		for (int j = 0; j < ExecutionTrees[i]->ActiveNodesBuffer.Num(); j++)
 		{
-			if (UStoryVerticalNodeBase* VerticalNode = Cast<UStoryVerticalNodeBase>(ExecutionTrees[i]->PredActiveNodesBuffer[j]))
+			if (UStoryVerticalNodeBase* VerticalNode = Cast<UStoryVerticalNodeBase>(
+				ExecutionTrees[i]->ActiveNodesBuffer[j]))
 			{
 				if (VerticalNode->pQuestPhase)
 				{
@@ -217,17 +200,16 @@ void UStoryGraph::RefreshQuestsPhase()
 			}
 		}
 	}
-
 }
 
 void UStoryGraph::RefreshRadarTargets()
 {
 	TArray<class UQuestPhase*> RadarTargets;
 
-	for (int i = 0; i < GarphObjects.Num(); i++)
+	for (int i = 0; i < GraphObjects.Num(); i++)
 	{
-		UStoryGraphQuest* Quest = Cast<UStoryGraphQuest>(GarphObjects[i]);
-		if (Quest && Quest->GetCurentState() == (int)EQuestStates::Active)
+		UStoryGraphQuest* Quest = Cast<UStoryGraphQuest>(GraphObjects[i]);
+		if (Quest && Quest->GetCurrentState() == (int)EQuestStates::Active)
 		{
 			for (int j = 0; j < Quest->QuestPhase.Num(); j++)
 			{
@@ -237,7 +219,6 @@ void UStoryGraph::RefreshRadarTargets()
 				}
 			}
 		}
-
 	}
 	if (AHUD_StoryGraph* HUD = Cast<AHUD_StoryGraph>(OwnedActor->GetWorld()->GetFirstPlayerController()->GetHUD()))
 	{
@@ -248,15 +229,15 @@ void UStoryGraph::RefreshRadarTargets()
 	}
 }
 
-template<class MinRequiredType>
+template <class MinRequiredType>
 void UStoryGraph::GetGraphObjectsOfClass(TArray<MinRequiredType*>& OutObjects) const
 {
-	for (int32 i = 0; i < GarphObjects.Num(); i++)
+	for (int32 i = 0; i < GraphObjects.Num(); i++)
 	{
-		UStoryGraphObject* GarphObject = GarphObjects[i];
-		if (MinRequiredType* TypedGarphObject = Cast<MinRequiredType>(GarphObject))
+		UStoryGraphObject* GraphObject = GraphObjects[i];
+		if (MinRequiredType* TypedGraphObject = Cast<MinRequiredType>(GraphObject))
 		{
-			OutObjects.Add(TypedGarphObject);
+			OutObjects.Add(TypedGraphObject);
 		}
 	}
 }
@@ -265,28 +246,28 @@ void UStoryGraph::GetGraphObjectsOfClass(TArray<MinRequiredType*>& OutObjects) c
 
 AStoryGraphActor::AStoryGraphActor()
 {
-	
-	StoryGraph = NULL;
+	StoryGraph = nullptr;
 }
-
 
 
 bool AStoryGraphActor::CreateStoryGraph()
 {
 	if ((UStoryGraphBlueprint*)GetClass()->ClassGeneratedBy)
 	{
-		if (!StoryGraph || StoryGraph->CompilationCounter != ((UStoryGraphBlueprint*)GetClass()->ClassGeneratedBy)->StoryGraph->CompilationCounter)
+		if (!StoryGraph || StoryGraph->CompilationCounter != ((UStoryGraphBlueprint*)GetClass()->ClassGeneratedBy)
+		                                                     ->StoryGraph->CompilationCounter)
 		{
-			StoryGraph = DuplicateObject<UStoryGraph>(((UStoryGraphBlueprint*)GetClass()->ClassGeneratedBy)->StoryGraph, this);
+			StoryGraph = DuplicateObject<UStoryGraph>(((UStoryGraphBlueprint*)GetClass()->ClassGeneratedBy)->StoryGraph,
+			                                          this);
 			if (StoryGraph)
 			{
-				
-				for (int i = 0; i < StoryGraph->GarphObjects.Num(); i++)
+				for (int i = 0; i < StoryGraph->GraphObjects.Num(); i++)
 				{
-					UStoryGraphObjectWithScenObject* ObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(StoryGraph->GarphObjects[i]);
-					if (ObjectWithScenObject)
+					UStoryGraphObjectWithSceneObject* ObjectWithSceneObject = Cast<UStoryGraphObjectWithSceneObject>(
+						StoryGraph->GraphObjects[i]);
+					if (ObjectWithSceneObject)
 					{
-						ObjectWithScenObject->SetScenObjectRealPointers();
+						ObjectWithSceneObject->SetSceneObjectRealPointers();
 					}
 				}
 
@@ -295,7 +276,7 @@ bool AStoryGraphActor::CreateStoryGraph()
 			}
 		}
 	}
-	
+
 	return false;
 }
 
@@ -322,49 +303,42 @@ void AStoryGraphActor::PreInitializeComponents()
 	{
 		StoryGraph->OwnedActor = this;
 
-		for (int i = 0; i < StoryGraph->GarphObjects.Num(); i++)
+		for (int i = 0; i < StoryGraph->GraphObjects.Num(); i++)
 		{
-			
-			if (UStoryGraphObjectWithScenObject* ObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(StoryGraph->GarphObjects[i]))
+			if (UStoryGraphObjectWithSceneObject* ObjectWithSceneObject = Cast<UStoryGraphObjectWithSceneObject>(
+				StoryGraph->GraphObjects[i]))
 			{
-				
-				TArray<IStoryScenObject *> ScenObjects;
-				ObjectWithScenObject->GetScenObjects(ScenObjects);
-				
-				for (int j = 0; j < ScenObjects.Num(); j++)
-				{
-					
-					ScenObjects[j]->OwningStoryGraphObject.Add((UStoryGraphObjectWithScenObject*)StoryGraph->GarphObjects[i]);
-					
+				TArray<IStorySceneObject*> SceneObjects;
+				ObjectWithSceneObject->GetSceneObjects(SceneObjects);
 
+				for (int j = 0; j < SceneObjects.Num(); j++)
+				{
+					SceneObjects[j]->OwningStoryGraphObject.Add(
+						(UStoryGraphObjectWithSceneObject*)StoryGraph->GraphObjects[i]);
 				}
-								
 			}
 		}
 
 		USaveGameInstance* SaveGameInstance = Cast<USaveGameInstance>(GetGameInstance());
 
-		if (!(SaveGameInstance && SaveGameInstance->IsLevelLoded))
+		if (!(SaveGameInstance && SaveGameInstance->IsLevelLoaded))
 		{
 			StoryGraph->CreateExecutionTrees();
 		}
 	}
-	
-
 }
-
 
 
 void AStoryGraphActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	for (int i = 0; i < StoryGraph->GarphObjects.Num(); i++)
+
+	for (int i = 0; i < StoryGraph->GraphObjects.Num(); i++)
 	{
-		
-		if (UStoryGraphObjectWithScenObject* ObjectWithScenObject = Cast<UStoryGraphObjectWithScenObject>(StoryGraph->GarphObjects[i]))
+		if (UStoryGraphObjectWithSceneObject* ObjectWithSceneObject = Cast<UStoryGraphObjectWithSceneObject>(
+			StoryGraph->GraphObjects[i]))
 		{
-			ObjectWithScenObject->InitializeObject(); //Set initial active state
+			ObjectWithSceneObject->InitializeObject(); //Set initial active state
 		}
 	}
 
@@ -373,7 +347,6 @@ void AStoryGraphActor::BeginPlay()
 
 void AStoryGraphActor::Serialize(FArchive& Ar)
 {
-	
 #if WITH_EDITOR
 	if (Ar.IsSaving() && (Ar.GetPortFlags() & PPF_DuplicateForPIE))
 	{
@@ -390,15 +363,13 @@ void AStoryGraphActor::Serialize(FArchive& Ar)
 #endif
 
 	Super::Serialize(Ar);
-
-
 }
 
 void AStoryGraphActor::MarkPackageDirtyCustom() const
 {
 	UPackage* Package = GetOutermost();
 
-	if (Package != NULL)
+	if (Package != nullptr)
 	{
 		const bool bIsDirty = Package->IsDirty();
 
@@ -410,4 +381,3 @@ void AStoryGraphActor::MarkPackageDirtyCustom() const
 		Package->PackageMarkedDirtyEvent.Broadcast(Package, bIsDirty);
 	}
 }
-

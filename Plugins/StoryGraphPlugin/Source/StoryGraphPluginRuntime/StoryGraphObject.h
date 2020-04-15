@@ -7,12 +7,11 @@
 */
 #pragma once
 
-#include "Object.h"
-#include "ObjectrRecord.h"
 #include <map>
 #include "EngineMinimal.h"
+#include "Object.h"
+#include "ObjectRecord.h"
 #include "StoryGraphObject.generated.h"
-
 
 
 class UEdGraph_StoryGraph;
@@ -29,7 +28,7 @@ enum class EStoryObjectType : uint8
 	Others
 };
 
-template<typename TEnum>
+template <typename TEnum>
 static FORCEINLINE FString GetEnumValueAsString(const FString& Name, TEnum Value)
 {
 	const UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *Name, true);
@@ -41,7 +40,7 @@ static FORCEINLINE FString GetEnumValueAsString(const FString& Name, TEnum Value
 	return enumPtr->GetNameStringByIndex((int32)Value);
 }
 
-template<typename TEnum>
+template <typename TEnum>
 static FORCEINLINE TEnum GetEnumValueFromString(const FString& NameOfClass, const FString& ValueName)
 {
 	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *NameOfClass, true);
@@ -59,19 +58,23 @@ static FORCEINLINE int GetNumberEnums(const FString& Name)
 		return -1;
 	}
 	return enumPtr->NumEnums() - 1;
-	
 }
-
 
 
 enum class ENodeType : uint8;
 
 struct XMLProperty
 {
-	XMLProperty(FString Val_): Val(Val_){}
-	XMLProperty() {}
+	XMLProperty(FString Val_): Val(Val_)
+	{
+	}
+
+	XMLProperty()
+	{
+	}
+
 	FString Val;
-	std::map<FString, XMLProperty> Propertys;
+	std::map<FString, XMLProperty> Properties;
 };
 
 UCLASS()
@@ -79,7 +82,7 @@ UCLASS()
 class STORYGRAPHPLUGINRUNTIME_API UStoryGraphObject : public UObject, public ISaveObject_StoryGraph
 {
 	GENERATED_BODY()
-public:		
+public:
 
 	UPROPERTY()
 	EStoryObjectType ObjectType;
@@ -114,103 +117,112 @@ public:
 
 	static FString GetObjectTypeEnumAsString(EStoryObjectType);
 
-	TArray<ENodeType> DependetNodes;
+	TArray<ENodeType> DependedNodes;
 
-	virtual void GetObjectStateAsString(TArray<FString>& States) { }
+	virtual void GetObjectStateAsString(TArray<FString>& States)
+	{
+	}
 
-	virtual void DoubleClick() {}
+	virtual void DoubleClick()
+	{
+	}
 
 	static TSubclassOf<UStoryGraphObject> GetClassFromStoryObjectType(EStoryObjectType EnumValue);
 
 	static FString GetObjectToolTip(EStoryObjectType EnumValue);
 
-	virtual void SetCurentState(int NewState);
+	virtual void SetCurrentState(int NewState);
 
-	virtual int GetCurentState() { return ObjectState; }
+	virtual int GetCurrentState() { return ObjectState; }
 
-	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys);
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties);
 
-	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys);
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, SaveGame)
-		int32 ObjectState;
-
-
+	int32 ObjectState;
 };
 
 UCLASS(Abstract)
 
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraphObjectWithScenObject : public UStoryGraphObject
+class STORYGRAPHPLUGINRUNTIME_API UStoryGraphObjectWithSceneObject : public UStoryGraphObject
 {
 	GENERATED_BODY()
 public:
-	UStoryGraphObjectWithScenObject();
+	UStoryGraphObjectWithSceneObject();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, SaveGame)
-	bool IsScenObjectActive;
+	bool IsSceneObjectActive;
 
 	UPROPERTY()
 	bool RealPointersActive;
 
 	UPROPERTY(SaveGame)
-		TArray<FString> ObjectMesssageStack;
+	TArray<FString> ObjectMessageStack;
 
-public:	
-	
-	virtual void SetScenObjectRealPointers() {}
+public:
 
-	virtual void ClearScenObjects() {}
+	virtual void SetSceneObjectRealPointers()
+	{
+	}
 
-	virtual void GetScenObjects(TArray<class IStoryScenObject*>& ScenObjects) {}
+	virtual void ClearSceneObjects()
+	{
+	}
 
-	virtual void GetScenObjects(TArray<AActor*>& ScenObjects) {}
+	virtual void GetSceneObjects(TArray<class IStorySceneObject*>& SceneObjects)
+	{
+	}
 
-	virtual int GetScenObjectsNum() { return 0; }
+	virtual void GetSceneObjects(TArray<AActor*>& SceneObjects)
+	{
+	}
+
+	virtual int GetSceneObjectsNum() { return 0; }
 
 	void InitializeObject();
 
-	void SetActiveStateOfScenObjects();
+	void SetActiveStateOfSceneObjects();
 
-	void SetScenObjectActive(bool Active);
+	void SetSceneObjectActive(bool Active);
 
-	void SendMessageToScenObject(FString Message);
+	void SendMessageToSceneObject(FString Message);
 
-	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties) override;
 
-	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties) override;
 
-	template<class ReturnType, class ObjectType>
-	void TExstractScenObgects(TArray<ReturnType*>& ScenObjects, TArray<TAssetPtr<ObjectType>> ScenLazyPointerArray, TArray<ObjectType*> ScenPointerArray)
+	template <class ReturnType, class ObjectType>
+	void TExtractSceneObjects(TArray<ReturnType*>& SceneObjects, TArray<TAssetPtr<ObjectType>> SceneLazyPointerArray,
+	                          TArray<ObjectType*> ScenePointerArray)
 	{
-		ScenObjects.Empty();
+		SceneObjects.Empty();
 		if (RealPointersActive)
 		{
-			for (int i = 0; i < ScenPointerArray.Num(); i++)
+			for (int i = 0; i < ScenePointerArray.Num(); i++)
 			{
-				if (ScenPointerArray[i])
+				if (ScenePointerArray[i])
 				{
-					ScenObjects.Add((ReturnType*)ScenPointerArray[i]);
+					SceneObjects.Add((ReturnType*)ScenePointerArray[i]);
 				}
 			}
 		}
 		else
 		{
-			for (int i = 0; i < ScenLazyPointerArray.Num(); i++)
+			for (int i = 0; i < SceneLazyPointerArray.Num(); i++)
 			{
-				
-				if (ScenLazyPointerArray[i].Get())
+				if (SceneLazyPointerArray[i].Get())
 				{
-					ScenObjects.Add((ReturnType*)ScenLazyPointerArray[i].Get());
+					SceneObjects.Add((ReturnType*)SceneLazyPointerArray[i].Get());
 				}
 			}
 		}
-		
 	}
 };
 
 UENUM(BlueprintType)
-enum class ECharecterStates : uint8
+enum class ECharacterStates : uint8
 {
 	Alive,
 	Dead
@@ -218,43 +230,44 @@ enum class ECharecterStates : uint8
 
 UCLASS()
 
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraphCharecter : public UStoryGraphObjectWithScenObject
+class STORYGRAPHPLUGINRUNTIME_API UStoryGraphCharacter : public UStoryGraphObjectWithSceneObject
 {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TArray<TAssetPtr<class ACharecter_StoryGraph>> ScenCharecters;
+	TArray<TAssetPtr<class ACharacter_StoryGraph>> SceneCharacters;
 
 	UPROPERTY()
-		FText DefaultAnswer;
+	FText DefaultAnswer;
 
 	UPROPERTY()
-	TArray<class ACharecter_StoryGraph*> ScenCharecterPointers;
+	TArray<class ACharacter_StoryGraph*> SceneCharacterPointers;
 
 	UPROPERTY()
-		TArray<class UCustomNodeBase*> GarphNods;
+	TArray<class UCustomNodeBase*> GraphNodes;
 
 public:
-	UStoryGraphCharecter();
-	
+	UStoryGraphCharacter();
+
 	virtual void GetObjectStateAsString(TArray<FString>& States) override;
 
-	virtual void GetScenObjects(TArray<class IStoryScenObject*>& ScenObjects) override;
+	virtual void GetSceneObjects(TArray<class IStorySceneObject*>& SceneObjects) override;
 
-	virtual void GetScenObjects(TArray<AActor*>& ScenObjects) override;
+	virtual void GetSceneObjects(TArray<AActor*>& SceneObjects) override;
 
-	virtual void SetScenObjectRealPointers() override;
+	virtual void SetSceneObjectRealPointers() override;
 
-	virtual void ClearScenObjects() override;
+	virtual void ClearSceneObjects() override;
 
-	virtual int GetScenObjectsNum() override { return ScenCharecters.Num(); }
+	virtual int GetSceneObjectsNum() override { return SceneCharacters.Num(); }
 
-	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;
+	// ISaveObject_StoryGraph interface
 
-	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override; 
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties) override;
 
-	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties) override;
 };
 
 UENUM(BlueprintType)
@@ -270,21 +283,23 @@ class UQuestPhase : public UObject
 	GENERATED_BODY()
 
 public:
-	
-	UPROPERTY(BlueprintReadOnly)
-		FText Decription;
 
 	UPROPERTY(BlueprintReadOnly)
-		TArray<AActor*> PhaseObjects;
+	FText Description;
 
 	UPROPERTY(BlueprintReadOnly)
-		EQuestPhaseState QuestPhaseState;
+	TArray<AActor*> PhaseObjects;
+
+	UPROPERTY(BlueprintReadOnly)
+	EQuestPhaseState QuestPhaseState;
 
 	UPROPERTY()
 	class UStoryGraphQuest* pOwnedQuest;
 
 public:
-	UQuestPhase() : QuestPhaseState(EQuestPhaseState::UnActive) {}
+	UQuestPhase() : QuestPhaseState(EQuestPhaseState::UnActive)
+	{
+	}
 };
 
 UENUM(BlueprintType)
@@ -292,7 +307,7 @@ enum class EQuestStates : uint8
 {
 	UnActive,
 	Active,
-	Complite,
+	Complete,
 	Canceled
 };
 
@@ -304,23 +319,23 @@ class STORYGRAPHPLUGINRUNTIME_API UStoryGraphQuest : public UStoryGraphObject
 
 public:
 	UPROPERTY(BlueprintReadOnly, SaveGame)
-		TArray<UQuestPhase*> QuestPhase;
+	TArray<UQuestPhase*> QuestPhase;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		bool MainQuest;
+	bool MainQuest;
 
-	
+
 	UStoryGraphQuest();
 
 	virtual void GetObjectStateAsString(TArray<FString>& States) override;
 
-	virtual void SetCurentState(int NewState) override;
+	virtual void SetCurrentState(int NewState) override;
 
 	void AddPhase(UQuestPhase* Phase);
 
-	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties) override;
 
-	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties) override;
 };
 
 UENUM(BlueprintType)
@@ -340,48 +355,49 @@ enum class EPlaceTriggerType : uint8
 
 UCLASS()
 
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraphPlaceTrigger : public UStoryGraphObjectWithScenObject
+class STORYGRAPHPLUGINRUNTIME_API UStoryGraphPlaceTrigger : public UStoryGraphObjectWithSceneObject
 {
 	GENERATED_BODY()
 
 public:
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TArray<TAssetPtr<class APlaceTrigger_StoryGraph>> ScenTriggers;
+	TArray<TAssetPtr<class APlaceTrigger_StoryGraph>> ScenTriggers;
 
 	UPROPERTY()
 	TArray<class APlaceTrigger_StoryGraph*> PlaceTriggerPointers;
 
-/*If active, tigger will show message when it turn up in Aim*/
+	/*If active, tigger will show message when it turn up in Aim*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		EPlaceTriggerType PlaceTriggerType;
+	EPlaceTriggerType PlaceTriggerType;
 
 	UPROPERTY()
-		TArray<class UCustomNodeBase*> GarphNods;
+	TArray<class UCustomNodeBase*> GraphNodes;
 
 	UPROPERTY()
-		FText DefaultAnswer;
+	FText DefaultAnswer;
 public:
 
 	UStoryGraphPlaceTrigger();
 
 	virtual void GetObjectStateAsString(TArray<FString>& States) override;
-	
-	virtual void GetScenObjects(TArray<IStoryScenObject*>& ScenObjects) override;
 
-	virtual void GetScenObjects(TArray<AActor*>& ScenObjects) override;
+	virtual void GetSceneObjects(TArray<IStorySceneObject*>& SceneObjects) override;
 
-	virtual void SetScenObjectRealPointers() override;
+	virtual void GetSceneObjects(TArray<AActor*>& SceneObjects) override;
 
-	virtual void ClearScenObjects() override;
+	virtual void SetSceneObjectRealPointers() override;
 
-	virtual int GetScenObjectsNum() override { return ScenTriggers.Num(); }
+	virtual void ClearSceneObjects() override;
 
-	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;// ISaveObject_StoryGraph interface
+	virtual int GetSceneObjectsNum() override { return ScenTriggers.Num(); }
 
-	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;
+	// ISaveObject_StoryGraph interface
 
-	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties) override;
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties) override;
 };
 
 UENUM(BlueprintType)
@@ -401,11 +417,10 @@ public:
 	UStoryGraphDialogTrigger();
 
 	virtual void GetObjectStateAsString(TArray<FString>& States) override;
-
 };
 
 UENUM(BlueprintType)
-enum class EInventoryItemeStates : uint8
+enum class EInventoryItemStates : uint8
 {
 	OnLevel,
 	InInventory
@@ -413,29 +428,29 @@ enum class EInventoryItemeStates : uint8
 
 UCLASS(BlueprintType)
 
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraphInventoryItem : public UStoryGraphObjectWithScenObject
+class STORYGRAPHPLUGINRUNTIME_API UStoryGraphInventoryItem : public UStoryGraphObjectWithSceneObject
 {
 	GENERATED_BODY()
 
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		bool InventoryItemWithoutScenObject;
+	bool InventoryItemWithoutSceneObject;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TArray<TAssetPtr<class AInventoryItem_StoryGraph>> ScenInventoryItems;
+	TArray<TAssetPtr<class AInventoryItem_StoryGraph>> SceneInventoryItems;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		UTexture2D* Icone;
-	
+	UTexture2D* Icon;
+
 	UPROPERTY()
-		TArray<class AInventoryItem_StoryGraph*> InventoryItemPointers;
+	TArray<class AInventoryItem_StoryGraph*> InventoryItemPointers;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		TArray<FText> InventoryItemPhase;
+	TArray<FText> InventoryItemPhase;
 
 	UPROPERTY(BlueprintReadOnly, SaveGame)
-		int32 CurrentItemPhase;
+	int32 CurrentItemPhase;
 
 public:
 
@@ -443,49 +458,48 @@ public:
 
 	virtual void GetObjectStateAsString(TArray<FString>& States) override;
 
-	virtual void GetScenObjects(TArray<IStoryScenObject*>& ScenObjects) override;
+	virtual void GetSceneObjects(TArray<IStorySceneObject*>& SceneObjects) override;
 
-	virtual void GetScenObjects(TArray<AActor*>& ScenObjects) override;
+	virtual void GetSceneObjects(TArray<AActor*>& SceneObjects) override;
 
-	virtual void SetScenObjectRealPointers() override;
+	virtual void SetSceneObjectRealPointers() override;
 
-	virtual void ClearScenObjects() override;
+	virtual void ClearSceneObjects() override;
 
-	virtual int GetScenObjectsNum() override { return ScenInventoryItems.Num(); }
-	
-	virtual void SetCurentState(int NewState) override;
+	virtual int GetSceneObjectsNum() override { return SceneInventoryItems.Num(); }
 
-	virtual int GetCurentState() override;
+	virtual void SetCurrentState(int NewState) override;
 
-	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Propertys) override;  
+	virtual int GetCurrentState() override;
 
-	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Propertys) override;
+	virtual void GetXMLSavingProperty(std::map<FString, XMLProperty>& Properties) override;
+
+	virtual void LoadPropertyFromXML(std::map<FString, XMLProperty>& Properties) override;
 };
 
 UCLASS()
 
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraphOthers : public UStoryGraphObjectWithScenObject
+class STORYGRAPHPLUGINRUNTIME_API UStoryGraphOthers : public UStoryGraphObjectWithSceneObject
 {
 	GENERATED_BODY()
 
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TArray<TAssetPtr<class AOtherActor_StoryGraph>> ScenOtherObjects;
+	TArray<TAssetPtr<class AOtherActor_StoryGraph>> SceneOtherObjects;
 
 	UPROPERTY()
-		TArray<class AOtherActor_StoryGraph*> OtherPointers;
+	TArray<class AOtherActor_StoryGraph*> OtherPointers;
 
 	UStoryGraphOthers();
 
-	virtual void GetScenObjects(TArray<IStoryScenObject*>& ScenObjects) override;
+	virtual void GetSceneObjects(TArray<IStorySceneObject*>& SceneObjects) override;
 
-	virtual void GetScenObjects(TArray<AActor*>& ScenObjects) override;
+	virtual void GetSceneObjects(TArray<AActor*>& SceneObjects) override;
 
-	virtual void SetScenObjectRealPointers() override;
+	virtual void SetSceneObjectRealPointers() override;
 
-	virtual void ClearScenObjects() override;
+	virtual void ClearSceneObjects() override;
 
-	virtual int GetScenObjectsNum() override { return ScenOtherObjects.Num(); }
+	virtual int GetSceneObjectsNum() override { return SceneOtherObjects.Num(); }
 };
-

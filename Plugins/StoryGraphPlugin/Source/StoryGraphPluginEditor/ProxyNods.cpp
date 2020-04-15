@@ -1,7 +1,7 @@
 // Copyright 2016 Dmitriy Pavlov
 
-#include "ProxyNods.h"
-#include "CustomNods.h"
+#include "ProxyNodes.h"
+#include "CustomNodes.h"
 #include "EdGraph/EdGraphPin.h"
 #include "EdGraph/EdGraph.h"
 #include "AssetEditorManager.h"
@@ -50,9 +50,7 @@ FText UProxyNodeBase::GetTooltipText() const
 
 FText UProxyNodeBase::GetNodeTitle(ENodeTitleType::Type TitleType) const
 {
-	
 	return CustomNode->GetNodeTitle();
-	
 }
 
 
@@ -85,15 +83,14 @@ void UProxyNodeBase::PinConnectionListChanged(UEdGraphPin* Pin)
 	}
 
 	CustomNode->pStoryGraph->StoryGraphState = EStoryGraphState::ST_Modify;
-	
 }
 
 void UProxyNodeBase::PostLoad()
 {
 	Super::PostLoad();
 
-	
-	if (CustomNode) CustomNode->RefreshCollor();
+
+	if (CustomNode) CustomNode->RefreshColor();
 }
 
 
@@ -101,13 +98,17 @@ void UProxyNodeBase::AllocateDefaultPins()
 {
 	for (int i = 0; i < CustomNode->NodePins.Num(); i++)
 	{
-		CreatePin((EEdGraphPinDirection)CustomNode->NodePins[i].Direction, UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)CustomNode->NodePins[i].PinDataType), TEXT(""), NULL, false, false, TEXT(""));
+		CreatePin((EEdGraphPinDirection)CustomNode->NodePins[i].Direction,
+		          UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)CustomNode->NodePins[i].PinDataType),
+		          TEXT(""), nullptr, false, false, TEXT(""));
 	}
 }
 
 void UProxyNodeBase::HandleCreatePin(FStoryGraphPin NewPin)
 {
-	CreatePin((EEdGraphPinDirection)NewPin.Direction, UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)NewPin.PinDataType), TEXT(""), NULL, false, false, TEXT(""));
+	CreatePin((EEdGraphPinDirection)NewPin.Direction,
+	          UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)NewPin.PinDataType), TEXT(""), nullptr, false,
+	          false, TEXT(""));
 }
 
 void UProxyNodeBase::HandleRemovePin(int32 PinNumber)
@@ -124,21 +125,19 @@ void UProxyNodeBase::DestroyNode()
 {
 	Super::DestroyNode();
 	//Remove pins custom nod
-	
-	UEdGraph_StoryGraph* ParrentGraph = Cast<UEdGraph_StoryGraph>(GetGraph());
 
-	if (UStoryGraph* StoryGraph = Cast<UStoryGraph>(ParrentGraph->GraphOwner))
+	UEdGraph_StoryGraph* ParentGraph = Cast<UEdGraph_StoryGraph>(GetGraph());
+
+	if (UStoryGraph* StoryGraph = Cast<UStoryGraph>(ParentGraph->GraphOwner))
 	{
-		StoryGraph->GarphNods.Remove(CustomNode);
-			
+		StoryGraph->GraphNodes.Remove(CustomNode);
 	}
-	else if (UStoryGraphCharecter* Charecter = Cast<UStoryGraphCharecter>(ParrentGraph->GraphOwner))
+	else if (UStoryGraphCharacter* Character = Cast<UStoryGraphCharacter>(ParentGraph->GraphOwner))
 	{
-		Charecter->GarphNods.Remove(CustomNode);
+		Character->GraphNodes.Remove(CustomNode);
 	}
-	else if (UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(ParrentGraph->GraphOwner))
+	else if (UStoryGraphPlaceTrigger* PlaceTrigger = Cast<UStoryGraphPlaceTrigger>(ParentGraph->GraphOwner))
 	{
-		PlaceTrigger->GarphNods.Remove(CustomNode);
+		PlaceTrigger->GraphNodes.Remove(CustomNode);
 	}
-	
 }

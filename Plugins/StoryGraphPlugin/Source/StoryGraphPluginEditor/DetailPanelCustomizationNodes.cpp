@@ -9,9 +9,14 @@
 #include "Runtime/Engine/Classes/EdGraph/EdGraph.h"
 #include "GraphSchema_StoryGraph.h"
 #include "StoryGraph.h"
-#include "CustomNods.h"
+#include "CustomNodes.h"
 #include "DetailLayoutBuilder.h"
 #include "IDetailPropertyRow.h"
+#include "Widgets/Input/SMultiLineEditableTextBox.h"
+#include "Widgets/Input/SButton.h"
+#include "Widgets/Images/SImage.h"
+#include "Framework/MultiBox/MultiBoxBuilder.h"
+
 
 //FCustomNodeBaseDetail.............................................................................................
 
@@ -59,7 +64,7 @@ UCustomNodeBase* FCustomNodeBaseDetail::GetDetailObject(IDetailLayoutBuilder* De
 {
 	TArray<TWeakObjectPtr<UObject>> OutObjects;
 	DetailBuilder->GetObjectsBeingCustomized(OutObjects);
-	UCustomNodeBase* Object = NULL;
+	UCustomNodeBase* Object = nullptr;
 	if (OutObjects.Num() > 0)
 	{
 		Object = Cast<UCustomNodeBase>(OutObjects[0].Get());
@@ -114,12 +119,12 @@ void FDialogNodeBaseDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder
 
 //FDialogNodeDependetDetail.............................................................................................
 
-TSharedRef<IDetailCustomization> FDialogDependetNodeDetail::MakeInstance()
+TSharedRef<IDetailCustomization> FDialogDependedNodeDetail::MakeInstance()
 {
-	return MakeShareable(new FDialogDependetNodeDetail);
+	return MakeShareable(new FDialogDependedNodeDetail);
 }
 
-void FDialogDependetNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+void FDialogDependedNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
 	FDialogNodeBaseDetail::CustomizeDetails(DetailBuilder);
 
@@ -154,14 +159,14 @@ void FDialogDependetNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBui
 	}
 }
 
-//FStoryGraphDependetNodeDetail.............................................................................................
+//FStoryGraphDependedNodeDetail.............................................................................................
 
-TSharedRef<IDetailCustomization> FStoryGraphDependetNodeDetail::MakeInstance()
+TSharedRef<IDetailCustomization> FStoryGraphDependedNodeDetail::MakeInstance()
 {
-	return MakeShareable(new FStoryGraphDependetNodeDetail);
+	return MakeShareable(new FStoryGraphDependedNodeDetail);
 }
 
-void FStoryGraphDependetNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+void FStoryGraphDependedNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
 	FCustomNodeBaseDetail::CustomizeDetails(DetailBuilder);
 
@@ -232,9 +237,6 @@ void FDialogStartNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilde
 			.OnTextCommitted(FOnTextCommitted::CreateSP(this, &FDialogStartNodeDetail::DialogCommitted, &DetailBuilder))
 			.AutoWrapText(true)
 		];
-
-		
-	
 }
 
 
@@ -369,7 +371,7 @@ TSharedRef<IDetailCustomization> FGetStoryGraphObjectStateNodeDetail::MakeInstan
 
 void FGetStoryGraphObjectStateNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphDependetNodeDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphDependedNodeDetail::CustomizeDetails(DetailBuilder);
 
 	IDetailCategoryBuilder& MyCategory = DetailBuilder.EditCategory("Graph Object States", FText::GetEmpty(), ECategoryPriority::Default);
 
@@ -432,7 +434,7 @@ FReply FGetStoryGraphObjectStateNodeDetail::HandleGraphObjectStateListButtonClic
 TSharedRef<SWidget> FGetStoryGraphObjectStateNodeDetail::GetGraphObjectStateMenuOptions()
 {
 	UCustomNodeBase* ObjectOwner = GetDetailObject(pDetailBuilder);
-	FMenuBuilder LayerMenuBuilder(true, NULL);
+	FMenuBuilder LayerMenuBuilder(true, nullptr);
 	TArray<FString> ObjectStates;
 	if (ObjectOwner->pGraphObject)
 	{
@@ -470,7 +472,7 @@ TSharedRef<IDetailCustomization> FAddDialogNodeDetail::MakeInstance()
 
 void FAddDialogNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphDependetNodeDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphDependedNodeDetail::CustomizeDetails(DetailBuilder);
 
 	IDetailCategoryBuilder& MyCategory = DetailBuilder.EditCategory("Add Dialog", FText::GetEmpty(), ECategoryPriority::Default);
 
@@ -533,18 +535,18 @@ TSharedRef<SWidget> FAddDialogNodeDetail::GetAvailableDialogs()
 {
 	UAddDialogNode* AddDialogNode = Cast<UAddDialogNode>(GetDetailObject(pDetailBuilder));
 
-	FMenuBuilder LayerMenuBuilder(true, NULL);
+	FMenuBuilder LayerMenuBuilder(true, nullptr);
 	TArray<UDialogStartNode*> DialogRootNode;
 
 	if (AddDialogNode && AddDialogNode->pGraphObject)
 	{
-		UStoryGraphCharecter* pGraphCharecter = Cast<UStoryGraphCharecter>(AddDialogNode->pGraphObject);
+		UStoryGraphCharacter* pGraphCharecter = Cast<UStoryGraphCharacter>(AddDialogNode->pGraphObject);
 		UStoryGraphPlaceTrigger* pPlaceTrigger = Cast<UStoryGraphPlaceTrigger>(AddDialogNode->pGraphObject);
 		if (pGraphCharecter)
 		{
-			for (int i = 0; i < pGraphCharecter->GarphNods.Num(); i++)
+			for (int i = 0; i < pGraphCharecter->GraphNodes.Num(); i++)
 			{
-				if (UDialogStartNode* DialogStartNode = Cast<UDialogStartNode>(pGraphCharecter->GarphNods[i]))
+				if (UDialogStartNode* DialogStartNode = Cast<UDialogStartNode>(pGraphCharecter->GraphNodes[i]))
 				{
 					DialogRootNode.Add(DialogStartNode);
 				}
@@ -553,9 +555,9 @@ TSharedRef<SWidget> FAddDialogNodeDetail::GetAvailableDialogs()
 		}
 		else if (pPlaceTrigger)
 		{
-			for (int i = 0; i < pPlaceTrigger->GarphNods.Num(); i++)
+			for (int i = 0; i < pPlaceTrigger->GraphNodes.Num(); i++)
 			{
-				if (UDialogStartNode* DialogStartNode = Cast<UDialogStartNode>(pPlaceTrigger->GarphNods[i]))
+				if (UDialogStartNode* DialogStartNode = Cast<UDialogStartNode>(pPlaceTrigger->GraphNodes[i]))
 				{
 					DialogRootNode.Add(DialogStartNode);
 				}
@@ -577,7 +579,7 @@ void FAddDialogNodeDetail::HandleSetCurrentDialog(UDialogStartNode* SelectedDial
 {
 	UAddDialogNode* ObjectOwner = (UAddDialogNode*)GetDetailObject(pDetailBuilder);
 	
-	ObjectOwner->SetCurentDialog(SelectedDialog);
+	ObjectOwner->SetCurrentDialog(SelectedDialog);
 	SelectedDialogTextBox->SetText(UDialogNodeBase::GetDialogName(SelectedDialog->Dialogs[0]->Dialog));
 }
 
@@ -653,15 +655,15 @@ TSharedRef<SWidget> FAddDialogFromDialogDetail::GetAvailableDialogs()
 	
 	UAddDialogFromDialogNode* AddDialogFromDialogNode = Cast<UAddDialogFromDialogNode>(GetDetailObject(pDetailBuilder));
 
-	FMenuBuilder LayerMenuBuilder(true, NULL);
+	FMenuBuilder LayerMenuBuilder(true, nullptr);
 	TArray<UDialogStartNode*> DialogRootNode;
 	
 
 	if (AddDialogFromDialogNode)
 	{
-		for (int i = 0; i < ((UStoryGraphCharecter*)AddDialogFromDialogNode->GetOuter())->GarphNods.Num(); i++)
+		for (int i = 0; i < ((UStoryGraphCharacter*)AddDialogFromDialogNode->GetOuter())->GraphNodes.Num(); i++)
 		{
-			if (UDialogStartNode* DialogStart = Cast<UDialogStartNode>(((UStoryGraphCharecter*)AddDialogFromDialogNode->GetOuter())->GarphNods[i]))
+			if (UDialogStartNode* DialogStart = Cast<UDialogStartNode>(((UStoryGraphCharacter*)AddDialogFromDialogNode->GetOuter())->GraphNodes[i]))
 			{
 				DialogRootNode.Add(DialogStart);
 			}
@@ -680,7 +682,7 @@ void FAddDialogFromDialogDetail::HandleSetCurrentDialog(UDialogStartNode* Select
 {
 	UAddDialogFromDialogNode* AddDialogFromDialogNode = Cast<UAddDialogFromDialogNode>(GetDetailObject(pDetailBuilder));
 	
-	AddDialogFromDialogNode->SetCurentDialog(SelectedDialog);
+	AddDialogFromDialogNode->SetCurrentDialog(SelectedDialog);
 	SelectedDialogTextBox->SetText(UDialogNodeBase::GetDialogName(SelectedDialog->Dialogs[0]->Dialog));
 }
 
@@ -697,7 +699,7 @@ TSharedRef<IDetailCustomization> FAddQuestPhaseNodeDetail::MakeInstance()
 
 void FAddQuestPhaseNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphDependetNodeDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphDependedNodeDetail::CustomizeDetails(DetailBuilder);
 
 
 	UAddQuestPhaseNode* QuestPhaseNode = (UAddQuestPhaseNode*)GetDetailObject(&DetailBuilder);
@@ -728,7 +730,7 @@ void FAddQuestPhaseNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuil
 		.ValueContent()
 		[
 			SNew(SMultiLineEditableTextBox)
-			.Text(QuestPhaseNode->QuestPhaseToAdd->Decription)
+			.Text(QuestPhaseNode->QuestPhaseToAdd->Description)
 			.OnTextCommitted(FOnTextCommitted::CreateSP(this, &FAddQuestPhaseNodeDetail::QuestPhaseCommitted, &DetailBuilder))
 			.AutoWrapText(true)
 		];
@@ -759,7 +761,7 @@ TSharedRef<IDetailCustomization> FQuestStarNodeDetail::MakeInstance()
 
 void FQuestStarNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphDependetNodeDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphDependedNodeDetail::CustomizeDetails(DetailBuilder);
 
 
 	UQuestStartNode* QuestPhaseNode = (UQuestStartNode*)GetDetailObject(&DetailBuilder);
@@ -782,7 +784,7 @@ TSharedRef<IDetailCustomization> FSetInventoryItemStateNodeDetail::MakeInstance(
 
 void FSetInventoryItemStateNodeDetail::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
-	FStoryGraphDependetNodeDetail::CustomizeDetails(DetailBuilder);
+	FStoryGraphDependedNodeDetail::CustomizeDetails(DetailBuilder);
 
 	IDetailCategoryBuilder& MyCategory = DetailBuilder.EditCategory("Set phase", FText::GetEmpty(), ECategoryPriority::Default);
 
@@ -845,7 +847,7 @@ TSharedRef<SWidget> FSetInventoryItemStateNodeDetail::GetAvailableInventoryItemP
 {
 	UCustomNodeBase* ObjectOwner = (UCustomNodeBase*)GetDetailObject(pDetailBuilder);
 
-	FMenuBuilder LayerMenuBuilder(true, NULL);
+	FMenuBuilder LayerMenuBuilder(true, nullptr);
 	TArray<UDialogStartNode*> DialogRootNode;
 	
 

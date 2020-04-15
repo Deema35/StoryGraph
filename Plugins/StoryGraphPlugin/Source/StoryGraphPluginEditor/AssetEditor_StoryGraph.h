@@ -135,11 +135,11 @@ private:
 	void AddStoryGraphObject(TSubclassOf<class UStoryGraphObject>);
 	TSharedRef<SDockTab> CreateDialogTab(const TSharedPtr<SGraphEditor> DialogEditor, FString TabName);
 	void DeleteStoryGraphObject();
-	void CompilStoryObjects();
+	void CompileStoryObjects();
 	void ExportInXMLFile();
 	void ImportFromXMLFile();
 	void UnlinkAllStoryGraphObjects();
-	void FindDependetNodsInGraph(TArray<class UEdGraphNode*>& Nodes, UStoryGraphObject* OwningObject);
+	void FindDependedNodesInGraph(TArray<class UEdGraphNode*>& Nodes, UStoryGraphObject* OwningObject);
 	void OnMyRequestRenameOnActionNode();
 	bool CanRequestRenameOnActionNode() const;
 	void OnTabForegrounded(TSharedPtr<SDockTab> ForegroundedTab, TSharedPtr<SDockTab> BackgroundedTab);
@@ -153,8 +153,8 @@ private:
 	void SpawnStoryGraphObjectsFromXMLNode(FXmlNode* GraphObjectsNode);
 	void SpawnGraphNodsFromXMLNode(FXmlNode* XMLNode, UObject* OwnedGraphObject);
 	class UEdGraph_StoryGraph* CreateDialogGraph(UStoryGraphObject* pStoryGraphObject);
-	void FillPropertyMapFromXMLNode(std::map<FString, XMLProperty>& Propertys, FXmlNode* CurrentObjectNode);
-	void EraseStroyGraph();
+	void FillPropertyMapFromXMLNode(std::map<FString, XMLProperty>& Properties, FXmlNode* CurrentObjectNode);
+	void EraseStoryGraph();
 };
 
 

@@ -6,10 +6,7 @@
 #include "ModuleManager.h"
 
 
-
-
 class FStoryGraphPluginRuntime : public IModuleInterface
 {
-
 
 };

@@ -5,6 +5,7 @@
 #include "AssetEditor_StoryGraph.h"
 #include "StoryGraph.h"
 #include "Commands_StoryGraph.h"
+#include "EngineUtils.h"
 
 
 UClass* FAssetTypeActions_StoryGraph::GetSupportedClass() const
@@ -12,9 +13,9 @@ UClass* FAssetTypeActions_StoryGraph::GetSupportedClass() const
 	return UStoryGraphBlueprint::StaticClass();
 }
 
-FText FAssetTypeActions_StoryGraph::GetAssetDescription(const FAssetData & AssetData) const
+FText FAssetTypeActions_StoryGraph::GetAssetDescription(const FAssetData& AssetData) const
 {
-	return FText::FromString("It contains quests and dialogs. Drop on scen to enabel they in game.");
+	return FText::FromString("It contains quests and dialogs. Drop on scene to enable they in game.");
 }
 
 
@@ -25,13 +26,12 @@ void FAssetTypeActions_StoryGraph::GetActions(const TArray<UObject*>& InObjects,
 		UStoryGraphBlueprint* PropData = Cast<UStoryGraphBlueprint>(InObjects[i]);
 		if (PropData && PropData->StoryGraph)
 		{
-			
 			MenuBuilder.AddMenuEntry(
 				FText::FromString("Add to scene"),
-				FText::FromString("Add Storygraph to scene if it dosn't exist."),
+				FText::FromString("Add Storygraph to scene if it doesn't exist."),
 				FSlateIcon(FEditorStyle::GetStyleSetName(), "ContentBrowser.AssetActions.Duplicate"),
 				FUIAction(
-					FExecuteAction::CreateSP(this, &FAssetTypeActions_StoryGraph::AddToScen, PropData)
+					FExecuteAction::CreateSP(this, &FAssetTypeActions_StoryGraph::AddToScene, PropData)
 				)
 			);
 			MenuBuilder.AddMenuEntry(
@@ -39,7 +39,7 @@ void FAssetTypeActions_StoryGraph::GetActions(const TArray<UObject*>& InObjects,
 				FText::FromString("Remove Storygraph from scene."),
 				FSlateIcon(FEditorStyle::GetStyleSetName(), "ContentBrowser.AssetActions.Delete"),
 				FUIAction(
-					FExecuteAction::CreateSP(this, &FAssetTypeActions_StoryGraph::RemoveFromScen, PropData)
+					FExecuteAction::CreateSP(this, &FAssetTypeActions_StoryGraph::RemoveFromScene, PropData)
 				)
 			);
 		}
@@ -47,10 +47,12 @@ void FAssetTypeActions_StoryGraph::GetActions(const TArray<UObject*>& InObjects,
 }
 
 
-
-void FAssetTypeActions_StoryGraph::OpenAssetEditor(const TArray<UObject*>& InObjects, TSharedPtr<class IToolkitHost> EditWithinLevelEditor)
+void FAssetTypeActions_StoryGraph::OpenAssetEditor(const TArray<UObject*>& InObjects,
+                                                   TSharedPtr<class IToolkitHost> EditWithinLevelEditor)
 {
-	const EToolkitMode::Type Mode = EditWithinLevelEditor.IsValid() ? EToolkitMode::WorldCentric : EToolkitMode::Standalone;
+	const EToolkitMode::Type Mode = EditWithinLevelEditor.IsValid()
+		                                ? EToolkitMode::WorldCentric
+		                                : EToolkitMode::Standalone;
 	for (int i = 0; i < InObjects.Num(); i++)
 	{
 		UStoryGraphBlueprint* PropData = Cast<UStoryGraphBlueprint>(InObjects[i]);
@@ -58,9 +60,9 @@ void FAssetTypeActions_StoryGraph::OpenAssetEditor(const TArray<UObject*>& InObj
 		{
 			if (!PropData->StoryGraph->pAssetEditor)
 			{
-				TSharedRef<FAssetEditor_StoryGraph> NewCustEditor(new FAssetEditor_StoryGraph());
-				PropData->StoryGraph->pAssetEditor = &NewCustEditor.Get();
-				NewCustEditor->InitAssetEditor_StoryGraph(Mode, EditWithinLevelEditor, PropData);
+				TSharedRef<FAssetEditor_StoryGraph> NewCustomEditor(new FAssetEditor_StoryGraph());
+				PropData->StoryGraph->pAssetEditor = &NewCustomEditor.Get();
+				NewCustomEditor->InitAssetEditor_StoryGraph(Mode, EditWithinLevelEditor, PropData);
 				//FAssetEditorManager::Get().NotifyAssetOpened(PropData, PropData->StoryGraph->pAssetEditor);
 			}
 		}
@@ -71,10 +73,9 @@ void FAssetTypeActions_StoryGraph::RegistrateCustomPartAssetType()
 {
 	IAssetTools& AssetTools = FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools").Get();
 	AssetTools.RegisterAssetTypeActions(MakeShareable(new FAssetTypeActions_StoryGraph));
-
 }
 
-void FAssetTypeActions_StoryGraph::AddToScen(UStoryGraphBlueprint* PropData)
+void FAssetTypeActions_StoryGraph::AddToScene(UStoryGraphBlueprint* PropData)
 {
 	bool IsObjectExist = false;
 	for (TActorIterator<AStoryGraphActor> ActorItr(GWorld); ActorItr; ++ActorItr)
@@ -92,7 +93,7 @@ void FAssetTypeActions_StoryGraph::AddToScen(UStoryGraphBlueprint* PropData)
 	}
 }
 
-void FAssetTypeActions_StoryGraph::RemoveFromScen(UStoryGraphBlueprint* PropData)
+void FAssetTypeActions_StoryGraph::RemoveFromScene(UStoryGraphBlueprint* PropData)
 {
 	for (TActorIterator<AStoryGraphActor> ActorItr(GWorld); ActorItr; ++ActorItr)
 	{
@@ -101,6 +102,4 @@ void FAssetTypeActions_StoryGraph::RemoveFromScen(UStoryGraphBlueprint* PropData
 			ActorItr->Destroy();
 		}
 	}
-	
 }
-

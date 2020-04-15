@@ -2,6 +2,11 @@
 #pragma once
 
 #include "IDetailCustomization.h"
+#include "Reply.h"
+#include "SlateEnums.h"
+#include "SMenuAnchor.h"
+
+class UDialogStartNode;
 
 class FCustomNodeBaseDetail : public IDetailCustomization
 {
@@ -22,7 +27,6 @@ protected:
 	class IDetailCategoryBuilder* pMainPanel;
 
 	IDetailLayoutBuilder* pDetailBuilder;
-
 };
 
 class FDialogNodeBaseDetail : public FCustomNodeBaseDetail
@@ -38,10 +42,9 @@ public:
 protected:
 
 	class IDetailPropertyRow* pDialogOwnerProperty;
-
 };
 
-class FDialogDependetNodeDetail : public FDialogNodeBaseDetail
+class FDialogDependedNodeDetail : public FDialogNodeBaseDetail
 {
 public:
 
@@ -50,10 +53,9 @@ public:
 
 	/** IDetailCustomization interface */
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
-
 };
 
-class FStoryGraphDependetNodeDetail : public FCustomNodeBaseDetail
+class FStoryGraphDependedNodeDetail : public FCustomNodeBaseDetail
 {
 public:
 
@@ -62,15 +64,12 @@ public:
 
 	/** IDetailCustomization interface */
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
-
 };
-
 
 
 class FDialogStartNodeDetail : public FDialogNodeBaseDetail
 {
 public:
-
 
 
 	/** Makes a new instance of this detail layout class for a specific detail view requesting it */
@@ -83,13 +82,11 @@ private:
 
 
 	void DialogCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder);
-
 };
 
 class FDialogNodeDetail : public FDialogNodeBaseDetail
 {
 public:
-
 
 
 	/** Makes a new instance of this detail layout class for a specific detail view requesting it */
@@ -104,11 +101,11 @@ private:
 
 	static FReply RemoveDialogButtonClick(IDetailLayoutBuilder* DetailBuilder, int Num);
 
-	void DialogCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder, int Num);
-
+	void DialogCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder,
+	                     int Num);
 };
 
-class FGetStoryGraphObjectStateNodeDetail : public FStoryGraphDependetNodeDetail
+class FGetStoryGraphObjectStateNodeDetail : public FStoryGraphDependedNodeDetail
 {
 public:
 
@@ -130,11 +127,10 @@ private:
 	TSharedPtr<SMenuAnchor> ObjectStatesListBox;
 
 	TSharedPtr<STextBlock> WantedObjectStateTextBox;
-
 };
 
 
-class FAddDialogNodeDetail : public FStoryGraphDependetNodeDetail
+class FAddDialogNodeDetail : public FStoryGraphDependedNodeDetail
 {
 public:
 	/** Makes a new instance of this detail layout class for a specific detail view requesting it */
@@ -178,7 +174,7 @@ private:
 	void HandleSetCurrentDialog(UDialogStartNode* SelectedDialog);
 };
 
-class FAddQuestPhaseNodeDetail : public FStoryGraphDependetNodeDetail
+class FAddQuestPhaseNodeDetail : public FStoryGraphDependedNodeDetail
 {
 public:
 
@@ -192,10 +188,9 @@ private:
 
 
 	void QuestPhaseCommitted(const FText& NewText, ETextCommit::Type TextType, IDetailLayoutBuilder* DetailBuilder);
-
 };
 
-class FQuestStarNodeDetail : public FStoryGraphDependetNodeDetail
+class FQuestStarNodeDetail : public FStoryGraphDependedNodeDetail
 {
 public:
 
@@ -204,14 +199,10 @@ public:
 
 	/** IDetailCustomization interface */
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
-
-
-
 };
 
-class FSetInventoryItemStateNodeDetail : public FStoryGraphDependetNodeDetail
+class FSetInventoryItemStateNodeDetail : public FStoryGraphDependedNodeDetail
 {
-
 private:
 
 	TSharedPtr<SMenuAnchor> InventoryItemPhaseListBox;

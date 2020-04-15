@@ -10,7 +10,7 @@
 #include "DetailPanelCustomizationNodes.h"
 #include "ClassIconFinder.h"
 #include "NodeStyle.h"
-
+#include "PropertyEditorModule.h"
 
 
 void FStoryGraphEditorModule::StartupModule()
@@ -28,101 +28,112 @@ void FStoryGraphEditorModule::StartupModule()
 	//Registrate ToolBarCommand for costom graph
 	FCommands_StoryGraph::Register();
 
-	
+
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 
 	//Registrate custom detail panel for Story objects
 	int i = 1; // skip non type
 	while (i < GetNumberEnums("EStoryObjectType"))
 	{
-		
 		switch ((EStoryObjectType)i)
 		{
 		case EStoryObjectType::Character:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
-				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphCharecterDetail::MakeInstance));
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
+				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphCharacterDetail::MakeInstance));
 			break;
 
 		case EStoryObjectType::PlaceTrigger:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphPlaceTriggerDetail::MakeInstance));
 			break;
 
 		case EStoryObjectType::InventoryItem:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphInventoryItemDetail::MakeInstance));
 			break;
 
 		case EStoryObjectType::Others:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphOthersDetail::MakeInstance));
 			break;
 		default:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UStoryGraphObject::GetClassFromStoryObjectType((EStoryObjectType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphObjectDetail::MakeInstance));
 		}
 		i++;
 	}
-	
+
 	//Registrate custom detail panel for Nods
-	i = 0; 
+	i = 0;
 	while (i < GetNumberEnums("ENodeType"))
 	{
 		switch ((ENodeType)i)
 		{
-		
 		case ENodeType::DialogStart:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FDialogStartNodeDetail::MakeInstance));
 			break;
 
 		case ENodeType::DialogNode:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FDialogNodeDetail::MakeInstance));
 			break;
 
-		
+
 		case ENodeType::GetStoryGraphObjectState:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FGetStoryGraphObjectStateNodeDetail::MakeInstance));
 
 			break;
 
 		case ENodeType::AddDialogFromDialog:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FAddDialogFromDialogDetail::MakeInstance));
 			break;
 
 		case ENodeType::AddDialog:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FAddDialogNodeDetail::MakeInstance));
 			break;
 
 		case ENodeType::SetInventoryItemState:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FSetInventoryItemStateNodeDetail::MakeInstance));
 			break;
 
 		case ENodeType::AddQuestPhase:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FAddQuestPhaseNodeDetail::MakeInstance));
 			break;
 
 		case ENodeType::QuestStart:
 
-			PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+			PropertyModule.RegisterCustomClassLayout(
+				FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 				FOnGetDetailCustomizationInstance::CreateStatic(&FQuestStarNodeDetail::MakeInstance));
 			break;
 
@@ -137,37 +148,39 @@ void FStoryGraphEditorModule::StartupModule()
 
 		default:
 
-			switch (UCustomNodeBase::GetIncertNodeType((ENodeType)i))
+			switch (UCustomNodeBase::GetInsertNodeType((ENodeType)i))
 			{
-			case EIncertNodeType::StoryGraphStandalone:
-			
+			case EInsertNodeType::StoryGraphStandalone:
 
-				PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+
+				PropertyModule.RegisterCustomClassLayout(
+					FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 					FOnGetDetailCustomizationInstance::CreateStatic(&FCustomNodeBaseDetail::MakeInstance));
 				break;
 
-			case EIncertNodeType::StoryGraphDependent:
+			case EInsertNodeType::StoryGraphDependent:
 
-				PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
-					FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphDependetNodeDetail::MakeInstance));
+				PropertyModule.RegisterCustomClassLayout(
+					FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+					FOnGetDetailCustomizationInstance::CreateStatic(&FStoryGraphDependedNodeDetail::MakeInstance));
 				break;
 
-			case EIncertNodeType::DialogGraphStandalone:
-			case EIncertNodeType::MessageGraphStandalone:
-			
+			case EInsertNodeType::DialogGraphStandalone:
+			case EInsertNodeType::MessageGraphStandalone:
 
-				PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+
+				PropertyModule.RegisterCustomClassLayout(
+					FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
 					FOnGetDetailCustomizationInstance::CreateStatic(&FDialogNodeBaseDetail::MakeInstance));
 				break;
 
-			case EIncertNodeType::DialogGraphDependent:
-			
-				PropertyModule.RegisterCustomClassLayout(FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
-					FOnGetDetailCustomizationInstance::CreateStatic(&FDialogDependetNodeDetail::MakeInstance));
-				break;
+			case EInsertNodeType::DialogGraphDependent:
 
+				PropertyModule.RegisterCustomClassLayout(
+					FName(*UCustomNodeBase::GetClassFromNodeType((ENodeType)i)->GetName()),
+					FOnGetDetailCustomizationInstance::CreateStatic(&FDialogDependedNodeDetail::MakeInstance));
+				break;
 			}
-			
 		}
 
 		i++;
