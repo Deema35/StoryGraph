@@ -7,7 +7,7 @@
 
 /////////////////////////////////////////////////////
 // UAssetFactory_StoryGraph
-UAssetFactory_StoryGraph::UAssetFactory_StoryGraph(const FObjectInitializer& ObjectInitializer ): Super(ObjectInitializer)
+UAssetFactory_StoryGraph::UAssetFactory_StoryGraph(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
 {
 	bCreateNew = true;
 	bEditAfterNew = true;

@@ -11,7 +11,6 @@
 void FDragDropAction_StoryGraph::HoverTargetChanged()
 {
 	UEdGraph* HoveredGraph = GetHoveredGraph();
-	const UEdGraphSchema_Base* HoveredSchema = nullptr;
 	bool CanCreateNode = false;
 
 	FSlateColor IconColor = FLinearColor::White;
@@ -20,7 +19,7 @@ void FDragDropAction_StoryGraph::HoverTargetChanged()
 
 	if (HoveredGraph)
 	{
-		HoveredSchema = Cast<UEdGraphSchema_Base>(HoveredGraph->GetSchema());
+		const UEdGraphSchema_Base* HoveredSchema = Cast<UEdGraphSchema_Base>(HoveredGraph->GetSchema());
 
 
 		for (int i = 0; i < DraggedObject->DependedNodes.Num(); i++)

@@ -133,11 +133,7 @@ void FConnectionDrawingPolicy_StoryGraph::DrawConnection(int32 LayerId, const FV
 		DrawElementsList,
 		LayerId,
 		P0, P0Tangent,
-		P1, P1Tangent,
-		ClippingRect,
-		Params.WireThickness,
-		ESlateDrawEffect::None,
-		Params.WireColor
+		P1, P1Tangent
 	);
 
 	if (Params.bDrawBubbles)
@@ -162,15 +158,11 @@ void FConnectionDrawingPolicy_StoryGraph::DrawConnection(int32 LayerId, const FV
 				const float Alpha = SplineParamTable.Eval(Distance, 0.f);
 				FVector2D BubblePos = FMath::CubicInterp(P0, P0Tangent, P1, P1Tangent, Alpha);
 				BubblePos -= (BubbleSize * 0.5f);
-
 				FSlateDrawElement::MakeBox(
 					DrawElementsList,
 					LayerId,
 					FPaintGeometry(BubblePos, BubbleSize, ZoomFactor),
-					BubbleImage,
-					ClippingRect,
-					ESlateDrawEffect::None,
-					Params.WireColor
+					BubbleImage
 				);
 			}
 		}

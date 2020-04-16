@@ -98,17 +98,21 @@ void UProxyNodeBase::AllocateDefaultPins()
 {
 	for (int i = 0; i < CustomNode->NodePins.Num(); i++)
 	{
-		CreatePin((EEdGraphPinDirection)CustomNode->NodePins[i].Direction,
-		          UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)CustomNode->NodePins[i].PinDataType),
-		          TEXT(""), nullptr, false, false, TEXT(""));
+		//CreatePin((EEdGraphPinDirection)CustomNode->NodePins[i].Direction,
+		//          UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)CustomNode->NodePins[i].PinDataType),
+		//          TEXT(""), nullptr, false, false, TEXT(""));
+		FString PinCategory = UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)CustomNode->NodePins[i].PinDataType);
+		CreatePin((EEdGraphPinDirection)CustomNode->NodePins[i].Direction, *PinCategory, TEXT(""));
 	}
 }
 
 void UProxyNodeBase::HandleCreatePin(FStoryGraphPin NewPin)
 {
-	CreatePin((EEdGraphPinDirection)NewPin.Direction,
-	          UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)NewPin.PinDataType), TEXT(""), nullptr, false,
-	          false, TEXT(""));
+	//CreatePin((EEdGraphPinDirection)NewPin.Direction,
+	//          UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)NewPin.PinDataType), TEXT(""), nullptr, false,
+	//          false, TEXT(""));
+	FString PinCategory = UCustomNodeBase::GetPinDataTypeEnumAsString((EPinDataTypes)NewPin.PinDataType);
+	CreatePin((EEdGraphPinDirection)NewPin.Direction, *PinCategory, TEXT(""));
 }
 
 void UProxyNodeBase::HandleRemovePin(int32 PinNumber)

@@ -10,7 +10,6 @@ class UStoryGraphObject;
 enum class ENodeType : uint8;
 
 UCLASS()
-
 class STORYGRAPHPLUGINEDITOR_API UProxyNodeBase : public UEdGraphNode
 {
 	GENERATED_BODY()

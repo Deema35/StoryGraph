@@ -45,9 +45,9 @@
 
 const FName CustomEditorAppName = FName(TEXT("CustomEditorApp"));
 
-FAssetEditor_StoryGraph::FAssetEditor_StoryGraph() : CurrentSelectedObject(nullptr),
-                                                     CurrentSelectedActionMenuObject(nullptr), AssetObject(nullptr),
-                                                     EditedObject(nullptr)
+FAssetEditor_StoryGraph::FAssetEditor_StoryGraph() : AssetObject(nullptr),
+                                                     EditedObject(nullptr), CurrentSelectedActionMenuObject(nullptr),
+                                                     CurrentSelectedObject(nullptr)
 {
 	TabForegroundedDelegateHandle = FGlobalTabmanager::Get()->OnTabForegrounded_Subscribe(
 		FOnActiveTabChanged::FDelegate::CreateRaw(this, &FAssetEditor_StoryGraph::OnTabForegrounded));

@@ -12,6 +12,7 @@
 #include "NodeStyle.h"
 #include "PropertyEditorModule.h"
 
+#define LOCTEXT_NAMESPACE "FStoryGraphEditorModule"
 
 void FStoryGraphEditorModule::StartupModule()
 {
@@ -25,7 +26,7 @@ void FStoryGraphEditorModule::StartupModule()
 	TSharedPtr<FGraphPanelNodeFactory> GraphPanelNodeFactory = MakeShareable(new FGraphPanelNodeFactory_StoryGraph);
 	FEdGraphUtilities::RegisterVisualNodeFactory(GraphPanelNodeFactory);
 
-	//Registrate ToolBarCommand for costom graph
+	//Registrate ToolBarCommand for custom graph
 	FCommands_StoryGraph::Register();
 
 
@@ -192,4 +193,6 @@ void FStoryGraphEditorModule::ShutdownModule()
 	FNodeStyle::Shutdown();
 }
 
-IMPLEMENT_GAME_MODULE(FStoryGraphEditorModule, StoryGraphEditor);
+#undef LOCTEXT_NAMESPACE
+
+IMPLEMENT_MODULE(FStoryGraphEditorModule, StoryGraphPluginEditor);

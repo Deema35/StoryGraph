@@ -14,6 +14,7 @@
 #include "ScopedTransaction.h"
 #include "StoryGraph.h"
 #include "StoryGraphObject.h"
+#include "ToolMenus/Public/ToolMenu.h"
 
 
 UEdGraphNode* FCustomSchemaAction_NewNode::PerformAction(UEdGraph* ParentGraph, UEdGraphPin* FromPin,
@@ -206,26 +207,51 @@ bool UEdGraphSchema_Base::ShouldHidePinDefaultValue(UEdGraphPin* Pin) const
 	return true;
 }
 
-void UEdGraphSchema_Base::GetContextMenuActions(const UEdGraph* CurrentGraph, const UEdGraphNode* InGraphNode,
-                                                const UEdGraphPin* InGraphPin, FMenuBuilder* MenuBuilder,
-                                                bool bIsDebugging) const
-{
-	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Delete);
-	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Cut);
-	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Copy);
-	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Paste);
-	MenuBuilder->AddMenuEntry(FGenericCommands::Get().SelectAll);
-	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Duplicate);
-	if (InGraphPin)
-	{
-		MenuBuilder->AddMenuEntry(FGraphEditorCommands::Get().BreakPinLinks);
-	}
-	else
-	{
-		MenuBuilder->AddMenuEntry(FGraphEditorCommands::Get().BreakNodeLinks);
-	}
+//void UEdGraphSchema_Base::GetContextMenuActions(const UEdGraph* CurrentGraph, const UEdGraphNode* InGraphNode,
+//                                                const UEdGraphPin* InGraphPin, FMenuBuilder* MenuBuilder,
+//                                                bool bIsDebugging) const
+//{	
+//	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Delete);
+//	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Cut);
+//	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Copy);
+//	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Paste);
+//	MenuBuilder->AddMenuEntry(FGenericCommands::Get().SelectAll);
+//	MenuBuilder->AddMenuEntry(FGenericCommands::Get().Duplicate);
+//	if (InGraphPin)
+//	{
+//		MenuBuilder->AddMenuEntry(FGraphEditorCommands::Get().BreakPinLinks);
+//	}
+//	else
+//	{
+//		MenuBuilder->AddMenuEntry(FGraphEditorCommands::Get().BreakNodeLinks);
+//	}
+//
+//	Super::GetContextMenuActions(CurrentGraph, InGraphNode, InGraphPin, MenuBuilder, bIsDebugging);
+//}
 
-	Super::GetContextMenuActions(CurrentGraph, InGraphNode, InGraphPin, MenuBuilder, bIsDebugging);
+void UEdGraphSchema_Base::GetContextMenuActions(UToolMenu* Menu, UGraphNodeContextMenuContext* Context) const
+{
+	{
+		FToolMenuSection& Section = Menu->AddSection(TEXT("Graph Story"), NSLOCTEXT("StoryGraphSchema",
+			"Graph Story Section", "Graph Story"));
+		Section.AddMenuEntry(FGenericCommands::Get().Delete);
+		Section.AddMenuEntry(FGenericCommands::Get().Cut);
+		Section.AddMenuEntry(FGenericCommands::Get().Copy);
+		Section.AddMenuEntry(FGenericCommands::Get().Paste);
+		Section.AddMenuEntry(FGenericCommands::Get().SelectAll);
+		Section.AddMenuEntry(FGenericCommands::Get().Duplicate);
+		
+		const UEdGraphPin* InGraphPin = Context->Pin;
+		if (InGraphPin)
+		{
+			Section.AddMenuEntry(FGraphEditorCommands::Get().BreakPinLinks);
+		}
+		else
+		{
+			Section.AddMenuEntry(FGraphEditorCommands::Get().BreakNodeLinks);
+		}
+	}
+	Super::GetContextMenuActions(Menu, Context);
 }
 
 

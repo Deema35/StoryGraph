@@ -460,8 +460,8 @@ void FGetStoryGraphObjectStateNodeDetail::HandleSetCurrentGraphObjectState(int W
 	{
 		Node->SetWantedObjectState(WantedState);
 	}
-	
-	WantedObjectStateTextBox->SetText(ObjectStates[WantedState]);
+
+	WantedObjectStateTextBox->SetText(FText::FromString(ObjectStates[WantedState]));
 }
 
 //FAddDialogNodeDetail..............................................................................................
@@ -875,6 +875,6 @@ void FSetInventoryItemStateNodeDetail::HandleSetCurrentInventoryItemState(int St
 		ObjectOwner->SetCurrentState(StateNumber);
 
 		ObjectOwner->pGraphObject->GetObjectStateAsString(ObjectStates);
-		SelectedInventoryItemPhaseTextBox->SetText(ObjectStates[StateNumber]);
+		SelectedInventoryItemPhaseTextBox->SetText(FText::FromString(ObjectStates[StateNumber]));
 	}
 }

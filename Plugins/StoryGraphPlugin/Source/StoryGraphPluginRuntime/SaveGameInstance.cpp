@@ -2,6 +2,10 @@
 
 
 #include "SaveGameInstance.h"
+
+
+#include "ArchiveLoadCompressedProxy.h"
+#include "ArchiveSaveCompressedProxy.h"
 #include "Engine/Engine.h"
 #include "EngineUtils.h"
 #include "HUD_StoryGraph.h"

@@ -4,11 +4,13 @@
 #include "GraphSchema_StoryGraph.generated.h"
 
 
+class FMenuBuilder;
+class UToolMenu;
 enum class ENodeType : uint8;
 
 /** Action to add a node to the graph */
 USTRUCT()
-struct FCustomSchemaAction_NewNode : public FEdGraphSchemaAction
+struct STORYGRAPHPLUGINEDITOR_API FCustomSchemaAction_NewNode : public FEdGraphSchemaAction
 {
 	GENERATED_USTRUCT_BODY();
 
@@ -45,26 +47,27 @@ struct FCustomSchemaAction_NewNode : public FEdGraphSchemaAction
 enum class ENodeType : uint8;
 
 UCLASS()
-class UEdGraphSchema_Base : public UEdGraphSchema
+class STORYGRAPHPLUGINEDITOR_API UEdGraphSchema_Base : public UEdGraphSchema
 {
 	GENERATED_BODY()
 
 public:
 	enum class EInsertNodeType SuitableDependedNodesType;
-	EInsertNodeType SuitableStandaloneNodesType;
+	enum class EInsertNodeType SuitableStandaloneNodesType;
 
 public:
 	static void AddAction(class UStoryGraphObject* OwnedObject, const ENodeType NodeType, FString Category,
 	                      TArray<TSharedPtr<FEdGraphSchemaAction>>& OutActions, UEdGraph* OwnerOfTemporaries,
-	                      int InGruping);
+	                      int InGrouping);
 
 
 protected:
 	// Begin EdGraphSchema interface
 	virtual void GetGraphContextActions(FGraphContextMenuBuilder& ContextMenuBuilder) const override;
-	virtual void GetContextMenuActions(const UEdGraph* CurrentGraph, const UEdGraphNode* InGraphNode,
-	                                   const UEdGraphPin* InGraphPin, FMenuBuilder* MenuBuilder,
-	                                   bool bIsDebugging) const override;
+	//virtual void GetContextMenuActions(const UEdGraph* CurrentGraph, const UEdGraphNode* InGraphNode,
+	//                                   const UEdGraphPin* InGraphPin, FMenuBuilder* MenuBuilder,
+	//                                   bool bIsDebugging) const override;
+	virtual void GetContextMenuActions(UToolMenu* Menu, UGraphNodeContextMenuContext* Context) const override;
 	virtual const FPinConnectionResponse CanCreateConnection(const UEdGraphPin* A, const UEdGraphPin* B) const override;
 	virtual FLinearColor GetPinTypeColor(const FEdGraphPinType& PinType) const override;
 	virtual bool ShouldHidePinDefaultValue(UEdGraphPin* Pin) const override;
@@ -73,7 +76,7 @@ protected:
 
 
 UCLASS()
-class UEdGraphSchema_StoryGraph : public UEdGraphSchema_Base
+class STORYGRAPHPLUGINEDITOR_API UEdGraphSchema_StoryGraph : public UEdGraphSchema_Base
 {
 	GENERATED_BODY()
 
@@ -90,7 +93,7 @@ protected:
 };
 
 UCLASS()
-class UEdGraphSchema_DialogGraph : public UEdGraphSchema_Base
+class STORYGRAPHPLUGINEDITOR_API UEdGraphSchema_DialogGraph : public UEdGraphSchema_Base
 {
 	GENERATED_BODY()
 public:
@@ -105,7 +108,7 @@ protected:
 
 
 UCLASS()
-class UEdGraphSchema_MessageGraph : public UEdGraphSchema_DialogGraph
+class STORYGRAPHPLUGINEDITOR_API UEdGraphSchema_MessageGraph : public UEdGraphSchema_DialogGraph
 {
 	GENERATED_BODY()
 
