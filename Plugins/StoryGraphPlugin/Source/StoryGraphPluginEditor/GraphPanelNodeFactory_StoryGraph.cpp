@@ -68,7 +68,7 @@ TSharedPtr<class SGraphNode> FGraphPanelNodeFactory_StoryGraph::CreateNode(UEdGr
 
 					{
 						TSharedPtr<SGraphNode_StoryGraphDependedNode> SNode = SNew(
-							SGraphNode_StoryGraphDependetNode, BaseNode);
+							SGraphNode_StoryGraphDependedNode, BaseNode);
 						BaseNode->CustomNode->NodeUpdateDelegate.BindSP(SNode.Get(),
 						                                                &SGraphNode_CustomNodeBase::UpdateGraphNode);
 						BaseNode->CustomNode->PropertyUpdateDelegate.BindSP(
@@ -91,7 +91,7 @@ TSharedPtr<class SGraphNode> FGraphPanelNodeFactory_StoryGraph::CreateNode(UEdGr
 				case EInsertNodeType::DialogGraphDependent:
 				case EInsertNodeType::MessageGraphDependent:
 					{
-						TSharedPtr<SGraphNode_DialogDependedNode> SNode = SNew(SGraphNode_DialogDependetNode, BaseNode);
+						TSharedPtr<SGraphNode_DialogDependedNode> SNode = SNew(SGraphNode_DialogDependedNode, BaseNode);
 						BaseNode->CustomNode->NodeUpdateDelegate.BindSP(SNode.Get(),
 						                                                &SGraphNode_CustomNodeBase::UpdateGraphNode);
 						BaseNode->CustomNode->PropertyUpdateDelegate.BindSP(
