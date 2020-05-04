@@ -1,11 +1,15 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "StoryGraphObject.h"
+
+#include "Character_StoryGraph.h"
 #include "CustomNodes.h"
 #include "HUD_StoryGraph.h"
 #include "StoryGraph.h"
 #include "StoryGraphWidget.h"
-#include "StorySceneObject.h"
+#include "InventoryItem_StoryGraph.h"
+#include "PlaceTrigger_StoryGraph.h"
+#include "OtherActor_StoryGraph.h"
 #if WITH_EDITORONLY_DATA
 #include "AssetEditorManager.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"

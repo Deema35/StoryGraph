@@ -10,7 +10,7 @@
 #include <map>
 #include "EngineMinimal.h"
 #include "Object.h"
-#include "ObjectRecord.h"
+#include "SaveObject_StoryGraph.h"
 #include "StoryGraphObject.generated.h"
 
 
@@ -220,14 +220,6 @@ public:
 		}
 	}
 };
-
-UENUM(BlueprintType)
-enum class ECharacterStates : uint8
-{
-	Alive,
-	Dead
-};
-
 UCLASS()
 
 class STORYGRAPHPLUGINRUNTIME_API UStoryGraphCharacter : public UStoryGraphObjectWithSceneObject
@@ -348,9 +340,9 @@ enum class EPlaceTriggerStates : uint8
 UENUM(BlueprintType)
 enum class EPlaceTriggerType : uint8
 {
-	UnInteractive UMETA(ToolTip = "Objec don't show message when it turn up in Aim"),
-	Interactive UMETA(ToolTip = "Objec show message when it turn up in Aim"),
-	AdvanceInteractive UMETA(ToolTip = "Objec show any messages witch determinate in Message graph"),
+	UnInteractive UMETA(ToolTip = "Object don't show message when it turn up in Aim"),
+	Interactive UMETA(ToolTip = "Object show message when it turn up in Aim"),
+	AdvanceInteractive UMETA(ToolTip = "Object show any messages witch determinate in Message graph"),
 };
 
 UCLASS()
