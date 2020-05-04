@@ -3,7 +3,6 @@ DerivedDataCache/
 Intermediate/
 Saved/
 Build/
-Config/
 *.sln
 *.suo
 Binaries
