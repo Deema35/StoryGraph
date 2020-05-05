@@ -1,19 +1,17 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "DetailPanelCustomizationObject.h"
-#include "PropertyEditorModule.h"
-#include "DetailWidgetRow.h"
-#include "DetailCategoryBuilder.h"
-#include "StoryGraphObject.h"
-#include "Runtime/Engine/Classes/EdGraph/EdGraph.h"
-#include "GraphSchema_StoryGraph.h"
-#include "StoryGraph.h"
-#include "CustomNodes.h"
-#include "DetailLayoutBuilder.h"
 #include "AssetEditor_StoryGraph.h"
-#include "Widgets/Text/STextBlock.h"
-#include "Widgets/Input/SMultiLineEditableTextBox.h"
+#include "DetailCategoryBuilder.h"
+#include "DetailLayoutBuilder.h"
+#include "DetailWidgetRow.h"
+#include "GraphSchema_StoryGraph.h"
+#include "PropertyEditorModule.h"
+#include "StoryGraph.h"
+#include "StoryGraphObject.h"
 #include "Widgets/Input/SButton.h"
+#include "Widgets/Input/SMultiLineEditableTextBox.h"
+#include "Widgets/Text/STextBlock.h"
 
 //FStoryGraphObjectDetail...........................................................
 

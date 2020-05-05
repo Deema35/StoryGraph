@@ -7,6 +7,7 @@
 #include "LogCategoryRutime.h"
 #include "SaveGameInstance.h"
 #include "StoryGraph.h"
+#include "StoryGraphActor.h"
 #include "StoryGraphObject.h"
 #include "StoryGraphWidget.h"
 

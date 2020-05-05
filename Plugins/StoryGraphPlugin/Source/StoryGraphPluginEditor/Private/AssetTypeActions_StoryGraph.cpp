@@ -1,11 +1,12 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "AssetTypeActions_StoryGraph.h"
-#include "Developer/AssetTools/Public/AssetTypeCategories.h"
 #include "AssetEditor_StoryGraph.h"
 #include "StoryGraph.h"
 #include "Commands_StoryGraph.h"
 #include "EngineUtils.h"
+#include "StoryGraphActor.h"
+#include "StoryGraphBlueprint.h"
 
 
 UClass* FAssetTypeActions_StoryGraph::GetSupportedClass() const

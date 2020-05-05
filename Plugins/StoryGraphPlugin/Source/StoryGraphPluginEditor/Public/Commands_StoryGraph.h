@@ -1,7 +1,6 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma once
-#include "SlateBasics.h"
-#include "Commands.h"
+#include "Runtime/Slate/Public/Framework/Commands/Commands.h"
 #include "EditorStyle.h"
 
 class FCommands_StoryGraph : public TCommands<FCommands_StoryGraph>

@@ -1,17 +1,11 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "GraphNodes_StoryGraph.h"
-#include "ScopedTransaction.h"
-#include "EditorStyleSet.h"
-#include "ScopedTransaction.h"
-#include "Runtime/Engine/Classes/EdGraph/EdGraph.h"
-#include "GraphEditor.h"
-#include "SInlineEditableTextBlock.h"
-#include "AssetThumbnail.h"
 #include "AssetRegistryModule.h"
-#include "SNumericEntryBox.h"
-#include "ProxyNodes.h"
+#include "AssetThumbnail.h"
+#include "EditorStyleSet.h"
 #include "NodeStyle.h"
+#include "ProxyNodes.h"
 
 //PinNode..........................................................................
 void SCustomOutputPin::Construct(const FArguments& InArgs, UEdGraphPin* InPin, int PinNumber)

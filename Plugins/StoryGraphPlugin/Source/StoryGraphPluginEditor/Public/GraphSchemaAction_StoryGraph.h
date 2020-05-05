@@ -1,7 +1,6 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma once
 #include "EdGraph/EdGraphSchema.h"
-#include "StoryGraphObject.h"
 
 struct FEdGraphSchemaAction_StoryGraph : public FEdGraphSchemaAction
 {

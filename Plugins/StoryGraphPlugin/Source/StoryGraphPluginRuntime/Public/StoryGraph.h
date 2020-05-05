@@ -1,15 +1,9 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma once
+#include "CoreMinimal.h"
+#include "SaveObject_StoryGraph.h"
 
-#include "Classes/Engine/Blueprint.h"
-#include "GameFramework/Actor.h"
-#include "Graph_StoryGraph.h"
-#include "Object.h"
-#include "ObjectRecord.h"
 #include "StoryGraph.generated.h"
-
-class UCustomNodeBase;
-class FAssetEditor_StoryGraph;
 
 
 UENUM()
@@ -21,77 +15,7 @@ enum class EStoryGraphState : uint8
 };
 
 
-UCLASS()
-class STORYGRAPHPLUGINRUNTIME_API UStoryGraphBlueprint : public UBlueprint
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY()
-	class UStoryGraph* StoryGraph;
 
-	UPROPERTY()
-	TArray<UEdGraph_StoryGraph*> Graphs;
-public:
-	UEdGraph_StoryGraph* FindGraph(UObject* GraphOwner);
-
-	void AddGraph(UEdGraph_StoryGraph* Graph) { Graphs.Add(Graph); }
-
-	void RemoveGraph(UEdGraph_StoryGraph* Graph) { Graphs.RemoveSingle(Graph); }
-};
-
-
-UCLASS(NotBlueprintable)
-class STORYGRAPHPLUGINRUNTIME_API AStoryGraphActor : public AActor, public ISaveObject_StoryGraph
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY()
-	class UStoryGraph* StoryGraph;
-
-	UPROPERTY()
-	TArray<AActor*> LinkStorage;
-
-	UPROPERTY(VisibleAnywhere)
-	int32 CompilationCounter;
-
-
-public:
-	AStoryGraphActor();
-
-	virtual void PreInitializeComponents() override;
-
-
-	virtual void BeginPlay() override;
-
-	virtual void Serialize(FArchive& Ar) override;
-
-	virtual void ClearCrossLevelReferences() override;
-
-	bool CreateStoryGraph();
-
-	virtual void GetInternallySaveObjects(TArray<UObject*>& Objects, int WantedObjectsNum) override;
-	// ISaveObject_StoryGraph interface
-
-private:
-
-	void MarkPackageDirtyCustom() const;
-};
-
-UCLASS()
-class UExecutionTree : public UObject
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(SaveGame)
-	class UStoryGraphQuest* MainQuest;
-
-	UPROPERTY(SaveGame)
-	TArray<class UStoryVerticalNodeBase*> ActiveNodesBuffer;
-
-public:
-	void Refresh();
-};
 
 UCLASS()
 class STORYGRAPHPLUGINRUNTIME_API UStoryGraph : public UObject, public ISaveObject_StoryGraph
@@ -113,14 +37,14 @@ public:
 	TArray<class UCustomNodeBase*> GraphNodes;
 
 	UPROPERTY()
-	TArray<UExecutionTree*> ExecutionTrees;
+	TArray<class UExecutionTree*> ExecutionTrees;
 
 
 	bool QuestStateWasChange; // If quest state was change during refresh execution tree, tree must be refresh again.
 
 
 #if WITH_EDITORONLY_DATA
-	FAssetEditor_StoryGraph* pAssetEditor;
+	class FAssetEditor_StoryGraph* pAssetEditor;
 
 	UPROPERTY()
 	EStoryGraphState StoryGraphState;

@@ -3,7 +3,6 @@
 #pragma once
 
 #include "EngineMinimal.h"
-#include "ModuleManager.h"
 
 
 class FStoryGraphPluginRuntime : public IModuleInterface

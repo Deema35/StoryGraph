@@ -1,9 +1,8 @@
 // Copyright 2016 Dmitriy Pavlov
 
 #include "ConnectionDrawingPolicy_StoryGraph.h"
-#include "GraphEditor.h"
 #include "SGraphNode.h"
-#include "DrawElements.h"
+#include "Runtime/SlateCore/Public/Rendering/DrawElements.h"
 
 FConnectionDrawingPolicy_StoryGraph::FConnectionDrawingPolicy_StoryGraph(
 	int32 InBackLayerID, int32 InFrontLayerID, float ZoomFactor, const FSlateRect& InClippingRect,

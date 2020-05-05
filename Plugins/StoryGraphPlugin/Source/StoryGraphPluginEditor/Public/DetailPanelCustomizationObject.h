@@ -2,7 +2,7 @@
 #pragma once
 
 #include "IDetailCustomization.h"
-#include "SlateEnums.h"
+#include "Runtime/SlateCore/Public/Types/SlateEnums.h"
 
 class FStoryGraphObjectDetail : public IDetailCustomization
 {

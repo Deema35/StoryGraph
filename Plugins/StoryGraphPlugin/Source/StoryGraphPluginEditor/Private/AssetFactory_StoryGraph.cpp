@@ -2,6 +2,8 @@
 
 #include "AssetFactory_StoryGraph.h"
 #include "StoryGraph.h"
+#include "StoryGraphActor.h"
+#include "StoryGraphBlueprint.h"
 #include "Kismet2/KismetEditorUtilities.h"
 
 

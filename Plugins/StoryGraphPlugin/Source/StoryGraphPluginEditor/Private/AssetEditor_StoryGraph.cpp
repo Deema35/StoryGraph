@@ -3,44 +3,42 @@
 
 
 #include "AssetEditor_StoryGraph.h"
-#include "EditorStyleSet.h"
-#include "EdGraph/EdGraphNodeUtils.h"
-#include "GraphSchema_StoryGraph.h"
-#include "SDockTab.h"
-#include "GenericCommands.h"
-#include "BlueprintEditorUtils.h"
-#include "EdGraphUtilities.h"
-#include "CustomNodes.h"
-#include "ScopedTransaction.h"
-#include "SNodePanel.h"
-#include "Commands_StoryGraph.h"
 #include "BlueprintEditorModule.h"
-#include "PropertyEditorModule.h"
+#include "Commands_StoryGraph.h"
 #include "CustomNodes.h"
-#include "StoryGraph.h"
-#include "GraphEditor.h"
-#include "IDetailsView.h"
-#include "SGraphActionMenu.h"
-#include "SSearchBox.h"
-#include "SGraphNode.h"
-#include "SSCSEditor.h"
-#include "StoryGraphObject.h"
 #include "DetailLayoutBuilder.h"
-#include "GraphSchemaAction_StoryGraph.h"
-#include "GraphPaletteItem_StoryGraph.h"
 #include "DragDropAction_StoryGraph.h"
-#include "NotificationManager.h"
-#include "StorySceneObject.h"
-#include "Editor/UnrealEd/Private/Toolkits/AssetEditorCommonCommands.h"
-#include "Graph_StoryGraph.h"
-#include "ProxyNodes.h"
-#include "Runtime/XmlParser/Public/XmlParser.h"
-#include "Runtime/XmlParser/Public/XmlNode.h"
-#include "Runtime/XmlParser/Public/XmlFile.h"
-#include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
-#include "LogCategoryEditor.h"
+#include "EdGraphUtilities.h"
+#include "EditorStyleSet.h"
 #include "EngineUtils.h"
+#include "GraphEditor.h"
+#include "GraphPaletteItem_StoryGraph.h"
+#include "GraphSchemaAction_StoryGraph.h"
+#include "GraphSchema_StoryGraph.h"
+#include "Graph_StoryGraph.h"
+#include "IDetailsView.h"
+#include "LogCategoryEditor.h"
+#include "PropertyEditorModule.h"
+#include "ProxyNodes.h"
+#include "ScopedTransaction.h"
+#include "SGraphActionMenu.h"
+#include "SNodePanel.h"
+#include "SSCSEditor.h"
+#include "StoryGraph.h"
+#include "StoryGraphActor.h"
+#include "StoryGraphBlueprint.h"
+#include "StoryGraphObject.h"
+#include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
+#include "EdGraph/EdGraphNodeUtils.h"
+#include "Editor/UnrealEd/Public/Kismet2/BlueprintEditorUtils.h"
 #include "HAL/PlatformApplicationMisc.h"
+#include "Runtime/Slate/Public/Framework/Commands/GenericCommands.h"
+#include "Runtime/Slate/Public/Framework/Notifications/NotificationManager.h"
+#include "Runtime/Slate/Public/Widgets/Docking/SDockTab.h"
+#include "Runtime/Slate/Public/Widgets/Input/SSearchBox.h"
+#include "Runtime/Slate/Public/Widgets/Notifications/SNotificationList.h"
+#include "Runtime/XmlParser/Public/XmlFile.h"
+#include "Runtime/XmlParser/Public/XmlNode.h"
 
 
 const FName CustomEditorAppName = FName(TEXT("CustomEditorApp"));
@@ -132,7 +130,7 @@ void FAssetEditor_StoryGraph::InitAssetEditor_StoryGraph(const EToolkitMode::Typ
 
 
 	const TSharedRef<FTabManager::FLayout> StandaloneDefaultLayout = FTabManager::NewLayout("CustomEditor_Layout_3")
-		//Если добовлять новые панели нужно менять название слоя
+		//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		->AddArea
 		(
 			FTabManager::NewPrimaryArea()
@@ -1717,8 +1715,9 @@ void FAssetEditor_StoryGraph::OnGraphEditorFocused(const TSharedRef<SGraphEditor
 	}
 }
 
-void FAssetEditor_StoryGraph::ShowNotification(FString Text, SNotificationItem::ECompletionState State)
+void FAssetEditor_StoryGraph::ShowNotification(FString Text)
 {
+	SNotificationItem::ECompletionState State = SNotificationItem::CS_None;
 	UE_LOG(LogCategoryStoryGraphPluginEditor, Error, TEXT("Notification"));
 	FNotificationInfo Info(FText::FromString(Text));
 	Info.bFireAndForget = true;

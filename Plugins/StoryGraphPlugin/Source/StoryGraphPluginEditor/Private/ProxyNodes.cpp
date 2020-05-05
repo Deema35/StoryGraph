@@ -2,12 +2,9 @@
 
 #include "ProxyNodes.h"
 #include "CustomNodes.h"
-#include "EdGraph/EdGraphPin.h"
-#include "EdGraph/EdGraph.h"
-#include "AssetEditorManager.h"
 #include "Graph_StoryGraph.h"
 #include "StoryGraph.h"
-#include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
+#include "EdGraph/EdGraphPin.h"
 
 
 bool UProxyNodeBase::CycleInspection(uint32 UniqueID)

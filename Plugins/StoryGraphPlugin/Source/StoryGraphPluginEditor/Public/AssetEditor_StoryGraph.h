@@ -1,10 +1,9 @@
 // Copyright 2016 Dmitriy Pavlov
 #pragma once
-#include "Toolkits/AssetEditorToolkit.h"
-#include "SNotificationList.h"
-#include "EngineMinimal.h"
 #include <map>
-#include "NotifyHook.h"
+#include "EngineMinimal.h"
+#include "Toolkits/AssetEditorToolkit.h"
+
 
 
 struct FCustomEditorTabs
@@ -143,7 +142,7 @@ private:
 	void OnMyRequestRenameOnActionNode();
 	bool CanRequestRenameOnActionNode() const;
 	void OnTabForegrounded(TSharedPtr<SDockTab> ForegroundedTab, TSharedPtr<SDockTab> BackgroundedTab);
-	static void ShowNotification(FString Text, SNotificationItem::ECompletionState State = SNotificationItem::CS_None);
+	static void ShowNotification(FString Text);
 	FSlateIcon GetStatusImage() const;
 	void OnGraphEditorFocused(const TSharedRef<SGraphEditor>& InGraphEditor);
 	void SerializedStoryGraphObjectsToXMLNode(class FXmlNode* XMLNode);

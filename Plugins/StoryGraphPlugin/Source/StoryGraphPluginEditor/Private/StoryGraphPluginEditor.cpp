@@ -2,13 +2,12 @@
 
 #include "StoryGraphPluginEditor.h"
 #include "AssetTypeActions_StoryGraph.h"
-#include "EdGraphUtilities.h"
 #include "Commands_StoryGraph.h"
+#include "DetailPanelCustomizationNodes.h"
+#include "DetailPanelCustomizationObject.h"
+#include "EdGraphUtilities.h"
 #include "GraphNodes_StoryGraph.h"
 #include "GraphPanelNodeFactory_StoryGraph.h"
-#include "DetailPanelCustomizationObject.h"
-#include "DetailPanelCustomizationNodes.h"
-#include "ClassIconFinder.h"
 #include "NodeStyle.h"
 #include "PropertyEditorModule.h"
 

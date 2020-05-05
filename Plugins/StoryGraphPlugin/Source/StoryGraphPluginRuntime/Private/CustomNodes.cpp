@@ -7,7 +7,7 @@
 #include "StoryGraph.h"
 #include "StoryGraphObject.h"
 #include "StoryGraphWidget.h"
-#include "Public/OtherActor_StoryGraph.h"
+#include "OtherActor_StoryGraph.h"
 
 
 //UCustomNodeBase...........................................................................................

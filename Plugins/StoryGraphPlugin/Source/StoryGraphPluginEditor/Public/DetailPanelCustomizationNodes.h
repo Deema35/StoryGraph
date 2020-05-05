@@ -2,9 +2,9 @@
 #pragma once
 
 #include "IDetailCustomization.h"
-#include "Reply.h"
-#include "SlateEnums.h"
-#include "SMenuAnchor.h"
+#include "Runtime/SlateCore/Public/Input/Reply.h"
+#include "Runtime/SlateCore/Public/Types/SlateEnums.h"
+#include "Runtime/Slate/Public/Widgets/Input/SMenuAnchor.h"
 
 class UDialogStartNode;
 

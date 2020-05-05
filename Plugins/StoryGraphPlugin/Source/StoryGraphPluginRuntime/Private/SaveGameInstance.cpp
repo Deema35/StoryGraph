@@ -1,11 +1,8 @@
 // Copyright 2016 Dmitriy Pavlov
-
-
 #include "SaveGameInstance.h"
 
-
-#include "ArchiveLoadCompressedProxy.h"
-#include "ArchiveSaveCompressedProxy.h"
+#include "Runtime/Core/Public/Serialization/ArchiveLoadCompressedProxy.h"
+#include "Runtime/Core/Public/Serialization/ArchiveSaveCompressedProxy.h"
 #include "Engine/Engine.h"
 #include "EngineUtils.h"
 #include "HUD_StoryGraph.h"

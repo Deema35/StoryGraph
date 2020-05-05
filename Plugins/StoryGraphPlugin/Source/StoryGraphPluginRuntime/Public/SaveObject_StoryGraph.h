@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Interface.h"
+#include "CoreMinimal.h"
 #include "SaveObject_StoryGraph.generated.h"
 
 UINTERFACE()

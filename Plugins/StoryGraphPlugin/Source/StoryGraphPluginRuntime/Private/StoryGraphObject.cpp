@@ -11,7 +11,7 @@
 #include "PlaceTrigger_StoryGraph.h"
 #include "OtherActor_StoryGraph.h"
 #if WITH_EDITORONLY_DATA
-#include "AssetEditorManager.h"
+#include "Editor/UnrealEd/Public/Toolkits/AssetEditorManager.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
 #endif //WITH_EDITORONLY_DATA
 

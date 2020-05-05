@@ -3,11 +3,9 @@
 #include "GraphPanelNodeFactory_StoryGraph.h"
 #include "AssetEditor_StoryGraph.h"
 #include "CustomNodes.h"
-#include "Graph_StoryGraph.h"
 #include "GraphNodes_StoryGraph.h"
-#include "HUD_StoryGraph.h"
+#include "Graph_StoryGraph.h"
 #include "ProxyNodes.h"
-#include "ScopedTransaction.h"
 #include "StoryGraph.h"
 
 

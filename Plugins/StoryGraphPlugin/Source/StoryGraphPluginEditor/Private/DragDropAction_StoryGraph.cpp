@@ -2,24 +2,24 @@
 
 #include "DragDropAction_StoryGraph.h"
 #include "CustomNodes.h"
-#include "EdGraph/EdGraph.h"
 #include "EditorStyle.h"
 #include "GraphSchema_StoryGraph.h"
 #include "StoryGraphObject.h"
+#include "EdGraph/EdGraph.h"
 
 
 void FDragDropAction_StoryGraph::HoverTargetChanged()
 {
-	UEdGraph* HoveredGraph = GetHoveredGraph();
+	UEdGraph* HoveredEdGraph = GetHoveredGraph();
 	bool CanCreateNode = false;
 
 	FSlateColor IconColor = FLinearColor::White;
 	const FSlateBrush* StatusSymbol = FEditorStyle::GetBrush(TEXT("Graph.ConnectorFeedback.Error"));
 	FText Message = FText::FromString("Cannot create node");
 
-	if (HoveredGraph)
+	if (HoveredEdGraph)
 	{
-		const UEdGraphSchema_Base* HoveredSchema = Cast<UEdGraphSchema_Base>(HoveredGraph->GetSchema());
+		const UEdGraphSchema_Base* HoveredSchema = Cast<UEdGraphSchema_Base>(HoveredEdGraph->GetSchema());
 
 
 		for (int i = 0; i < DraggedObject->DependedNodes.Num(); i++)

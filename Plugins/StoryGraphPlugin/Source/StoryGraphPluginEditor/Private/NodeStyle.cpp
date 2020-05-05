@@ -2,7 +2,7 @@
 
 
 #include "NodeStyle.h"
-#include "SlateGameResources.h"
+#include "Runtime/Engine/Public/Slate/SlateGameResources.h"
 
 TSharedPtr<FSlateStyleSet> FNodeStyle::NodeStyleInstance = nullptr;
 
