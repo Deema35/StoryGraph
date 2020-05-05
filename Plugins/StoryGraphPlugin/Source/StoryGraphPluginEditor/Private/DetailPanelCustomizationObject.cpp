@@ -232,12 +232,12 @@ void FStoryGraphInventoryItemDetail::CustomizeDetails(IDetailLayoutBuilder& Deta
 
 	UStoryGraphInventoryItem* InventoryItem = Cast<UStoryGraphInventoryItem>(GetDetailObject(&DetailBuilder));
 
-	IDetailCategoryBuilder* ScenObjectsPanel = &DetailBuilder.EditCategory("Scen objects links", FText::GetEmpty(), ECategoryPriority::Important);
+	IDetailCategoryBuilder* SceneObjectsPanel = &DetailBuilder.EditCategory("Scene objects links", FText::GetEmpty(), ECategoryPriority::Important);
 
-	ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, InventoryItemWithoutSceneObject), UStoryGraphInventoryItem::StaticClass());
+	SceneObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, InventoryItemWithoutSceneObject), UStoryGraphInventoryItem::StaticClass());
 	
-	IDetailPropertyRow* IsSceneObjectActiveProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithSceneObject, IsSceneObjectActive), UStoryGraphObjectWithSceneObject::StaticClass());
-	IDetailPropertyRow* SceneInventoryItemsProperty = &ScenObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, SceneInventoryItems), UStoryGraphInventoryItem::StaticClass());
+	IDetailPropertyRow* IsSceneObjectActiveProperty = &SceneObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphObjectWithSceneObject, IsSceneObjectActive), UStoryGraphObjectWithSceneObject::StaticClass());
+	IDetailPropertyRow* SceneInventoryItemsProperty = &SceneObjectsPanel->AddProperty(GET_MEMBER_NAME_CHECKED(UStoryGraphInventoryItem, SceneInventoryItems), UStoryGraphInventoryItem::StaticClass());
 	if (!InventoryItem->InventoryItemWithoutSceneObject)
 	{
 		IsSceneObjectActiveProperty->IsEnabled(true);

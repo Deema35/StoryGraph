@@ -110,20 +110,23 @@ void URadar_StoryGraphWidget::RefreshTargets(TArray<class UQuestPhase*>& RadarTa
 	RadarTargets.Append(RadarTargets_);
 }
 
-void URadar_StoryGraphWidget::NativePaint(FPaintContext& InContext) const
+int32 URadar_StoryGraphWidget::NativePaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry,
+	const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId,
+	const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
 {
-	if (!Character) return;
-
+	if (!Character) return LayerId;
 	for (int i = 0; i < RadarTargets.Num(); i++)
 	{
 		for (int j = 0; j < RadarTargets[i]->PhaseObjects.Num(); j++)
 		{
+			FPaintContext DrawContext (AllottedGeometry,MyCullingRect,OutDrawElements,LayerId,InWidgetStyle,bParentEnabled);
 			FLinearColor MarkColor = RadarTargets[i]->pOwnedQuest->MainQuest
-				                         ? MainQuestMarkColor
-				                         : OptionalQuestMarkColor;
-			DrawRadarMark(InContext, MarkColor, RadarTargets[i]->PhaseObjects[j]);
+                                         ? MainQuestMarkColor
+                                         : OptionalQuestMarkColor;
+			DrawRadarMark(DrawContext, MarkColor, RadarTargets[i]->PhaseObjects[j]);
 		}
 	}
+	return LayerId;
 }
 
 void URadar_StoryGraphWidget::DrawRadarMark(FPaintContext& InContext, FLinearColor MarkColor, AActor* Target) const

@@ -32,7 +32,7 @@ public:
     UFUNCTION(BlueprintImplementableEvent, Category = StoryGraph)
     void GetMessageFromStoryGraph(const FString& Message);
 
-    virtual void EnableObjectOnMap(bool IsEnabled) override;
+    virtual void EnableObjectOnMap(bool IsEnabledOnMap) override;
 
     virtual void SendMessageToSceneObject(FString Message) override;
 

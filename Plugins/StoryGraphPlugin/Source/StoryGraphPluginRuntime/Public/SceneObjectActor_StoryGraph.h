@@ -21,7 +21,7 @@ public:
 
     virtual void SendMessageToSceneObject(FString Message) override;
 
-    virtual void EnableObjectOnMap(bool IsEnabled) override;
+    virtual void EnableObjectOnMap(bool IsEnabledOnMap) override;
 
     void SetStoryGraphObjectState(int NewState) override;
 };

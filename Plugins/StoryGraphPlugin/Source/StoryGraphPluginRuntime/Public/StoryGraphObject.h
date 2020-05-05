@@ -3,13 +3,12 @@
 /* If You want add new object. You must:   function
 1) add line in EStoryObjectType enum.
 2) adjust UStoryGraphObject::GetClassFromStoryObjectType
-3) If object has scen object adjust FStoryGraphEditorModule::StartupModule for check property panel
+3) If object has scene object adjust FStoryGraphEditorModule::StartupModule for check property panel
 */
 #pragma once
 
 #include <map>
 #include "EngineMinimal.h"
-#include "Object.h"
 #include "SaveObject_StoryGraph.h"
 #include "StoryGraphObject.generated.h"
 

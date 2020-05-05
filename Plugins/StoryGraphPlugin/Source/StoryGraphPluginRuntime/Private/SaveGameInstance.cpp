@@ -10,6 +10,7 @@
 #include "EngineUtils.h"
 #include "HUD_StoryGraph.h"
 #include "LogCategoryRutime.h"
+#include "SaveObject_StoryGraph.h"
 #include "StoryGraphWidget.h"
 
 void USaveGameInstance::SaveGame()
@@ -167,7 +168,7 @@ void USaveGameInstance::LoadCharacter()
 bool USaveGameInstance::SaveToFileCompressed(FString SavePath, TArray<uint8>& Data)
 {
 	TArray<uint8> CompressedData;
-	FArchiveSaveCompressedProxy Compressor(CompressedData, ECompressionFlags::COMPRESS_ZLIB);
+	FArchiveSaveCompressedProxy Compressor(CompressedData,NAME_Zlib,ECompressionFlags::COMPRESS_ZLIB);
 	// Compressed
 	Compressor << Data;
 	//send archive serialized data to binary array
@@ -199,7 +200,7 @@ bool USaveGameInstance::LoadToFileCompressed(FString SavePath, TArray<uint8>& Da
 		return false;
 	}
 	// Decompress File 
-	FArchiveLoadCompressedProxy Decompressor(CompressedData, ECompressionFlags::COMPRESS_ZLIB);
+	FArchiveLoadCompressedProxy Decompressor(CompressedData,NAME_Zlib,ECompressionFlags::COMPRESS_ZLIB);
 
 	//Decompression Error?
 	if (Decompressor.GetError())

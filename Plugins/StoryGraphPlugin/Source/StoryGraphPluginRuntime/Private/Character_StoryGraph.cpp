@@ -28,12 +28,12 @@ void ACharacter_StoryGraph::OpenDialog()
 	}
 }
 
-void ACharacter_StoryGraph::EnableObjectOnMap(bool IsEnabled)
+void ACharacter_StoryGraph::EnableObjectOnMap(const bool IsEnabledOnMap)
 {
-	IsEnabled = IsEnabled;
-	SetActorHiddenInGame(!IsEnabled);
-	SetActorEnableCollision(IsEnabled);
-	SetActorTickEnabled(IsEnabled);
+	this->IsEnabled = IsEnabledOnMap;
+	SetActorHiddenInGame(!IsEnabledOnMap);
+	SetActorEnableCollision(IsEnabledOnMap);
+	SetActorTickEnabled(IsEnabledOnMap);
 }
 
 void ACharacter_StoryGraph::SendMessageToSceneObject(FString Message)

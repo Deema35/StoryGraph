@@ -1945,7 +1945,7 @@ void UPrintStringNode::LoadPropertyFromXML(std::map<FString, XMLProperty>& Prope
 UAddScreenMessageNode::UAddScreenMessageNode()
 {
 	NodeType = ENodeType::AddScreenMessage;
-	Message = FText::FromString("Hellow");
+	Message = FText::FromString("Hello");
 	Duration = 5.0;
 
 	NodePins.Add(FStoryGraphPin(EEdGraphPinDirection::EGPD_Input, EPinDataTypes::PinType_Horizontal));

@@ -1,10 +1,11 @@
 ﻿#include "SceneObjectActor_StoryGraph.h"
 
-void ASceneObjectActor_StoryGraph::EnableObjectOnMap(const bool IsEnabled)
+void ASceneObjectActor_StoryGraph::EnableObjectOnMap(bool IsEnabledOnMap)
 {
-	SetActorHiddenInGame(!IsEnabled);
-	SetActorEnableCollision(IsEnabled);
-	SetActorTickEnabled(IsEnabled);
+	this->IsEnabled = IsEnabledOnMap;
+	SetActorHiddenInGame(!IsEnabledOnMap);
+	SetActorEnableCollision(IsEnabledOnMap);
+	SetActorTickEnabled(IsEnabledOnMap);
 }
 
 void ASceneObjectActor_StoryGraph::SendMessageToSceneObject(const FString Message)
