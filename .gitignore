@@ -3,6 +3,11 @@ DerivedDataCache/
 Intermediate/
 Saved/
 Build/
-Config/
 *.sln
 *.suo
+Binaries
+Build
+Plugins/StoryGraphPlugin/Binaries
+Saved
+.vs
+.idea

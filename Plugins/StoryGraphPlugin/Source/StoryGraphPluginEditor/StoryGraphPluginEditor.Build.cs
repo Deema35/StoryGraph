@@ -27,6 +27,13 @@ public class StoryGraphPluginEditor : ModuleRules
             "Kismet",
             "XmlParser",
             "DesktopPlatform",
+            "ToolMenus",
+            "EditorStyle",
+            "DesktopPlatform",
+            "AssetTools",
+            "AssetRegistry",
+            "UMG"
+
         });
 
 
